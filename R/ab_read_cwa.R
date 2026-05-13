@@ -47,9 +47,11 @@
 #'
 #' @param path Path to cwa file
 #' @param start where to start in the file, passed to [GGIRread::readAxivity]
-#' @param start where to end in the file, passed to [GGIRread::readAxivity]
+#' @param end where to end in the file, passed to [GGIRread::readAxivity]
 #' @param tz time zone for the data `time`, passed to `desiredtz` argument in
 #' [GGIRread::readAxivity].  If NULL or `""`, no time conversion is done.
+#' @param apply_tz turn the `time` column into a `POSIXct` and apply the
+#' timezone
 #' @param ... additional arguments to pass to [GGIRread::readAxivity()]
 #' @param verbose print diagnostic messages, higher values = more verbosity.
 #' @returns A `tibble` with attributes of a header, sample rate, and
@@ -58,6 +60,12 @@
 #'
 #' @examples
 #' data = acti_read_cwa(acti_example_cwa())
+#' data = acti_read_cwa(
+#'   acti_example_cwa(),
+#'   tz = NULL,
+#'   apply_tz = FALSE,
+#'   verbose = FALSE
+#' )
 acti_read_cwa = function(
     path,
     start = 0,
@@ -67,20 +75,47 @@ acti_read_cwa = function(
     apply_tz = TRUE,
     verbose = TRUE
 ) {
+  tz_read = tz
+  if (is.null(tz_read)) {
+    tz_read = ""
+  }
+  data = .read_cwa(
+    path,
+    start = start,
+    end = end,
+    tz = tz_read,
+    ...
+  )
+  acti_cwa_process_time(
+    data = data,
+    tz = tz,
+    apply_tz = apply_tz,
+    verbose = verbose
+  )
+}
+
+
+# Internal helper used by acti_read_cwa()
+acti_cwa_process_time = function(
+    data,
+    tz = "UTC",
+    apply_tz = TRUE,
+    verbose = TRUE
+) {
   if (is.null(tz)) {
     tz = ""
   }
   assertthat::assert_that(
     assertthat::is.string(tz)
   )
-  data = .read_cwa(
-    path,
-    start = start,
-    end = end,
-    tz = tz,
-    ...
-  )
+
   header = data$header
+  if (is.null(header)) {
+    header = attr(data, "header")
+  }
+  if (is.null(header)) {
+    header = list()
+  }
   header$acceleration_min = paste0("-", header$accrange)
   header$acceleration_max = as.character(header$accrange)
   header$sample_rate = header$frequency
@@ -104,17 +139,19 @@ acti_read_cwa = function(
                                  "acti_read_cwa:converted_timestamp_to_time",
                                  add = TRUE)
     }
-    if (!any_na_time && anyNA(data$time)) {
+    if (!any_na_time && anyNA(format(data$time, tz = tz))) {
       stop("Applying timezone from offset created NA times - stopping.")
     }
-  } else {
-    if (verbose) {
-      cli::cli_alert_info("Timezone not applied to data")
-    }
+  } else if (verbose) {
+    cli::cli_alert_info("Timezone not applied to data")
   }
 
   time1 = data$time[1]
-  if (header$start != time1) {
+  header_start = header$start
+  if (is.null(header_start)) {
+    header_start = header$start_time
+  }
+  if (!is.null(header_start) && length(header_start) > 0 && header_start != time1) {
     msg = paste0("Header start date is not same time as data$time,",
                  " may want to use apply_tz = FALSE.")
     warning(msg)
@@ -126,5 +163,7 @@ acti_read_cwa = function(
   }
 
   data = tibble::as_tibble(data)
+  attr(data, "header") = header
+  attr(data, "sample_rate") = header$sample_rate
   data
 }

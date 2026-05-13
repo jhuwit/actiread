@@ -1,5 +1,4 @@
 Version: 1.0
-ProjectId: ccd1c923-e2ac-4725-b8fa-8e456f345a45
 
 RestoreWorkspace: No
 SaveWorkspace: No
@@ -11,13 +10,13 @@ NumSpacesForTab: 2
 Encoding: UTF-8
 
 RnwWeave: knitr
-LaTeX: pdfLaTeX
+LaTeX: XeLaTeX
 
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
+LineEndingConversion: Posix
 
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
-PackageCheckArgs: --as-cran
 PackageRoxygenize: rd,collate,namespace

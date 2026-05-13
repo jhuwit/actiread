@@ -55,4 +55,12 @@ Read GT3X file
 }
 \examples{
 data = acti_read_gt3x(acti_example_gt3x())
+data = acti_read_gt3x(
+  acti_example_gt3x(),
+  tz = NULL,
+  apply_tz = FALSE,
+  verbose = FALSE,
+  fill_zeroes = FALSE
+)
+info = acti_info_gt3x(acti_example_gt3x())
 }

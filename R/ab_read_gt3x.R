@@ -23,6 +23,13 @@
 #'
 #' @examples
 #' data = acti_read_gt3x(acti_example_gt3x())
+#' data = acti_read_gt3x(
+#'   acti_example_gt3x(),
+#'   tz = NULL,
+#'   apply_tz = FALSE,
+#'   verbose = FALSE,
+#'   fill_zeroes = FALSE
+#' )
 acti_read_gt3x = function(
     path,
     asDataFrame = TRUE,
@@ -34,16 +41,12 @@ acti_read_gt3x = function(
     check_attributes = TRUE,
     tz = "GMT"
 ) {
-
   data = read.gt3x::read.gt3x(
     path = path,
     asDataFrame = asDataFrame,
     imputeZeroes = imputeZeroes,
     verbose = verbose > 1,
     ...)
-  data = set_transformations(data,
-                             "acti_read_gt3x:data_read",
-                             add = TRUE)
   if (fill_zeroes) {
     if (verbose) {
       cli::cli_alert_info("Filling zeros in data")
@@ -53,58 +56,119 @@ acti_read_gt3x = function(
       cli::cli_alert_success("Filled zeros in data")
     }
   }
+  acti_gt3x_process_time(
+    data = data,
+    tz = tz,
+    apply_tz = apply_tz,
+    check_attributes = check_attributes,
+    verbose = verbose
+  )
+}
 
-  # this puts data in correct timezone (still ends up in UTC)
-  hdr = attr(data, "header")
-  if (NROW(hdr$TimeZone) == 0 || is.null(hdr$TimeZone)) {
-    cli::cli_warn("No header found in gt3x file.")
-  } else {
-    tz_from_offset = tzoffset_to_tz(hdr$TimeZone)
-    if (verbose) {
-      cli::cli_alert_info("Timezone from header: {hdr$TimeZone}")
-      cli::cli_alert_info("Timezone from offset: {tz_from_offset}")
-    }
+# Internal helper used by acti_read_gt3x()
+acti_gt3x_process_time = function(
+    data,
+    tz = "GMT",
+    apply_tz = TRUE,
+    check_attributes = TRUE,
+    verbose = TRUE
+) {
+  if (is.null(tz)) {
+    tz = ""
   }
+  assertthat::assert_that(
+    assertthat::is.string(tz)
+  )
+
+  header = data$header
+  if (is.null(header)) {
+    header = attr(data, "header")
+  }
+  if (is.null(header)) {
+    header = list()
+  }
+  if (is.list(data) && !is.null(data$data)) {
+    data = data$data
+  }
+
+  header$acceleration_min = paste0("-", header$accrange)
+  header$acceleration_max = as.character(header$accrange)
+  header$sample_rate = header$frequency
+  if (is.null(header$sample_rate)) {
+    header$sample_rate = attr(data, "sample_rate")
+  }
+  data = dplyr::as_tibble(data)
+  attr(data, "header") = header
+  attr(data, "sample_rate") = header$sample_rate
+  data = set_transformations(data,
+                             "acti_read_gt3x:data_read",
+                             add = TRUE)
 
   any_na_time = anyNA(data$time)
   if (any_na_time) {
     warning("Some missing times in gt3x data - please check.")
   }
   if (apply_tz) {
-    # data$time = lubridate::force_tz(
-    #   lubridate::with_tz(data$time, tz_from_offset),
-    #   "GMT")
     if (verbose) {
       cli::cli_alert_info("Timezone applied to data")
     }
-    data$time = lubridate::with_tz(data$time, tz_from_offset)
-    data = set_transformations(data,
-                               paste0("acti_read_gt3x:timezone_", tz_from_offset, "_applied"),
-                               add = TRUE)
-    if (!is.null(tz)) {
-      data$time = lubridate::force_tz(data$time, tz = tz)
+    if (NROW(header$TimeZone) == 0 || is.null(header$TimeZone)) {
+      cli::cli_warn("No header found in gt3x file.")
+    } else {
+      tz_from_offset = tzoffset_to_tz(header$TimeZone)
+      if (verbose) {
+        cli::cli_alert_info("Timezone from header: {header$TimeZone}")
+        cli::cli_alert_info("Timezone from offset: {tz_from_offset}")
+      }
+      data$time = lubridate::with_tz(data$time, tz_from_offset)
       data = set_transformations(data,
-                                 paste0("acti_read_gt3x:timezone_", tz, "_forced"),
+                                 paste0("acti_read_gt3x:timezone_", tz_from_offset, "_applied"),
                                  add = TRUE)
+      if (!is.null(tz)) {
+        data$time = lubridate::force_tz(data$time, tz = tz)
+        data = set_transformations(data,
+                                   paste0("acti_read_gt3x:timezone_", tz, "_forced"),
+                                   add = TRUE)
+      }
+      if (!any_na_time && anyNA(data$time)) {
+        stop("Applying timezone from offset created NA times - stopping.")
+      }
     }
-    if (!any_na_time && anyNA(data$time)) {
-      stop("Applying timezone from offset created NA times - stopping.")
-    }
-  } else {
-    if (verbose) {
-      cli::cli_alert_info("Timezone not applied to data")
-    }
+  } else if (verbose) {
+    cli::cli_alert_info("Timezone not applied to data")
   }
+
+  time1 = data$time[1]
+  header_start = header$start
+  if (is.null(header_start)) {
+    header_start = header$start_time
+  }
+  if (!is.null(header_start) && length(header_start) > 0 && header_start != time1) {
+    msg = paste0("Header start date is not same time as data$time,",
+                 " may want to use apply_tz = FALSE.")
+    warning(msg)
+  }
+
+  any_na_time = anyNA(data$time)
+  if (any_na_time) {
+    warning("Some missing times in gt3x data - please check.")
+  }
+
   data = as.data.frame(data)
+  attr(data, "header") = header
+  attr(data, "sample_rate") = header$sample_rate
   if (check_attributes) {
     stopifnot(!is.null(attr(data, "sample_rate")))
   }
-  data = tibble::as_tibble(data)
-  data
+  tibble::as_tibble(data)
 }
+
+
 
 #' @export
 #' @rdname acti_read_gt3x
+#' @examples
+#' info = acti_info_gt3x(acti_example_gt3x())
 acti_info_gt3x = function(
     path,
     ...

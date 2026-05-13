@@ -17,12 +17,17 @@ acti_read_cwa(
 \arguments{
 \item{path}{Path to cwa file}
 
-\item{start}{where to end in the file, passed to [GGIRread::readAxivity]}
+\item{start}{where to start in the file, passed to [GGIRread::readAxivity]}
+
+\item{end}{where to end in the file, passed to [GGIRread::readAxivity]}
 
 \item{tz}{time zone for the data `time`, passed to `desiredtz` argument in
 [GGIRread::readAxivity].  If NULL or `""`, no time conversion is done.}
 
 \item{...}{additional arguments to pass to [GGIRread::readAxivity()]}
+
+\item{apply_tz}{turn the `time` column into a `POSIXct` and apply the
+timezone}
 
 \item{verbose}{print diagnostic messages, higher values = more verbosity.}
 }
@@ -35,4 +40,10 @@ Read CWA File
 }
 \examples{
 data = acti_read_cwa(acti_example_cwa())
+data = acti_read_cwa(
+  acti_example_cwa(),
+  tz = NULL,
+  apply_tz = FALSE,
+  verbose = FALSE
+)
 }

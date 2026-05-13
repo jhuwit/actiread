@@ -19,9 +19,7 @@ Suggests:
     utils,
     covr,
     knitr,
-    httr,
-    rmarkdown,
-    ggplot2
+    rmarkdown
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
@@ -32,8 +30,12 @@ Imports:
     R.utils,
     magrittr,
     dplyr,
-    lubridate
-URL: https://github.com/muschellij2/actibase, http://johnmuschelli.com/actibase/
-BugReports: https://github.com/muschellij2/actibase/issues
+    lubridate,
+    assertthat,
+    cli,
+    tibble
+URL: https://github.com/muschellij2/actiread, http://johnmuschelli.com/actiread/
+BugReports: https://github.com/muschellij2/actiread/issues
 biocViews: Infrastructure
 RoxygenNote: 7.3.3
+Remotes: jhuwit/actibase
