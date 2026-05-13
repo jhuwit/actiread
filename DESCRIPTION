@@ -1,5 +1,5 @@
 Type: Package
-Package: actibase
+Package: actiread
 Title: Baseline Package for Reading Actigraphy and Activity Data
 Version: 0.0.0.9000
 Authors@R: c(

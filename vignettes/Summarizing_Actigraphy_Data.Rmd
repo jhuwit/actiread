@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(actibase)
+library(actiread)
 ```
 
 # Overview
@@ -35,19 +36,11 @@ The package ships with a small GT3X file and a small CWA file under
 `inst/extdata`. We will use those examples here.
 
 ```{r}
-gt3x_file = system.file(
-  "extdata",
-  "TAS1H30182785_2019-09-17.gt3x.gz",
-  package = "actibase"
-)
-cwa_file = system.file(
-  "extdata",
-  "ax3_testfile.cwa.gz",
-  package = "actibase"
-)
+gt3x_file = acti_example_gt3x()
+cwa_file = acti_example_cwa()
 
-gt3x = ab_read_gt3x(gt3x_file, verbose = FALSE)
-cwa = ab_read_cwa(cwa_file, verbose = FALSE)
+gt3x = acti_read_gt3x(gt3x_file, verbose = FALSE)
+cwa = acti_read_cwa(cwa_file, verbose = FALSE)
 
 class(gt3x)
 names(gt3x)
@@ -63,14 +56,14 @@ reader uses `GGIRread::readAxivity()`.
 The baseline package keeps the data in a consistent shape:
 
 ```{r}
-std = ab_standardize_data(gt3x)
-cal = ab_calibrate(gt3x, verbose = FALSE)
+std = acti_standardize_data(gt3x)
+cal = acti_calibrate(gt3x, verbose = FALSE)
 
 head(std)
 head(cal)
 ```
 
-The `ab_calibrate()` function is a convenience wrapper around the raw
+The `acti_calibrate()` function is a convenience wrapper around the raw
 calibration workflow. It is meant to prepare data for later summary layers
 without forcing those layers into this package.
 
@@ -80,10 +73,10 @@ You can resample a three-axis signal to a new sampling rate or to specific
 timestamps:
 
 ```{r}
-resampled = ab_resample(std, sample_rate = 30L)
+resampled = acti_resample(std, sample_rate = 30L)
 get_transformations(resampled)
 
-same_times = ab_resample_to_time(
+same_times = acti_resample_to_time(
   std,
   times = lubridate::floor_date(std$time, unit = "1 second")
 )
@@ -95,8 +88,8 @@ get_transformations(same_times)
 The baseline workflow also includes activity-count and non-wear helpers.
 
 ```{r}
-counts = ab_calculate_counts(resampled, 60L)
-wear = ab_calculate_nonwear(counts, method = "choi")
+counts = acti_calculate_counts(resampled, 60L)
+wear = acti_calculate_nonwear(counts, method = "choi")
 
 head(counts)
 head(wear)

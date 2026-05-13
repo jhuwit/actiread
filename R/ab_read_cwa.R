@@ -52,11 +52,12 @@
 #' [GGIRread::readAxivity].  If NULL or `""`, no time conversion is done.
 #' @param ... additional arguments to pass to [GGIRread::readAxivity()]
 #' @param verbose print diagnostic messages, higher values = more verbosity.
-#' @returns A `tibble` with attribues of a header, sample rate, and
+#' @returns A `tibble` with attributes of a header, sample rate, and
 #' transformations
 #' @export
 #'
 #' @examples
+#' data = acti_read_cwa(acti_example_cwa())
 acti_read_cwa = function(
     path,
     start = 0,

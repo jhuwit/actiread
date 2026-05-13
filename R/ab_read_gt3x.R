@@ -22,9 +22,7 @@
 #' @export
 #'
 #' @examples
-#' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x.gz",
-#'                    package = "actibase")
-#' ac = acti_read_gt3x(path, verbose = FALSE)
+#' data = acti_read_gt3x(acti_example_gt3x())
 acti_read_gt3x = function(
     path,
     asDataFrame = TRUE,
