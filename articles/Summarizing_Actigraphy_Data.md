@@ -79,7 +79,7 @@ cwa_no_tz = acti_read_cwa(
 )
 
 get_transformations(gt3x_no_tz)
-[1] "acti_read_gt3x:data_read"
+[1] "acti_read_gt3x:attributes_set" "acti_read_gt3x:data_read"     
 get_transformations(cwa_no_tz)
 [1] "acti_read_cwa:data_read_via_readAxivity"
 ```
@@ -124,8 +124,9 @@ get_transformations(resampled)
 [2] "acti_resample:linear_resampled_to_30Hz"           
 [3] "acti_read_gt3x:timezone_GMT_forced"               
 [4] "acti_read_gt3x:timezone_Etc/GMT-4_applied"        
-[5] "acti_read_gt3x:data_read"                         
+[5] "acti_read_gt3x:attributes_set"                    
 [6] "acti_fill_zeros:filled_zeros"                     
+[7] "acti_read_gt3x:data_read"                         
 
 same_times = acti_resample_to_time(
   std,
@@ -135,6 +136,7 @@ get_transformations(same_times)
 [1] "acti_resample_to_time:resampled_to_specific_times"
 [2] "acti_read_gt3x:timezone_GMT_forced"               
 [3] "acti_read_gt3x:timezone_Etc/GMT-4_applied"        
-[4] "acti_read_gt3x:data_read"                         
+[4] "acti_read_gt3x:attributes_set"                    
 [5] "acti_fill_zeros:filled_zeros"                     
+[6] "acti_read_gt3x:data_read"                         
 ```

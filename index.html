@@ -54,50 +54,90 @@
   <main id="main" class="col-md-9">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div class="section level1">
-<div class="page-header"><h1 id="actibase-package">actibase Package<a class="anchor" aria-label="anchor" href="#actibase-package"></a>
+<div class="page-header"><h1 id="actiread-package">actiread Package<a class="anchor" aria-label="anchor" href="#actiread-package"></a>
 </h1></div>
-<p><code>actibase</code> is a baseline package for raw actigraphy and activity workflows. It provides readers and core preprocessing helpers that downstream packages can build on, such as step-count or summarization overlays.</p>
+<p><code>actiread</code> reads raw actigraphy files and returns tidy data frames that are ready for downstream analysis.</p>
+<p>It currently focuses on:</p>
+<ul>
+<li>reading <code>gt3x</code> files</li>
+<li>reading <code>cwa</code> files</li>
+<li>loading small example files bundled with the package</li>
+<li>inspecting GT3X header metadata</li>
+<li>handling timezone conversion during import</li>
+</ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install <code>actibase</code> from GitHub with:</p>
+<p>You can install <code>actiread</code> from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"muschellij2/actibase"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jhuwit/actiread"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/muschellij2/actibase" class="external-link">actibase</a></span><span class="op">)</span></span>
-<span><span class="va">gt3x_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span></span>
-<span>  <span class="st">"extdata"</span>,</span>
-<span>  <span class="st">"TAS1H30182785_2019-09-17.gt3x.gz"</span>,</span>
-<span>  package <span class="op">=</span> <span class="st">"actibase"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">res</span> <span class="op">=</span> <span class="fu">ab_read_gt3x</span><span class="op">(</span><span class="va">gt3x_file</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">res</span> <span class="op">=</span> <span class="fu">ab_calibrate</span><span class="op">(</span><span class="va">res</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">res</span> <span class="op">=</span> <span class="fu">ab_standardize_data</span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
-<span><span class="va">resampled</span> <span class="op">=</span> <span class="fu">ab_resample</span><span class="op">(</span><span class="va">res</span>, sample_rate <span class="op">=</span> <span class="fl">30L</span><span class="op">)</span></span>
-<span><span class="va">counts</span> <span class="op">=</span> <span class="fu">ab_calculate_counts</span><span class="op">(</span><span class="va">resampled</span>, <span class="fl">60L</span><span class="op">)</span></span>
-<span><span class="va">wear</span> <span class="op">=</span> <span class="fu">ab_calculate_nonwear</span><span class="op">(</span><span class="va">counts</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/muschellij2/actiread" class="external-link">actiread</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wear</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">gt3x_file</span> <span class="op">=</span> <span class="fu"><a href="reference/acti_example_data.html">acti_example_gt3x</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">cwa_file</span> <span class="op">=</span> <span class="fu"><a href="reference/acti_example_data.html">acti_example_cwa</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gt3x</span> <span class="op">=</span> <span class="fu"><a href="reference/acti_read_gt3x.html">acti_read_gt3x</a></span><span class="op">(</span><span class="va">gt3x_file</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">cwa</span> <span class="op">=</span> <span class="fu"><a href="reference/acti_read_cwa.html">acti_read_cwa</a></span><span class="op">(</span><span class="va">cwa_file</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gt3x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span><span class="co">#&gt;   time                    X      Y     Z</span></span>
+<span><span class="co">#&gt;   &lt;dttm&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 2019-09-17 22:40:00 0      0.008 0.996</span></span>
+<span><span class="co">#&gt; 2 2019-09-17 22:40:00 0.016  0     1.01 </span></span>
+<span><span class="co">#&gt; 3 2019-09-17 22:40:00 0.02  -0.008 1.00 </span></span>
+<span><span class="co">#&gt; 4 2019-09-17 22:40:00 0.016 -0.012 1.01 </span></span>
+<span><span class="co">#&gt; 5 2019-09-17 22:40:00 0.016 -0.008 1.01 </span></span>
+<span><span class="co">#&gt; 6 2019-09-17 22:40:00 0.008 -0.008 1.01</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cwa</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 7</span></span>
+<span><span class="co">#&gt;   time                    x      y      z  temp battery light</span></span>
+<span><span class="co">#&gt;   &lt;dttm&gt;              &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 2019-02-26 10:55:06 0.328  0.984  0.203  25.6       0   283</span></span>
+<span><span class="co">#&gt; 2 2019-02-26 10:55:06 0.822 -0.343 -0.368  25.6       0   283</span></span>
+<span><span class="co">#&gt; 3 2019-02-26 10:55:06 0.874 -0.390 -0.390  25.6       0   283</span></span>
+<span><span class="co">#&gt; 4 2019-02-26 10:55:06 0.890 -0.391 -0.391  25.6       0   283</span></span>
+<span><span class="co">#&gt; 5 2019-02-26 10:55:06 0.891 -0.376 -0.391  25.6       0   283</span></span>
+<span><span class="co">#&gt; 6 2019-02-26 10:55:06 0.876 -0.360 -0.376  25.6       0   283</span></span>
+<span></span>
+<span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/actibase/man/acti_standardize_data.html" class="external-link">acti_standardize_data</a></span><span class="op">(</span><span class="va">gt3x</span><span class="op">)</span></span>
+<span><span class="va">resampled</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/actibase/man/acti_resample.html" class="external-link">acti_resample</a></span><span class="op">(</span><span class="va">res</span>, sample_rate <span class="op">=</span> <span class="fl">30L</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/actibase/man/get_transformations.html" class="external-link">get_transformations</a></span><span class="op">(</span><span class="va">resampled</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "acti_resample:sample_rate_attribute_changed_to_30"</span></span>
+<span><span class="co">#&gt; [2] "acti_resample:linear_resampled_to_30Hz"           </span></span>
+<span><span class="co">#&gt; [3] "acti_read_gt3x:timezone_GMT_forced"               </span></span>
+<span><span class="co">#&gt; [4] "acti_read_gt3x:timezone_Etc/GMT-4_applied"        </span></span>
+<span><span class="co">#&gt; [5] "acti_read_gt3x:attributes_set"                    </span></span>
+<span><span class="co">#&gt; [6] "acti_fill_zeros:filled_zeros"                     </span></span>
+<span><span class="co">#&gt; [7] "acti_read_gt3x:data_read"</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="st">```</span><span class="at"> r</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="at">tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="at">#&gt; [1] "Etc/GMT0"  "Etc/GMT-5" "Etc/GMT+1"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="what-lives-here">What lives here<a class="anchor" aria-label="anchor" href="#what-lives-here"></a>
+<h2 id="what-you-can-do">What you can do<a class="anchor" aria-label="anchor" href="#what-you-can-do"></a>
 </h2>
-<p><code>actibase</code> keeps the primitives that other packages can build on:</p>
+<p><code>actiread</code> is a focused import layer for actigraphy data:</p>
 <ul>
-<li>file readers for GT3X and CWA input</li>
-<li>calibration and zero-filling helpers</li>
-<li>standardization and reshaping helpers</li>
-<li>resampling</li>
-<li>activity-count and non-wear calculation</li>
-<li>transformation bookkeeping</li>
+<li>read GT3X files with <code><a href="reference/acti_read_gt3x.html">acti_read_gt3x()</a></code>
+</li>
+<li>read CWA files with <code><a href="reference/acti_read_cwa.html">acti_read_cwa()</a></code>
+</li>
+<li>inspect GT3X metadata with <code><a href="reference/acti_read_gt3x.html">acti_info_gt3x()</a></code>
+</li>
+<li>use bundled sample files with <code><a href="reference/acti_example_data.html">acti_example_gt3x()</a></code> and <code><a href="reference/acti_example_data.html">acti_example_cwa()</a></code>
+</li>
+<li>control timezone handling during import with <code>tz</code> and <code>apply_tz</code>
+</li>
 </ul>
-<p>Higher-level summarization, step-count mapping, and downstream analysis should live in overlay packages.</p>
+<p>The readers return tidy objects with attached metadata such as the file header and sampling rate, which makes it straightforward to hand the result off to your own cleaning, summarization, or modeling code.</p>
 </div>
 </div>
 
@@ -135,9 +175,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/muschellij2/actibase/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/muschellij2/actibase/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/muschellij2/actibase?branch=master" class="external-link"><img src="https://codecov.io/gh/muschellij2/actibase/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://app.codecov.io/gh/muschellij2/actibase" class="external-link"><img src="https://codecov.io/gh/muschellij2/actibase/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/jhuwit/actiread?branch=main" class="external-link"><img src="https://codecov.io/gh/jhuwit/actiread/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 

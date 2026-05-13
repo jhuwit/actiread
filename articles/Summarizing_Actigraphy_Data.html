@@ -130,7 +130,7 @@ step.</p>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>)</span>
 <span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="fu">get_transformations</span>(gt3x_no_tz)</span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"acti_read_gt3x:data_read"</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"acti_read_gt3x:attributes_set"</span> <span class="st">"acti_read_gt3x:data_read"</span>     </span>
 <span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="fu">get_transformations</span>(cwa_no_tz)</span>
 <span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"acti_read_cwa:data_read_via_readAxivity"</span></span></code></pre></div>
 <p>Internally, Axivity files use fixed UTC offsets. The helper that maps
@@ -167,19 +167,21 @@ specific timestamps:</p>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>[<span class="dv">2</span>] <span class="st">"acti_resample:linear_resampled_to_30Hz"</span>           </span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>[<span class="dv">3</span>] <span class="st">"acti_read_gt3x:timezone_GMT_forced"</span>               </span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>[<span class="dv">4</span>] <span class="st">"acti_read_gt3x:timezone_Etc/GMT-4_applied"</span>        </span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>[<span class="dv">5</span>] <span class="st">"acti_read_gt3x:data_read"</span>                         </span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>[<span class="dv">5</span>] <span class="st">"acti_read_gt3x:attributes_set"</span>                    </span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>[<span class="dv">6</span>] <span class="st">"acti_fill_zeros:filled_zeros"</span>                     </span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>same_times <span class="ot">=</span> <span class="fu">acti_resample_to_time</span>(</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  std,</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  <span class="at">times =</span> lubridate<span class="sc">::</span><span class="fu">floor_date</span>(std<span class="sc">$</span>time, <span class="at">unit =</span> <span class="st">"1 second"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>)</span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="fu">get_transformations</span>(same_times)</span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"acti_resample_to_time:resampled_to_specific_times"</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>[<span class="dv">2</span>] <span class="st">"acti_read_gt3x:timezone_GMT_forced"</span>               </span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>[<span class="dv">3</span>] <span class="st">"acti_read_gt3x:timezone_Etc/GMT-4_applied"</span>        </span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>[<span class="dv">4</span>] <span class="st">"acti_read_gt3x:data_read"</span>                         </span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>[<span class="dv">5</span>] <span class="st">"acti_fill_zeros:filled_zeros"</span>                     </span></code></pre></div>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>[<span class="dv">7</span>] <span class="st">"acti_read_gt3x:data_read"</span>                         </span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>same_times <span class="ot">=</span> <span class="fu">acti_resample_to_time</span>(</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  std,</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  <span class="at">times =</span> lubridate<span class="sc">::</span><span class="fu">floor_date</span>(std<span class="sc">$</span>time, <span class="at">unit =</span> <span class="st">"1 second"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">get_transformations</span>(same_times)</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"acti_resample_to_time:resampled_to_specific_times"</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>[<span class="dv">2</span>] <span class="st">"acti_read_gt3x:timezone_GMT_forced"</span>               </span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>[<span class="dv">3</span>] <span class="st">"acti_read_gt3x:timezone_Etc/GMT-4_applied"</span>        </span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>[<span class="dv">4</span>] <span class="st">"acti_read_gt3x:attributes_set"</span>                    </span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>[<span class="dv">5</span>] <span class="st">"acti_fill_zeros:filled_zeros"</span>                     </span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>[<span class="dv">6</span>] <span class="st">"acti_read_gt3x:data_read"</span>                         </span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
