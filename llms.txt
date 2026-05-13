@@ -1,0 +1,73 @@
+# actibase Package
+
+`actibase` is a baseline package for raw actigraphy and activity
+workflows. It provides readers and core preprocessing helpers that
+downstream packages can build on, such as step-count or summarization
+overlays.
+
+## Installation
+
+You can install `actibase` from GitHub with:
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("muschellij2/actibase")
+```
+
+## Quick start
+
+``` r
+
+library(actibase)
+gt3x_file = system.file(
+  "extdata",
+  "TAS1H30182785_2019-09-17.gt3x.gz",
+  package = "actibase"
+)
+res = ab_read_gt3x(gt3x_file, verbose = FALSE)
+res = ab_calibrate(res, verbose = FALSE)
+res = ab_standardize_data(res)
+resampled = ab_resample(res, sample_rate = 30L)
+counts = ab_calculate_counts(resampled, 60L)
+wear = ab_calculate_nonwear(counts)
+
+head(counts)
+head(wear)
+```
+
+## What lives here
+
+`actibase` keeps the primitives that other packages can build on:
+
+- file readers for GT3X and CWA input
+- calibration and zero-filling helpers
+- standardization and reshaping helpers
+- resampling
+- activity-count and non-wear calculation
+- transformation bookkeeping
+
+Higher-level summarization, step-count mapping, and downstream analysis
+should live in overlay packages.
+
+# Package index
+
+## All functions
+
+- [`acti_example_gt3x()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_example_data.md)
+  [`acti_example_cwa()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_example_data.md)
+  : Activity/Actigraphy Example Data
+- [`acti_read_cwa()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_cwa.md)
+  : Read CWA File
+- [`acti_read_gt3x()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_gt3x.md)
+  [`acti_info_gt3x()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_gt3x.md)
+  : Read GT3X file
+- [`tzoffset_to_tz()`](http://johnmuschelli.com/SummarizedActigraphy/reference/tzoffset_to_tz.md)
+  : Transform timezone offset to timezone
+
+# Articles
+
+### All vignettes
+
+- [Actibase Baseline
+  Workflow](http://johnmuschelli.com/SummarizedActigraphy/articles/Summarizing_Actigraphy_Data.md):
