@@ -47,6 +47,9 @@ acti_read_gt3x = function(
     imputeZeroes = imputeZeroes,
     verbose = verbose > 1,
     ...)
+  data = set_transformations(data,
+                             "acti_read_gt3x:data_read",
+                             add = TRUE)
   if (fill_zeroes) {
     if (verbose) {
       cli::cli_alert_info("Filling zeros in data")
@@ -101,7 +104,7 @@ acti_gt3x_process_time = function(
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
   data = set_transformations(data,
-                             "acti_read_gt3x:data_read",
+                             "acti_read_gt3x:attributes_set",
                              add = TRUE)
 
   any_na_time = anyNA(data$time)
