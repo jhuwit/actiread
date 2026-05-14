@@ -8,7 +8,8 @@
 #' the time series will be incomplete in case there is missingness.
 #' @param ... additional arguments to pass to [read.gt3x::read.gt3x()]
 #' @param verbose print diagnostic messages, higher values = more verbosity.
-#' @param apply_tz Apply the timezone from the header `TimeZone` attribute
+#' @param apply_tz Apply the timezone from the header `TimeZone` attribute,
+#' if available
 #' @param check_attributes Check that the attributes are included This is a sanity check,
 #' including checking that `sample_rate` is in the attributes.
 #' @param tz timezone to project the data into.  The data read in via
@@ -37,7 +38,7 @@ acti_read_gt3x = function(
     verbose = TRUE,
     ...,
     fill_zeroes = TRUE,
-    apply_tz = TRUE,
+    apply_tz = FALSE,
     check_attributes = TRUE,
     tz = "GMT"
 ) {
@@ -116,7 +117,7 @@ acti_gt3x_process_time = function(
       cli::cli_alert_info("Timezone applied to data")
     }
     if (NROW(header$TimeZone) == 0 || is.null(header$TimeZone)) {
-      cli::cli_warn("No header found in gt3x file.")
+      cli::cli_warn("No TimeZone found in header data in gt3x.")
     } else {
       tz_from_offset = tzoffset_to_tz(header$TimeZone)
       if (verbose) {
