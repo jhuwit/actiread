@@ -12,7 +12,7 @@ acti_read_gt3x(
   verbose = TRUE,
   ...,
   fill_zeroes = TRUE,
-  apply_tz = TRUE,
+  apply_tz = FALSE,
   check_attributes = TRUE,
   tz = "GMT"
 )
@@ -51,7 +51,8 @@ acti_info_gt3x(path, ...)
 
 - apply_tz:
 
-  Apply the timezone from the header \`TimeZone\` attribute
+  Apply the timezone from the header \`TimeZone\` attribute, if
+  available
 
 - check_attributes:
 
@@ -76,9 +77,7 @@ A \`data.frame\`
 data = acti_read_gt3x(acti_example_gt3x())
 #> ℹ Filling zeros in data
 #> ✔ Filled zeros in data
-#> ℹ Timezone applied to data
-#> ℹ Timezone from header: -04:00:00
-#> ℹ Timezone from offset: Etc/GMT-4
+#> ℹ Timezone not applied to data
 data = acti_read_gt3x(
   acti_example_gt3x(),
   tz = NULL,

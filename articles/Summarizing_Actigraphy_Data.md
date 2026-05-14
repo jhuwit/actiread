@@ -104,12 +104,12 @@ head(std)
  [38;5;246m# A tibble: 6 × 4 [39m
   time                    X      Y     Z
    [3m [38;5;246m<dttm> [39m [23m               [3m [38;5;246m<dbl> [39m [23m   [3m [38;5;246m<dbl> [39m [23m  [3m [38;5;246m<dbl> [39m [23m
- [38;5;250m1 [39m 2019-09-17  [38;5;246m22:40:00 [39m 0      0.008 0.996
- [38;5;250m2 [39m 2019-09-17  [38;5;246m22:40:00 [39m 0.016  0     1.01 
- [38;5;250m3 [39m 2019-09-17  [38;5;246m22:40:00 [39m 0.02  - [31m0 [39m [31m. [39m [31m00 [39m [31m8 [39m 1.00 
- [38;5;250m4 [39m 2019-09-17  [38;5;246m22:40:00 [39m 0.016 - [31m0 [39m [31m. [39m [31m0 [39m [31m12 [39m 1.01 
- [38;5;250m5 [39m 2019-09-17  [38;5;246m22:40:00 [39m 0.016 - [31m0 [39m [31m. [39m [31m00 [39m [31m8 [39m 1.01 
- [38;5;250m6 [39m 2019-09-17  [38;5;246m22:40:00 [39m 0.008 - [31m0 [39m [31m. [39m [31m00 [39m [31m8 [39m 1.01 
+ [38;5;250m1 [39m 2019-09-17  [38;5;246m18:40:00 [39m 0      0.008 0.996
+ [38;5;250m2 [39m 2019-09-17  [38;5;246m18:40:00 [39m 0.016  0     1.01 
+ [38;5;250m3 [39m 2019-09-17  [38;5;246m18:40:00 [39m 0.02  - [31m0 [39m [31m. [39m [31m00 [39m [31m8 [39m 1.00 
+ [38;5;250m4 [39m 2019-09-17  [38;5;246m18:40:00 [39m 0.016 - [31m0 [39m [31m. [39m [31m0 [39m [31m12 [39m 1.01 
+ [38;5;250m5 [39m 2019-09-17  [38;5;246m18:40:00 [39m 0.016 - [31m0 [39m [31m. [39m [31m00 [39m [31m8 [39m 1.01 
+ [38;5;250m6 [39m 2019-09-17  [38;5;246m18:40:00 [39m 0.008 - [31m0 [39m [31m. [39m [31m00 [39m [31m8 [39m 1.01 
 ```
 
 ## Resampling
@@ -122,11 +122,9 @@ resampled = acti_resample(std, sample_rate = 30L)
 get_transformations(resampled)
 [1] "acti_resample:sample_rate_attribute_changed_to_30"
 [2] "acti_resample:linear_resampled_to_30Hz"           
-[3] "acti_read_gt3x:timezone_GMT_forced"               
-[4] "acti_read_gt3x:timezone_Etc/GMT-4_applied"        
-[5] "acti_read_gt3x:attributes_set"                    
-[6] "acti_fill_zeros:filled_zeros"                     
-[7] "acti_read_gt3x:data_read"                         
+[3] "acti_read_gt3x:attributes_set"                    
+[4] "acti_fill_zeros:filled_zeros"                     
+[5] "acti_read_gt3x:data_read"                         
 
 same_times = acti_resample_to_time(
   std,
@@ -134,9 +132,7 @@ same_times = acti_resample_to_time(
 )
 get_transformations(same_times)
 [1] "acti_resample_to_time:resampled_to_specific_times"
-[2] "acti_read_gt3x:timezone_GMT_forced"               
-[3] "acti_read_gt3x:timezone_Etc/GMT-4_applied"        
-[4] "acti_read_gt3x:attributes_set"                    
-[5] "acti_fill_zeros:filled_zeros"                     
-[6] "acti_read_gt3x:data_read"                         
+[2] "acti_read_gt3x:attributes_set"                    
+[3] "acti_fill_zeros:filled_zeros"                     
+[4] "acti_read_gt3x:data_read"                         
 ```

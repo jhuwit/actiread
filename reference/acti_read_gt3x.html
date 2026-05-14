@@ -32,7 +32,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Read GT3X file</h1>
-      <small class="dont-index">Source: <a href="https://github.com/muschellij2/actiread/blob/main/R/ab_read_gt3x.R" class="external-link"><code>R/ab_read_gt3x.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/muschellij2/actiread/blob/main/R/acti_read_gt3x.R" class="external-link"><code>R/acti_read_gt3x.R</code></a></small>
       <div class="d-none name"><code>acti_read_gt3x.Rd</code></div>
     </div>
 
@@ -49,7 +49,7 @@
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  fill_zeroes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  apply_tz <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  apply_tz <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  check_attributes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  tz <span class="op">=</span> <span class="st">"GMT"</span></span>
 <span><span class="op">)</span></span>
@@ -90,7 +90,8 @@ observation carried forward as is done with ActiLife.  Recommended</p></dd>
 
 
 <dt id="arg-apply-tz">apply_tz<a class="anchor" aria-label="anchor" href="#arg-apply-tz"></a></dt>
-<dd><p>Apply the timezone from the header `TimeZone` attribute</p></dd>
+<dd><p>Apply the timezone from the header `TimeZone` attribute,
+if available</p></dd>
 
 
 <dt id="arg-check-attributes">check_attributes<a class="anchor" aria-label="anchor" href="#arg-check-attributes"></a></dt>
@@ -116,9 +117,7 @@ forcing.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">acti_read_gt3x</span><span class="op">(</span><span class="fu"><a href="acti_example_data.html">acti_example_gt3x</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Filling zeros in data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Filled zeros in data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Timezone applied to data</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Timezone from header: -04:00:00</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Timezone from offset: Etc/GMT-4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Timezone not applied to data</span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">acti_read_gt3x</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="acti_example_data.html">acti_example_gt3x</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  tz <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
