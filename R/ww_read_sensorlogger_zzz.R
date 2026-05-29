@@ -32,6 +32,8 @@ acti_read_sensorlogger = function(
 }
 
 
+#' @inherit actibase::as_datetime_safe
+#' @export
 acti_convert_sensorlogger_time = function(x) {
   as_datetime_safe(x/1000/1000/1000)
 }
@@ -134,7 +136,5 @@ acti_sensorlogger_reader = function(file, ..., type = NULL, verbose = FALSE) {
   args$file = file
   do.call(func, args = args)
 }
-
-
 
 
