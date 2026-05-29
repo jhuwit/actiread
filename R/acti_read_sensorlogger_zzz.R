@@ -75,38 +75,6 @@ acti_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
   df
 }
 
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_accelerometer = acti_read_sensorlogger_general
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_accelerometer_uncalibrated = acti_read_sensorlogger_general
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_annotation = acti_read_sensorlogger_general
-
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_battery = acti_read_sensorlogger_general
-
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_gravity = acti_read_sensorlogger_general
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_gyroscope_uncalibrated = acti_read_sensorlogger_general
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_metadata = acti_read_sensorlogger_general
-
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_orientation = acti_read_sensorlogger_general
-
-#' @export
-#' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_pedometer = acti_read_sensorlogger_general
-
 acti_sensorlogger_reader = function(file, ..., type = NULL, verbose = FALSE) {
   if (is.null(type)) {
     type = acti_sensorlogger_stub(file)
@@ -136,5 +104,4 @@ acti_sensorlogger_reader = function(file, ..., type = NULL, verbose = FALSE) {
   args$file = file
   do.call(func, args = args)
 }
-
 

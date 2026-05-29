@@ -7,15 +7,6 @@
 \alias{acti_read_sensorlogger_location}
 \alias{acti_read_sensorlogger}
 \alias{acti_read_sensorlogger_general}
-\alias{acti_read_sensorlogger_accelerometer}
-\alias{acti_read_sensorlogger_accelerometer_uncalibrated}
-\alias{acti_read_sensorlogger_annotation}
-\alias{acti_read_sensorlogger_battery}
-\alias{acti_read_sensorlogger_gravity}
-\alias{acti_read_sensorlogger_gyroscope_uncalibrated}
-\alias{acti_read_sensorlogger_metadata}
-\alias{acti_read_sensorlogger_orientation}
-\alias{acti_read_sensorlogger_pedometer}
 \title{Read SensorLogger Data}
 \usage{
 acti_sensorlogger_location_colnames_mapping()
@@ -27,24 +18,6 @@ acti_read_sensorlogger_location(file, ...)
 acti_read_sensorlogger(file, verbose = FALSE, ...)
 
 acti_read_sensorlogger_general(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_accelerometer(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_accelerometer_uncalibrated(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_annotation(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_battery(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_gravity(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_gyroscope_uncalibrated(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_metadata(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_orientation(file, ..., verbose = FALSE)
-
-acti_read_sensorlogger_pedometer(file, ..., verbose = FALSE)
 }
 \arguments{
 \item{file}{A character vector of SensorLogger files, usually from unzipping
