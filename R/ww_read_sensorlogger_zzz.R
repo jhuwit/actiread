@@ -9,7 +9,7 @@
 #' unless otherwise overridden
 #' @return A `data.frame` of data
 #' @export
-ww_read_sensorlogger = function(
+acti_read_sensorlogger = function(
     file,
     verbose = FALSE,
     ...
@@ -18,11 +18,11 @@ ww_read_sensorlogger = function(
   rm(list = c("lat", "lon", "lat_zero", "lon_zero"))
 
   file = unzip_files(file)
-  stub = ww_sensorlogger_stub(file)
+  stub = acti_sensorlogger_stub(file)
   names(file) = stub
 
   data_list = purrr::map(file, function(r) {
-    data = ww_sensorlogger_reader(r, verbose = verbose, ...,  type = NULL)
+    data = acti_sensorlogger_reader(r, verbose = verbose, ...,  type = NULL)
   })
   if (length(file) == 1 && length(data_list) == 1) {
     data_list = data_list[[1]]
@@ -32,13 +32,13 @@ ww_read_sensorlogger = function(
 }
 
 
-ww_convert_sensorlogger_time = function(x) {
+acti_convert_sensorlogger_time = function(x) {
   as_datetime_safe(x/1000/1000/1000)
 }
 
 
 
-ww_sensorlogger_stub = function(x) {
+acti_sensorlogger_stub = function(x) {
   stub = sub("[.]csv($|[.]gz$)", "", basename(x), ignore.case = TRUE)
   stub = tolower(stub)
   stub = sub("^sensorlogger_", "", stub)
@@ -50,8 +50,8 @@ ww_sensorlogger_stub = function(x) {
 
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
   df = read_csv_safe(file, ...)
   if (nrow(df) == 0) {
     return(NULL)
@@ -59,11 +59,11 @@ ww_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
   df = df %>%
     janitor::clean_names()
   if (assertthat::has_name(df, "time")) {
-    df$time = ww_convert_sensorlogger_time(df$time)
+    df$time = acti_convert_sensorlogger_time(df$time)
   }
 
   df$file = file
-  stub = ww_sensorlogger_stub(file)
+  stub = acti_sensorlogger_stub(file)
   df$cat_type_sensor = stub
 
   if (nrow(df) > 0) {
@@ -74,55 +74,55 @@ ww_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
 }
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_accelerometer = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_accelerometer = acti_read_sensorlogger_general
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_accelerometer_uncalibrated = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_accelerometer_uncalibrated = acti_read_sensorlogger_general
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_annotation = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_annotation = acti_read_sensorlogger_general
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_battery = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_battery = acti_read_sensorlogger_general
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_gravity = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_gravity = acti_read_sensorlogger_general
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_gyroscope_uncalibrated = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_gyroscope_uncalibrated = acti_read_sensorlogger_general
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_metadata = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_metadata = acti_read_sensorlogger_general
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_orientation = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_orientation = acti_read_sensorlogger_general
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_pedometer = ww_read_sensorlogger_general
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_pedometer = acti_read_sensorlogger_general
 
-ww_sensorlogger_reader = function(file, ..., type = NULL, verbose = FALSE) {
+acti_sensorlogger_reader = function(file, ..., type = NULL, verbose = FALSE) {
   if (is.null(type)) {
-    type = ww_sensorlogger_stub(file)
+    type = acti_sensorlogger_stub(file)
   }
   func = switch(
     type,
-    accelerometer = ww_read_sensorlogger_general,
-    accelerometer_uncalibrated = ww_read_sensorlogger_general,
-    annotation = ww_read_sensorlogger_general,
-    battery = ww_read_sensorlogger_general,
-    gravity = ww_read_sensorlogger_general,
-    gyroscope = ww_read_sensorlogger_general,
-    gyroscope_uncalibrated = ww_read_sensorlogger_general,
-    location = ww_read_sensorlogger_location,
-    metadata = ww_read_sensorlogger_general,
-    orientation = ww_read_sensorlogger_general,
-    pedometer = ww_read_sensorlogger_general,
-    ww_read_sensorlogger_general
+    accelerometer = acti_read_sensorlogger_general,
+    accelerometer_uncalibrated = acti_read_sensorlogger_general,
+    annotation = acti_read_sensorlogger_general,
+    battery = acti_read_sensorlogger_general,
+    gravity = acti_read_sensorlogger_general,
+    gyroscope = acti_read_sensorlogger_general,
+    gyroscope_uncalibrated = acti_read_sensorlogger_general,
+    location = acti_read_sensorlogger_location,
+    metadata = acti_read_sensorlogger_general,
+    orientation = acti_read_sensorlogger_general,
+    pedometer = acti_read_sensorlogger_general,
+    acti_read_sensorlogger_general
     )
   args = list(...)
   if (!verbose & !"progress" %in% names(args)) {

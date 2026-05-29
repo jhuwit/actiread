@@ -1,7 +1,7 @@
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_sensorlogger_location_colnames_mapping = function() {
+#' @rdname acti_read_sensorlogger
+acti_sensorlogger_location_colnames_mapping = function() {
   # cn =  c(
   #   time = "time",
   #   seconds_elapsed = "seconds_elapsed",
@@ -34,8 +34,8 @@ ww_sensorlogger_location_colnames_mapping = function() {
 }
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_sensorlogger_location_spec = function() {
+#' @rdname acti_read_sensorlogger
+acti_sensorlogger_location_spec = function() {
   spec = readr::cols(
     time = readr::col_double(),
     seconds_elapsed = readr::col_double(),
@@ -73,22 +73,22 @@ create_lat_lon_zero = function(df) {
 }
 
 #' @export
-#' @rdname ww_read_sensorlogger
-ww_read_sensorlogger_location = function(file, ...) {
+#' @rdname acti_read_sensorlogger
+acti_read_sensorlogger_location = function(file, ...) {
   df = read_csv_safe(file, ...)
   if (nrow(df) == 0) {
     return(NULL)
   }
-  cn = ww_sensorlogger_location_colnames_mapping()
-  spec = ww_sensorlogger_location_spec()
+  cn = acti_sensorlogger_location_colnames_mapping()
+  spec = acti_sensorlogger_location_spec()
 
   icn = intersect(cn, colnames(df))
   df = df[, cn]
   colnames(df) = names(cn)
-  df$time = ww_convert_sensorlogger_time(df$time)
+  df$time = acti_convert_sensorlogger_time(df$time)
   df = create_lat_lon_zero(df)
   df$file = file
-  stub = ww_sensorlogger_stub(file)
+  stub = acti_sensorlogger_stub(file)
   df$cat_type_sensor = stub
   df
 }

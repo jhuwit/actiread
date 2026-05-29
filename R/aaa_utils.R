@@ -18,3 +18,27 @@ tzoffset_to_tz = function(x) {
   stopifnot(x %in% OlsonNames())
   x
 }
+
+
+read_csv_safe = function(..., guess_max = Inf) {
+  x = readr::read_csv(..., guess_max = guess_max)
+  p = readr::problems(x)
+  cn = list(...)$col_names
+  if (is.null(cn)) {
+    cn = TRUE
+  }
+  if (nrow(p) > 0) {
+    print(p)
+    rows = unique(p$row)
+    if (cn) {
+      rows = rows - 1
+    }
+    bad_data = x[rows, unique(p$col)]
+    print("Bad Data:")
+    print(bad_data)
+  }
+  readr::stop_for_problems(x)
+  x
+}
+
+

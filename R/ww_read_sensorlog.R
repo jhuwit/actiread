@@ -8,7 +8,7 @@ is_zip_file = function(file) {
 unzip_files = function(file) {
   if (any(is_zip_file(file))) {
     if (!all(is_zip_file(file))) {
-      stop(paste0("ww_read_sensorlog works with only zip file or a vector of ",
+      stop(paste0("acti_read_sensorlog works with only zip file or a vector of ",
                   "csv files"))
     }
     orig_file = file
@@ -32,13 +32,11 @@ unzip_files = function(file) {
 #' @return A `data.frame` of data
 #' @export
 #' @examples
-#' file = ww_example_sensorlog_file()
-#' df = ww_read_sensorlog(file)
+#' library(actiread)
+#' file = acti_example_sensorlog_file()
+#' df = acti_read_sensorlog(file)
 #' head(df)
-#' result = ww_process_sensorlog(df, check_data = FALSE, tz = "GMT")
-#' out = ww_minute_sensorlog(result)
-#' out = ww_summarize_sensorlog(result)
-ww_read_sensorlog = function(
+acti_read_sensorlog = function(
     file,
     verbose = FALSE,
     robust = FALSE
@@ -49,11 +47,11 @@ ww_read_sensorlog = function(
 
   names(file) = file
 
-  cn = ww_sensorlog_csv_colnames_mapping()
-  spec = ww_sensorlog_csv_spec()
+  cn = acti_sensorlog_csv_colnames_mapping()
+  spec = acti_sensorlog_csv_spec()
 
   if (robust) {
-    file = sapply(file, rewrite_sensorlog_csv, verbose = verbose > 1)
+    file = sapply(file, acti_rewrite_sensorlog_csv, verbose = verbose > 1)
   }
   data =
     purrr::map_df(names(file), function(nx) {
@@ -116,8 +114,8 @@ ww_read_sensorlog = function(
 
 
 #' @export
-#' @rdname ww_read_sensorlog
-ww_sensorlog_csv_spec = function() {
+#' @rdname acti_read_sensorlog
+acti_sensorlog_csv_spec = function() {
   spec = readr::cols(
     `loggingTime(txt)` = readr::col_character(),
     `loggingSample(N)` = readr::col_double(),
@@ -136,8 +134,8 @@ ww_sensorlog_csv_spec = function() {
 }
 
 #' @export
-#' @rdname ww_read_sensorlog
-ww_sensorlog_csv_colnames_mapping = function() {
+#' @rdname acti_read_sensorlog
+acti_sensorlog_csv_colnames_mapping = function() {
   cn =  c(
     time = "loggingTime(txt)",
     index = "loggingSample(N)",

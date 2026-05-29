@@ -33,9 +33,12 @@ Imports:
     lubridate,
     assertthat,
     cli,
-    tibble
+    tibble,
+    janitor,
+    purrr,
+    readr
 URL: https://github.com/muschellij2/actiread, http://johnmuschelli.com/actiread/
 BugReports: https://github.com/muschellij2/actiread/issues
 biocViews: Infrastructure
-RoxygenNote: 7.3.3
 Remotes: jhuwit/actibase
+Config/roxygen2/version: 8.0.0

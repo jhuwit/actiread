@@ -3,11 +3,20 @@
 \name{acti_example_gt3x}
 \alias{acti_example_gt3x}
 \alias{acti_example_cwa}
+\alias{acti_example_sensorlog_file}
+\alias{acti_example_sensorlogger_file}
+\alias{acti_example_sensorlogger_location_file}
 \title{Activity/Actigraphy Example Data}
 \usage{
 acti_example_gt3x()
 
 acti_example_cwa()
+
+acti_example_sensorlog_file()
+
+acti_example_sensorlogger_file()
+
+acti_example_sensorlogger_location_file()
 }
 \value{
 A file path
@@ -18,4 +27,5 @@ Activity/Actigraphy Example Data
 \examples{
 acti_example_gt3x()
 acti_example_cwa()
+acti_example_sensorlogger_file()
 }
