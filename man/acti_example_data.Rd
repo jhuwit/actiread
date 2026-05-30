@@ -25,6 +25,7 @@ A file path
 Activity/Actigraphy Example Data
 }
 \examples{
+library(actiread)
 acti_example_gt3x()
 acti_example_cwa()
 acti_example_sensorlogger_file()
