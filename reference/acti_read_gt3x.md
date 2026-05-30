@@ -74,6 +74,7 @@ A \`data.frame\`
 ## Examples
 
 ``` r
+library(actiread)
 data = acti_read_gt3x(acti_example_gt3x())
 #> ℹ Filling zeros in data
 #> ✔ Filled zeros in data

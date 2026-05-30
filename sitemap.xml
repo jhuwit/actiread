@@ -5,11 +5,14 @@
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/articles/index.html</loc></url>
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/authors.html</loc></url>
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/index.html</loc></url>
+<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_convert_sensorlogger_time.html</loc></url>
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_example_data.html</loc></url>
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_cwa.html</loc></url>
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_gt3x.html</loc></url>
+<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_sensorlog.html</loc></url>
+<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_sensorlogger.html</loc></url>
+<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_rewrite_sensorlog_csv.html</loc></url>
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/index.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/pipe.html</loc></url>
 <url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/tzoffset_to_tz.html</loc></url>
 </urlset>
 
