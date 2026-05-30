@@ -24,6 +24,7 @@ A file path to the new CSV
 Rewrite a CSV that may have issues with export from SensorLog
 }
 \examples{
+library(actiread)
 sl_file = acti_example_sensorlog_file()
 tfile = tempfile()
 files = utils::unzip(sl_file, exdir = tfile)
