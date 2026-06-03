@@ -44,7 +44,7 @@ underneath, while the CWA reader uses
 [`GGIRread::readAxivity()`](https://rdrr.io/pkg/GGIRread/man/readAxivity.html).
 
 If you need to inspect the GT3X metadata separately,
-[`acti_info_gt3x()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_gt3x.md)
+[`acti_info_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
 parses the header information without returning the full data stream.
 
 ``` r

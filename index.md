@@ -78,15 +78,15 @@ tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
 `actiread` is a focused import layer for actigraphy data:
 
 - read GT3X files with
-  [`acti_read_gt3x()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_gt3x.md)
+  [`acti_read_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
 - read CWA files with
-  [`acti_read_cwa()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_cwa.md)
+  [`acti_read_cwa()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md)
 - inspect GT3X metadata with
-  [`acti_info_gt3x()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_gt3x.md)
+  [`acti_info_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
 - use bundled sample files with
-  [`acti_example_gt3x()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_example_data.md)
+  [`acti_example_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_example_data.md)
   and
-  [`acti_example_cwa()`](http://johnmuschelli.com/SummarizedActigraphy/reference/acti_example_data.md)
+  [`acti_example_cwa()`](https://jhuwit.github.io/actiread/reference/acti_example_data.md)
 - control timezone handling during import with `tz` and `apply_tz`
 
 The readers return tidy objects with attached metadata such as the file

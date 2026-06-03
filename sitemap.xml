@@ -1,18 +1,18 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/404.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/LICENSE.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/articles/Summarizing_Actigraphy_Data.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/articles/index.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/authors.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/index.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_convert_sensorlogger_time.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_example_data.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_cwa.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_gt3x.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_sensorlog.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_read_sensorlogger.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/acti_rewrite_sensorlog_csv.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/index.html</loc></url>
-<url><loc>http://johnmuschelli.com/SummarizedActigraphy/reference/tzoffset_to_tz.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/404.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/LICENSE.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/articles/Summarizing_Actigraphy_Data.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/articles/index.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/authors.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/index.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/acti_convert_sensorlogger_time.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/acti_example_data.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/acti_read_cwa.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/acti_read_gt3x.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/acti_read_sensorlog.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/acti_read_sensorlogger.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/acti_rewrite_sensorlog_csv.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/index.html</loc></url>
+<url><loc>https://jhuwit.github.io/actiread/reference/tzoffset_to_tz.html</loc></url>
 </urlset>
 

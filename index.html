@@ -107,9 +107,9 @@
 <span><span class="co">#&gt; 5 2019-02-26 10:55:06 0.891 -0.376 -0.391  25.6       0   283</span></span>
 <span><span class="co">#&gt; 6 2019-02-26 10:55:06 0.876 -0.360 -0.376  25.6       0   283</span></span>
 <span></span>
-<span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/actibase/man/acti_standardize_data.html" class="external-link">acti_standardize_data</a></span><span class="op">(</span><span class="va">gt3x</span><span class="op">)</span></span>
-<span><span class="va">resampled</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/actibase/man/acti_resample.html" class="external-link">acti_resample</a></span><span class="op">(</span><span class="va">res</span>, sample_rate <span class="op">=</span> <span class="fl">30L</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/actibase/man/get_transformations.html" class="external-link">get_transformations</a></span><span class="op">(</span><span class="va">resampled</span><span class="op">)</span></span>
+<span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="http://johnmuschelli.com/SummarizedActigraphy/reference/acti_standardize_data.html" class="external-link">acti_standardize_data</a></span><span class="op">(</span><span class="va">gt3x</span><span class="op">)</span></span>
+<span><span class="va">resampled</span> <span class="op">=</span> <span class="fu"><a href="http://johnmuschelli.com/SummarizedActigraphy/reference/acti_resample.html" class="external-link">acti_resample</a></span><span class="op">(</span><span class="va">res</span>, sample_rate <span class="op">=</span> <span class="fl">30L</span><span class="op">)</span></span>
+<span><span class="fu"><a href="http://johnmuschelli.com/SummarizedActigraphy/reference/get_transformations.html" class="external-link">get_transformations</a></span><span class="op">(</span><span class="va">resampled</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "acti_resample:sample_rate_attribute_changed_to_30"</span></span>
 <span><span class="co">#&gt; [2] "acti_resample:linear_resampled_to_30Hz"           </span></span>
 <span><span class="co">#&gt; [3] "acti_read_gt3x:timezone_GMT_forced"               </span></span>

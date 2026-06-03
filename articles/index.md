@@ -3,4 +3,4 @@
 ### All vignettes
 
 - [Actibase Baseline
-  Workflow](http://johnmuschelli.com/SummarizedActigraphy/articles/Summarizing_Actigraphy_Data.md):
+  Workflow](https://jhuwit.github.io/actiread/articles/Summarizing_Actigraphy_Data.md):
