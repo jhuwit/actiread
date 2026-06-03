@@ -143,7 +143,9 @@ acti_cwa_process_time = function(
     if (verbose) {
       cli::cli_alert_info("Timezone applied to data")
     }
-    if (!any_na_time && anyNA(format(data$time, tz = tz))) {
+    # this caused huge memory leak due to format
+    # if (!any_na_time && anyNA(format(data$time, tz = tz))) {
+    if (!any_na_time && anyNA(data$time)) {
       stop("Applying timezone from offset created NA times - stopping.")
     }
   } else if (verbose) {
