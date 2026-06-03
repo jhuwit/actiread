@@ -37,7 +37,7 @@ Imports:
     janitor,
     purrr,
     readr
-URL: https://github.com/muschellij2/actiread, http://johnmuschelli.com/actiread/
+URL: https://github.com/muschellij2/actiread, http://johnmuschelli.com/actiread/, https://jhuwit.github.io/actiread/
 BugReports: https://github.com/muschellij2/actiread/issues
 biocViews: Infrastructure
 Remotes: jhuwit/actibase
