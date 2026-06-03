@@ -79,13 +79,17 @@ acti_read_cwa = function(
   if (is.null(tz_read)) {
     tz_read = ""
   }
-  data = .read_cwa(
+  args = list(
     path,
     start = start,
     end = end,
     tz = tz_read,
     ...
   )
+  if (verbose && !"progressBar" %in% names(args)) {
+    args$progressBar = TRUE
+  }
+  data = do.call(.read_cwa, args = args)
   acti_cwa_process_time(
     data = data,
     tz = tz,
@@ -129,15 +133,15 @@ acti_cwa_process_time = function(
 
   any_na_time = anyNA(data$time)
   if (apply_tz) {
-    if (verbose) {
-      cli::cli_alert_info("Timezone applied to data")
-    }
     if (tz != "") {
       data$time = as.POSIXct(data$time, origin = "1970-01-01",
                              tz = tz)
       data = set_transformations(data,
                                  "acti_read_cwa:converted_timestamp_to_time",
                                  add = TRUE)
+    }
+    if (verbose) {
+      cli::cli_alert_info("Timezone applied to data")
     }
     if (!any_na_time && anyNA(format(data$time, tz = tz))) {
       stop("Applying timezone from offset created NA times - stopping.")
