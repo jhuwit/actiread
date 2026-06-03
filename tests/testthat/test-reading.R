@@ -372,6 +372,31 @@ testthat::test_that("CWA helper stops if timezone conversion creates NA times", 
   )
 })
 
+testthat::test_that("CWA helper stops when timezone conversion adds missing times to pre-existing NA data", {
+  fake = list(
+    header = list(
+      accrange = 8,
+      frequency = 100L,
+      start = structure(1e20, class = c("POSIXct", "POSIXt"), tzone = "UTC")
+    ),
+    data = data.frame(
+      time = c(NA_real_, 1e20),
+      x = c(1, 2),
+      y = c(3, 4),
+      z = c(5, 6)
+    )
+  )
+
+  testthat::expect_error(
+    actiread:::acti_cwa_process_time(
+      fake,
+      apply_tz = TRUE,
+      verbose = TRUE
+    ),
+    "created NA times"
+  )
+})
+
 testthat::test_that("CWA helper reports timezone application", {
   fake = list(
     header = list(

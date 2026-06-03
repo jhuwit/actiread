@@ -99,6 +99,26 @@ acti_read_cwa = function(
 }
 
 
+.acti_cwa_count_formatted_na = function(
+    time,
+    tz,
+    chunk_size = 1e5
+) {
+  if (length(time) == 0) {
+    return(0L)
+  }
+
+  na_count = 0L
+  starts = seq.int(1L, length(time), by = chunk_size)
+  for (start in starts) {
+    end = min(start + chunk_size - 1L, length(time))
+    na_count = na_count + sum(is.na(format(time[start:end], tz = tz)))
+  }
+
+  na_count
+}
+
+
 # Internal helper used by acti_read_cwa()
 acti_cwa_process_time = function(
     data,
@@ -131,7 +151,7 @@ acti_cwa_process_time = function(
                              "acti_read_cwa:data_read_via_readAxivity",
                              add = TRUE)
 
-  any_na_time = anyNA(data$time)
+  time_na_count = sum(is.na(data$time))
   if (apply_tz) {
     if (tz != "") {
       data$time = as.POSIXct(data$time, origin = "1970-01-01",
@@ -143,9 +163,8 @@ acti_cwa_process_time = function(
     if (verbose) {
       cli::cli_alert_info("Timezone applied to data")
     }
-    # this caused huge memory leak due to format
-    # if (!any_na_time && anyNA(format(data$time, tz = tz))) {
-    if (!any_na_time && anyNA(data$time)) {
+    formatted_na_count = .acti_cwa_count_formatted_na(data$time, tz = tz)
+    if (formatted_na_count > time_na_count) {
       stop("Applying timezone from offset created NA times - stopping.")
     }
   } else if (verbose) {
