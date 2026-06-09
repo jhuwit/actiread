@@ -44,7 +44,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/muschellij2/actiread/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jhuwit/actiread/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -62,6 +62,8 @@
 <ul>
 <li>reading <code>gt3x</code> files</li>
 <li>reading <code>cwa</code> files</li>
+<li>Reading <a href="https://sensorlog.berndthomas.net/" class="external-link">SensorLog</a> files</li>
+<li>Reading <a href="https://www.tszheichoi.com/sensorlogger" class="external-link">SensorLogger</a> files</li>
 <li>loading small example files bundled with the package</li>
 <li>inspecting GT3X header metadata</li>
 <li>handling timezone conversion during import</li>
@@ -79,7 +81,7 @@
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhuwit/actibase" class="external-link">actibase</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/muschellij2/actiread" class="external-link">actiread</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jhuwit.github.io/actiread/">actiread</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">gt3x_file</span> <span class="op">=</span> <span class="fu"><a href="reference/acti_example_data.html">acti_example_gt3x</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">cwa_file</span> <span class="op">=</span> <span class="fu"><a href="reference/acti_example_data.html">acti_example_cwa</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -145,8 +147,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/muschellij2/actiread/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/muschellij2/actiread/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/jhuwit/actiread/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/jhuwit/actiread/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -177,7 +179,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/jhuwit/actiread?branch=main" class="external-link"><img src="https://codecov.io/gh/jhuwit/actiread/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/jhuwit/actiread?branch=main" class="external-link"><img src="https://app.codecov.io/gh/jhuwit/actiread/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 

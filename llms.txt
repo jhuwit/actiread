@@ -7,6 +7,8 @@ It currently focuses on:
 
 - reading `gt3x` files
 - reading `cwa` files
+- Reading [SensorLog](https://sensorlog.berndthomas.net/) files
+- Reading [SensorLogger](https://www.tszheichoi.com/sensorlogger) files
 - loading small example files bundled with the package
 - inspecting GT3X header metadata
 - handling timezone conversion during import
