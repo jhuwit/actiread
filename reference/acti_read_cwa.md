@@ -24,25 +24,28 @@ acti_read_cwa(
 
 - start:
 
-  where to start in the file, passed to \[GGIRread::readAxivity\]
+  where to start in the file, passed to
+  [GGIRread::readAxivity](https://rdrr.io/pkg/GGIRread/man/readAxivity.html)
 
 - end:
 
-  where to end in the file, passed to \[GGIRread::readAxivity\]
+  where to end in the file, passed to
+  [GGIRread::readAxivity](https://rdrr.io/pkg/GGIRread/man/readAxivity.html)
 
 - tz:
 
-  time zone for the data \`time\`, passed to \`desiredtz\` argument in
-  \[GGIRread::readAxivity\]. If NULL or \`""\`, no time conversion is
-  done.
+  time zone for the data `time`, passed to `desiredtz` argument in
+  [GGIRread::readAxivity](https://rdrr.io/pkg/GGIRread/man/readAxivity.html).
+  If NULL or `""`, no time conversion is done.
 
 - ...:
 
-  additional arguments to pass to \[GGIRread::readAxivity()\]
+  additional arguments to pass to
+  [`GGIRread::readAxivity()`](https://rdrr.io/pkg/GGIRread/man/readAxivity.html)
 
 - apply_tz:
 
-  turn the \`time\` column into a \`POSIXct\` and apply the timezone
+  turn the `time` column into a `POSIXct` and apply the timezone
 
 - verbose:
 
@@ -50,8 +53,7 @@ acti_read_cwa(
 
 ## Value
 
-A \`tibble\` with attributes of a header, sample rate, and
-transformations
+A `tibble` with attributes of a header, sample rate, and transformations
 
 ## Examples
 

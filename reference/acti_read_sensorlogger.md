@@ -25,9 +25,10 @@ acti_read_sensorlogger_general(file, ..., verbose = FALSE)
 
 - ...:
 
-  additional arguments to pass to \[readr::read_csv()\]. If \`verbose =
-  FALSE\`, then \`progress = FALSE\` and \`show_col_types = FALSE\`,
-  unless otherwise overridden
+  additional arguments to pass to
+  [`readr::read_csv()`](https://readr.tidyverse.org/reference/read_delim.html).
+  If `verbose = FALSE`, then `progress = FALSE` and
+  `show_col_types = FALSE`, unless otherwise overridden
 
 - verbose:
 
@@ -36,4 +37,4 @@ acti_read_sensorlogger_general(file, ..., verbose = FALSE)
 
 ## Value
 
-A \`data.frame\` of data
+A `data.frame` of data

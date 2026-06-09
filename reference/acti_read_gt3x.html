@@ -18,7 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Summarizing_Actigraphy_Data.html">Actibase Baseline Workflow</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Summarizing_Actigraphy_Data.html">Reading and Manipulating Activity Data</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -66,13 +66,13 @@
 
 
 <dt id="arg-asdataframe">asDataFrame<a class="anchor" aria-label="anchor" href="#arg-asdataframe"></a></dt>
-<dd><p>convert to an `activity_df`, see
+<dd><p>convert to an <code>activity_df</code>, see
 <code>as.data.frame.activity</code></p></dd>
 
 
 <dt id="arg-imputezeroes">imputeZeroes<a class="anchor" aria-label="anchor" href="#arg-imputezeroes"></a></dt>
 <dd><p>Impute zeros in case there are missingness?
-Default is `FALSE`, in which case
+Default is <code>FALSE</code>, in which case
 the time series will be incomplete in case there is missingness.</p></dd>
 
 
@@ -81,7 +81,7 @@ the time series will be incomplete in case there is missingness.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>additional arguments to pass to [read.gt3x::read.gt3x()]</p></dd>
+<dd><p>additional arguments to pass to <code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code></p></dd>
 
 
 <dt id="arg-fill-zeroes">fill_zeroes<a class="anchor" aria-label="anchor" href="#arg-fill-zeroes"></a></dt>
@@ -90,26 +90,26 @@ observation carried forward as is done with ActiLife.  Recommended</p></dd>
 
 
 <dt id="arg-apply-tz">apply_tz<a class="anchor" aria-label="anchor" href="#arg-apply-tz"></a></dt>
-<dd><p>Apply the timezone from the header `TimeZone` attribute,
+<dd><p>Apply the timezone from the header <code>TimeZone</code> attribute,
 if available</p></dd>
 
 
 <dt id="arg-check-attributes">check_attributes<a class="anchor" aria-label="anchor" href="#arg-check-attributes"></a></dt>
 <dd><p>Check that the attributes are included This is a sanity check,
-including checking that `sample_rate` is in the attributes.</p></dd>
+including checking that <code>sample_rate</code> is in the attributes.</p></dd>
 
 
 <dt id="arg-tz">tz<a class="anchor" aria-label="anchor" href="#arg-tz"></a></dt>
 <dd><p>timezone to project the data into.  The data read in via
-[read.gt3x::read.gt3x()] says the timezone is GMT, but the time values is in the
+<code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code> says the timezone is GMT, but the time values is in the
 native timezone.  So this data is projected into the correct time zone and then
-forced into the timezone given by `tz`.  Set to `NULL` to not apply this
+forced into the timezone given by <code>tz</code>.  Set to <code>NULL</code> to not apply this
 forcing.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A `data.frame`</p>
+    <p>A <code>data.frame</code></p>
     </div>
 
     <div class="section level2">

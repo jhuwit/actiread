@@ -67,8 +67,8 @@ get_transformations(resampled)
 #> [7] "acti_read_gt3x:data_read"
 ```
 
-``` R
 ``` r
+
 tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
 #> [1] "Etc/GMT0"  "Etc/GMT-5" "Etc/GMT+1"
 ```
@@ -77,9 +77,9 @@ tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
 
 `actiread` is a focused import layer for actigraphy data:
 
-- read GT3X files with
+- read `.gt3x`/`.gt3x.gz` files with
   [`acti_read_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
-- read CWA files with
+- read `.cwa`/`.cwa.gz` files with
   [`acti_read_cwa()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md)
 - inspect GT3X metadata with
   [`acti_info_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
@@ -129,5 +129,5 @@ result off to your own cleaning, summarization, or modeling code.
 
 ### All vignettes
 
-- [Actibase Baseline
-  Workflow](https://jhuwit.github.io/actiread/articles/Summarizing_Actigraphy_Data.md):
+- [Reading and Manipulating Activity
+  Data](https://jhuwit.github.io/actiread/articles/Summarizing_Actigraphy_Data.md):

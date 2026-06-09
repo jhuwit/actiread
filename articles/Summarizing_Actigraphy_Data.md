@@ -1,4 +1,4 @@
-# Actibase Baseline Workflow
+# Reading and Manipulating Activity Data
 
 ``` r
 

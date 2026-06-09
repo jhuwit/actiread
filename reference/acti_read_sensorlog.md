@@ -25,12 +25,13 @@ acti_sensorlog_csv_colnames_mapping()
 
 - robust:
 
-  if \`TRUE\` then \[rewrite_sensorlog_csv\] is run on the data to try
-  to fix any shifts with the data.
+  if `TRUE` then
+  [acti_rewrite_sensorlog_csv](https://jhuwit.github.io/actiread/reference/acti_rewrite_sensorlog_csv.md)
+  is run on the data to try to fix any shifts with the data.
 
 ## Value
 
-A \`data.frame\` of data
+A `data.frame` of data
 
 ## Examples
 

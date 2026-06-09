@@ -18,7 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Summarizing_Actigraphy_Data.html">Actibase Baseline Workflow</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Summarizing_Actigraphy_Data.html">Reading and Manipulating Activity Data</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -62,24 +62,24 @@
 
 
 <dt id="arg-start">start<a class="anchor" aria-label="anchor" href="#arg-start"></a></dt>
-<dd><p>where to start in the file, passed to [GGIRread::readAxivity]</p></dd>
+<dd><p>where to start in the file, passed to <a href="https://rdrr.io/pkg/GGIRread/man/readAxivity.html" class="external-link">GGIRread::readAxivity</a></p></dd>
 
 
 <dt id="arg-end">end<a class="anchor" aria-label="anchor" href="#arg-end"></a></dt>
-<dd><p>where to end in the file, passed to [GGIRread::readAxivity]</p></dd>
+<dd><p>where to end in the file, passed to <a href="https://rdrr.io/pkg/GGIRread/man/readAxivity.html" class="external-link">GGIRread::readAxivity</a></p></dd>
 
 
 <dt id="arg-tz">tz<a class="anchor" aria-label="anchor" href="#arg-tz"></a></dt>
-<dd><p>time zone for the data `time`, passed to `desiredtz` argument in
-[GGIRread::readAxivity].  If NULL or `""`, no time conversion is done.</p></dd>
+<dd><p>time zone for the data <code>time</code>, passed to <code>desiredtz</code> argument in
+<a href="https://rdrr.io/pkg/GGIRread/man/readAxivity.html" class="external-link">GGIRread::readAxivity</a>.  If NULL or <code>""</code>, no time conversion is done.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>additional arguments to pass to [GGIRread::readAxivity()]</p></dd>
+<dd><p>additional arguments to pass to <code><a href="https://rdrr.io/pkg/GGIRread/man/readAxivity.html" class="external-link">GGIRread::readAxivity()</a></code></p></dd>
 
 
 <dt id="arg-apply-tz">apply_tz<a class="anchor" aria-label="anchor" href="#arg-apply-tz"></a></dt>
-<dd><p>turn the `time` column into a `POSIXct` and apply the
+<dd><p>turn the <code>time</code> column into a <code>POSIXct</code> and apply the
 timezone</p></dd>
 
 
@@ -89,7 +89,7 @@ timezone</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A `tibble` with attributes of a header, sample rate, and
+    <p>A <code>tibble</code> with attributes of a header, sample rate, and
 transformations</p>
     </div>
 

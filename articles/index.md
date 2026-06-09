@@ -2,5 +2,5 @@
 
 ### All vignettes
 
-- [Actibase Baseline
-  Workflow](https://jhuwit.github.io/actiread/articles/Summarizing_Actigraphy_Data.md):
+- [Reading and Manipulating Activity
+  Data](https://jhuwit.github.io/actiread/articles/Summarizing_Actigraphy_Data.md):

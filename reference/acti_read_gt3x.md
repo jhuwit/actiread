@@ -28,11 +28,11 @@ acti_info_gt3x(path, ...)
 
 - asDataFrame:
 
-  convert to an \`activity_df\`, see `as.data.frame.activity`
+  convert to an `activity_df`, see `as.data.frame.activity`
 
 - imputeZeroes:
 
-  Impute zeros in case there are missingness? Default is \`FALSE\`, in
+  Impute zeros in case there are missingness? Default is `FALSE`, in
   which case the time series will be incomplete in case there is
   missingness.
 
@@ -42,7 +42,8 @@ acti_info_gt3x(path, ...)
 
 - ...:
 
-  additional arguments to pass to \[read.gt3x::read.gt3x()\]
+  additional arguments to pass to
+  [`read.gt3x::read.gt3x()`](https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html)
 
 - fill_zeroes:
 
@@ -51,25 +52,25 @@ acti_info_gt3x(path, ...)
 
 - apply_tz:
 
-  Apply the timezone from the header \`TimeZone\` attribute, if
-  available
+  Apply the timezone from the header `TimeZone` attribute, if available
 
 - check_attributes:
 
   Check that the attributes are included This is a sanity check,
-  including checking that \`sample_rate\` is in the attributes.
+  including checking that `sample_rate` is in the attributes.
 
 - tz:
 
   timezone to project the data into. The data read in via
-  \[read.gt3x::read.gt3x()\] says the timezone is GMT, but the time
-  values is in the native timezone. So this data is projected into the
-  correct time zone and then forced into the timezone given by \`tz\`.
-  Set to \`NULL\` to not apply this forcing.
+  [`read.gt3x::read.gt3x()`](https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html)
+  says the timezone is GMT, but the time values is in the native
+  timezone. So this data is projected into the correct time zone and
+  then forced into the timezone given by `tz`. Set to `NULL` to not
+  apply this forcing.
 
 ## Value
 
-A \`data.frame\`
+A `data.frame`
 
 ## Examples
 
