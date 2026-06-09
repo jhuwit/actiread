@@ -19,11 +19,11 @@ the file}
 \item{verbose}{print diagnostic messages.  Either logical or integer, where
 higher values are higher levels of verbosity.}
 
-\item{robust}{if `TRUE` then [rewrite_sensorlog_csv] is run on the data
+\item{robust}{if \code{TRUE} then \link{acti_rewrite_sensorlog_csv} is run on the data
 to try to fix any shifts with the data.}
 }
 \value{
-A `data.frame` of data
+A \code{data.frame} of data
 }
 \description{
 Read SensorLog Data

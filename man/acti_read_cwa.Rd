@@ -17,22 +17,22 @@ acti_read_cwa(
 \arguments{
 \item{path}{Path to cwa file}
 
-\item{start}{where to start in the file, passed to [GGIRread::readAxivity]}
+\item{start}{where to start in the file, passed to \link[GGIRread:readAxivity]{GGIRread::readAxivity}}
 
-\item{end}{where to end in the file, passed to [GGIRread::readAxivity]}
+\item{end}{where to end in the file, passed to \link[GGIRread:readAxivity]{GGIRread::readAxivity}}
 
-\item{tz}{time zone for the data `time`, passed to `desiredtz` argument in
-[GGIRread::readAxivity].  If NULL or `""`, no time conversion is done.}
+\item{tz}{time zone for the data \code{time}, passed to \code{desiredtz} argument in
+\link[GGIRread:readAxivity]{GGIRread::readAxivity}.  If NULL or \code{""}, no time conversion is done.}
 
-\item{...}{additional arguments to pass to [GGIRread::readAxivity()]}
+\item{...}{additional arguments to pass to \code{\link[GGIRread:readAxivity]{GGIRread::readAxivity()}}}
 
-\item{apply_tz}{turn the `time` column into a `POSIXct` and apply the
+\item{apply_tz}{turn the \code{time} column into a \code{POSIXct} and apply the
 timezone}
 
 \item{verbose}{print diagnostic messages, higher values = more verbosity.}
 }
 \value{
-A `tibble` with attributes of a header, sample rate, and
+A \code{tibble} with attributes of a header, sample rate, and
 transformations
 }
 \description{

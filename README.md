@@ -75,18 +75,17 @@ get_transformations(resampled)
 #> [7] "acti_read_gt3x:data_read"
 ```
 
-
-
-    ``` r
-    tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
-    #> [1] "Etc/GMT0"  "Etc/GMT-5" "Etc/GMT+1"
+``` r
+tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
+#> [1] "Etc/GMT0"  "Etc/GMT-5" "Etc/GMT+1"
+```
 
 ## What you can do
 
 `actiread` is a focused import layer for actigraphy data:
 
-- read GT3X files with `acti_read_gt3x()`
-- read CWA files with `acti_read_cwa()`
+- read `.gt3x`/`.gt3x.gz` files with `acti_read_gt3x()`
+- read `.cwa`/`.cwa.gz` files with `acti_read_cwa()`
 - inspect GT3X metadata with `acti_info_gt3x()`
 - use bundled sample files with `acti_example_gt3x()` and
   `acti_example_cwa()`

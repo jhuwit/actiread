@@ -27,7 +27,7 @@ unzip_files = function(file) {
 #' the file
 #' @param verbose print diagnostic messages.  Either logical or integer, where
 #' higher values are higher levels of verbosity.
-#' @param robust if `TRUE` then [rewrite_sensorlog_csv] is run on the data
+#' @param robust if `TRUE` then [acti_rewrite_sensorlog_csv] is run on the data
 #' to try to fix any shifts with the data.
 #' @return A `data.frame` of data
 #' @export

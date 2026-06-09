@@ -1,8 +1,8 @@
 ---
-title: "Actibase Baseline Workflow"
+title: "Reading and Manipulating Activity Data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Actibase Baseline Workflow}
+  %\VignetteIndexEntry{Reading and Manipulating Activity Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: refs.bib

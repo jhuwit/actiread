@@ -27,6 +27,8 @@ It currently focuses on:
 
 * reading `gt3x` files
 * reading `cwa` files
+* Reading [SensorLog](https://sensorlog.berndthomas.net/) files
+* Reading [SensorLogger](https://www.tszheichoi.com/sensorlogger) files
 * loading small example files bundled with the package
 * inspecting GT3X header metadata
 * handling timezone conversion during import
@@ -60,7 +62,6 @@ resampled = acti_resample(res, sample_rate = 30L)
 get_transformations(resampled)
 ```
 
-```
 
 ```{r}
 tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
@@ -71,8 +72,8 @@ tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
 
 `actiread` is a focused import layer for actigraphy data:
 
-* read GT3X files with `acti_read_gt3x()`
-* read CWA files with `acti_read_cwa()`
+* read `.gt3x`/`.gt3x.gz` files with `acti_read_gt3x()`
+* read `.cwa`/`.cwa.gz` files with `acti_read_cwa()`
 * inspect GT3X metadata with `acti_info_gt3x()`
 * use bundled sample files with `acti_example_gt3x()` and `acti_example_cwa()`
 * control timezone handling during import with `tz` and `apply_tz`

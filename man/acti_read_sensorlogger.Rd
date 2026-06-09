@@ -23,15 +23,15 @@ acti_read_sensorlogger_general(file, ..., verbose = FALSE)
 \item{file}{A character vector of SensorLogger files, usually from unzipping
 the file, or a zip file of SensorLogger files}
 
-\item{...}{additional arguments to pass to [readr::read_csv()].
-If `verbose = FALSE`, then `progress = FALSE` and `show_col_types = FALSE`,
+\item{...}{additional arguments to pass to \code{\link[readr:read_csv]{readr::read_csv()}}.
+If \code{verbose = FALSE}, then \code{progress = FALSE} and \code{show_col_types = FALSE},
 unless otherwise overridden}
 
 \item{verbose}{print diagnostic messages.  Either logical or integer, where
 higher values are higher levels of verbosity.}
 }
 \value{
-A `data.frame` of data
+A \code{data.frame} of data
 }
 \description{
 Read SensorLogger Data
