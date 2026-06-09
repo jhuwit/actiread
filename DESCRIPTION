@@ -37,8 +37,8 @@ Imports:
     janitor,
     purrr,
     readr
-URL: https://github.com/muschellij2/actiread, http://johnmuschelli.com/actiread/, https://jhuwit.github.io/actiread/
-BugReports: https://github.com/muschellij2/actiread/issues
+URL: https://jhuwit.github.io/actiread/
+BugReports: https://github.com/jhuwit/actiread/issues
 Remotes: jhuwit/actibase
 Config/roxygen2/version: 8.0.0
 Roxygen: list(markdown = TRUE)

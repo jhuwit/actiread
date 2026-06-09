@@ -3,7 +3,7 @@
 
 [![R-CMD-check](https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/jhuwit/actiread/branch/main/graph/badge.svg)](https://codecov.io/gh/jhuwit/actiread?branch=main)
+coverage](https://app.codecov.io/gh/jhuwit/actiread/branch/main/graph/badge.svg)](https://app.codecov.io/gh/jhuwit/actiread?branch=main)
 <!-- badges: end -->
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -17,6 +17,8 @@ It currently focuses on:
 
 - reading `gt3x` files
 - reading `cwa` files
+- Reading [SensorLog](https://sensorlog.berndthomas.net/) files
+- Reading [SensorLogger](https://www.tszheichoi.com/sensorlogger) files
 - loading small example files bundled with the package
 - inspecting GT3X header metadata
 - handling timezone conversion during import
