@@ -21,11 +21,28 @@ testthat::test_that("GT3X reading works on the shipped example", {
   res = actiread::acti_read_gt3x(
     actiread::acti_example_gt3x(),
     verbose = FALSE,
-    fill_zeroes = FALSE
+    fill_zeroes = FALSE,
+    digits = 3L
   )
 
   testthat::expect_true(all(c("time", "X", "Y", "Z") %in% names(res)))
   testthat::expect_equal(mean(res$X), -0.0742151351351352)
+  testthat::expect_equal(attr(res, "sample_rate"), 100L)
+  testthat::expect_true("transformations" %in% names(attributes(res)))
+})
+
+
+testthat::test_that("GT3X reading works with digits=5L", {
+  testthat::skip_if_not_installed("read.gt3x", minimum_version = "1.3.0")
+  res = actiread::acti_read_gt3x(
+    actiread::acti_example_gt3x(),
+    verbose = FALSE,
+    fill_zeroes = FALSE,
+    digits = 5L
+  )
+
+  testthat::expect_true(all(c("time", "X", "Y", "Z") %in% names(res)))
+  testthat::expect_equal(mean(res$X), -0.074214755925156)
   testthat::expect_equal(attr(res, "sample_rate"), 100L)
   testthat::expect_true("transformations" %in% names(attributes(res)))
 })
@@ -422,3 +439,4 @@ testthat::test_that("CWA helper reports timezone application", {
 
   testthat::expect_true(all(c("time", "x", "y", "z") %in% names(res)))
 })
+

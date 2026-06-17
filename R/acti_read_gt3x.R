@@ -43,12 +43,20 @@ acti_read_gt3x = function(
     check_attributes = TRUE,
     tz = "GMT"
 ) {
-  data = read.gt3x::read.gt3x(
-    path = path,
-    asDataFrame = asDataFrame,
-    imputeZeroes = imputeZeroes,
-    verbose = verbose > 1,
-    ...)
+  args = list(path = path,
+              asDataFrame = asDataFrame,
+              imputeZeroes = imputeZeroes,
+              verbose = verbose > 1,
+              ...)
+  if (is.null(args$digits) &&
+      (
+        package_version("1.3.0") >= utils::packageVersion("read.gt3x") ||
+        "digits" %in% methods::formalArgs(read.gt3x::read.gt3x)
+      )
+  ) {
+    args$digits = 5L
+  }
+  data = do.call(read.gt3x::read.gt3x, args = args)
   data = set_transformations(data,
                              "acti_read_gt3x:data_read",
                              add = TRUE)
