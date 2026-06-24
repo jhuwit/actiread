@@ -50,7 +50,7 @@ acti_read_gt3x = function(
               ...)
   if (is.null(args$digits) &&
       (
-        package_version("1.3.0") >= utils::packageVersion("read.gt3x") ||
+        utils::packageVersion("read.gt3x") >= package_version("1.3.0")  ||
         "digits" %in% methods::formalArgs(read.gt3x::read.gt3x)
       )
   ) {

@@ -18,12 +18,16 @@ testthat::test_that("tzoffset_to_tz handles supported offsets", {
 })
 
 testthat::test_that("GT3X reading works on the shipped example", {
-  res = actiread::acti_read_gt3x(
+  args = list(
     actiread::acti_example_gt3x(),
     verbose = FALSE,
     fill_zeroes = FALSE,
     digits = 3L
   )
+  if (utils::packageVersion("read.gt3x") < package_version("1.3.0")) {
+    args$digits = NULL
+  }
+  res = do.call(actiread::acti_read_gt3x, args = args)
 
   testthat::expect_true(all(c("time", "X", "Y", "Z") %in% names(res)))
   testthat::expect_equal(mean(res$X), -0.0742151351351352)
