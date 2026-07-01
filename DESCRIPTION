@@ -1,7 +1,7 @@
 Type: Package
 Package: actiread
 Title: Baseline Package for Reading Actigraphy and Activity Data
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person(given = "John",
            family = "Muschelli",
@@ -10,7 +10,11 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-6469-1750"))
     )
 Description: Provides baseline functions for reading actigraphy and activity
-    data, relying on baseline functions from `actibase`.
+    data, relying on baseline functions from 'actibase'.  Reads data from 
+    'Axivity' 'CWA' <https://axivity.com/> , 
+    ActiGraph 'GT3X' <https://ametris.com/actigraph-wgt3x-bt>, 
+    'SensorLog' <https://sensorlog.berndthomas.net/>, and 
+    'SensorLogger' <https://www.tszheichoi.com/sensorlogger> zipped CSV files.
 License: GPL-3
 Depends: 
     R (>= 2.10)

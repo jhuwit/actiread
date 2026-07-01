@@ -28,14 +28,15 @@ read_csv_safe = function(..., guess_max = Inf) {
     cn = TRUE
   }
   if (nrow(p) > 0) {
-    print(p)
+    message(paste(utils::capture.output(print(p)), collapse = "\n"))
+
     rows = unique(p$row)
     if (cn) {
       rows = rows - 1
     }
     bad_data = x[rows, unique(p$col)]
-    print("Bad Data:")
-    print(bad_data)
+    message("Bad Data:\n")
+    message(paste(utils::capture.output(print(bad_data)), collapse = "\n"))
   }
   readr::stop_for_problems(x)
   x
