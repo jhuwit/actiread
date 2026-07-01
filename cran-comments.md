@@ -5,4 +5,5 @@
 * This is a new release.
 
 ---
-The extdata has example data to show to read different data types.
+Updated the DESCRIPTION with longer Description and links, 
+wrapped `print` in `message` commands for suppressing options.
