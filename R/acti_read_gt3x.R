@@ -78,6 +78,7 @@ acti_read_gt3x = function(
   )
 }
 
+
 # Internal helper used by acti_read_gt3x()
 acti_gt3x_process_time = function(
     data,
@@ -93,24 +94,15 @@ acti_gt3x_process_time = function(
     assertthat::is.string(tz)
   )
 
-  header = data$header
-  if (is.null(header)) {
-    header = attr(data, "header")
-  }
-  if (is.null(header)) {
-    header = list()
-  }
+  header = acti_process_header(data)
   if (is.list(data) && !is.null(data$data)) {
     data = data$data
   }
-
-  header$acceleration_min = paste0("-", header$accrange)
-  header$acceleration_max = as.character(header$accrange)
-  header$sample_rate = header$frequency
-  if (is.null(header$sample_rate)) {
-    header$sample_rate = attr(data, "sample_rate")
+  if (is.null(header)) {
+    header = acti_process_header(data)
   }
   data = dplyr::as_tibble(data)
+
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
   data = set_transformations(data,

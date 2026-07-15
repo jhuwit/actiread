@@ -1,7 +1,11 @@
+# actiread 0.3.0
+
+* Fixing bug in setting header if no `accrange` in `acti_gt3x_process_time` and `acti_cwa_process_time`.
+* Added in `acti_process_header` to normalize this.
+
 # actiread 0.2.0
 
 * CRAN Re-submission.
-
 
 # actiread 0.1.0
 

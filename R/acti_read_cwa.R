@@ -133,17 +133,14 @@ acti_cwa_process_time = function(
     assertthat::is.string(tz)
   )
 
-  header = data$header
-  if (is.null(header)) {
-    header = attr(data, "header")
+  header = acti_process_header(data)
+  if (is.list(data) && !is.null(data$data)) {
+    data = data$data
   }
   if (is.null(header)) {
-    header = list()
+    header = acti_process_header(data)
   }
-  header$acceleration_min = paste0("-", header$accrange)
-  header$acceleration_max = as.character(header$accrange)
-  header$sample_rate = header$frequency
-  data = data$data %>%
+  data = data %>%
     dplyr::as_tibble()
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
