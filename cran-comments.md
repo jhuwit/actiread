@@ -5,5 +5,4 @@
 * This is a new release.
 
 ---
-Updated the DESCRIPTION with longer Description and links, 
-wrapped `print` in `message` commands for suppressing options.
+Quick bug fix.
