@@ -1,7 +1,7 @@
 Type: Package
 Package: actiread
 Title: Baseline Package for Reading Actigraphy and Activity Data
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(
     person(given = "John",
            family = "Muschelli",
