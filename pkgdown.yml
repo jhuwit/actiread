@@ -1,9 +1,9 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   Summarizing_Actigraphy_Data: Summarizing_Actigraphy_Data.html
-last_built: 2026-07-01T14:49Z
+last_built: 2026-07-15T04:17Z
 urls:
   reference: https://jhuwit.github.io/actiread/reference
   article: https://jhuwit.github.io/actiread/articles
