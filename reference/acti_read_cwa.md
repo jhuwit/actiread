@@ -14,6 +14,8 @@ acti_read_cwa(
   apply_tz = TRUE,
   verbose = TRUE
 )
+
+acti_read_cwa_header(path)
 ```
 
 ## Arguments

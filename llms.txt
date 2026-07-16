@@ -108,6 +108,7 @@ result off to your own cleaning, summarization, or modeling code.
   [`acti_example_sensorlogger_location_file()`](https://jhuwit.github.io/actiread/reference/acti_example_data.md)
   : Activity/Actigraphy Example Data
 - [`acti_read_cwa()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md)
+  [`acti_read_cwa_header()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md)
   : Read CWA File
 - [`acti_read_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
   [`acti_info_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
