@@ -19,7 +19,7 @@ License: GPL-3
 Depends: 
     R (>= 2.10)
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
     utils,
     covr,
     knitr,
@@ -45,3 +45,4 @@ URL: https://jhuwit.github.io/actiread/
 BugReports: https://github.com/jhuwit/actiread/issues
 Config/roxygen2/version: 8.0.0
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

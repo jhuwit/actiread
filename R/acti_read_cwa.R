@@ -90,12 +90,18 @@ acti_read_cwa = function(
     args$progressBar = TRUE
   }
   data = do.call(.read_cwa, args = args)
-  acti_cwa_process_time(
-    data = data,
-    tz = tz,
-    apply_tz = apply_tz,
-    verbose = verbose
-  )
+  if (is.null(data)) {
+    warning("data is NULL, likely called for header extraction, ",
+            "`acti_cwa_process_time` not run")
+  } else {
+    data = acti_cwa_process_time(
+      data = data,
+      tz = tz,
+      apply_tz = apply_tz,
+      verbose = verbose
+    )
+  }
+  data
 }
 
 
