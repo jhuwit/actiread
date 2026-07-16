@@ -90,17 +90,12 @@ acti_read_cwa = function(
     args$progressBar = TRUE
   }
   data = do.call(.read_cwa, args = args)
-  if (is.null(data)) {
-    warning("data is NULL, likely called for header extraction, ",
-            "`acti_cwa_process_time` not run")
-  } else {
-    data = acti_cwa_process_time(
-      data = data,
-      tz = tz,
-      apply_tz = apply_tz,
-      verbose = verbose
-    )
-  }
+  data = acti_cwa_process_time(
+    data = data,
+    tz = tz,
+    apply_tz = apply_tz,
+    verbose = verbose
+  )
   data
 }
 
@@ -145,6 +140,14 @@ acti_cwa_process_time = function(
   }
   if (is.null(header)) {
     header = acti_process_header(data)
+  }
+  attr(data, "header") = header
+  if (is.null(data)) {
+    data = list()
+    attr(data, "header") = header
+    warning("data is NULL, likely called for header extraction, ",
+            "returning list() with header attribute")
+    return(data)
   }
   data = data %>%
     dplyr::as_tibble()
