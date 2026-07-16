@@ -2,6 +2,7 @@
 % Please edit documentation in R/acti_read_cwa.R
 \name{acti_read_cwa}
 \alias{acti_read_cwa}
+\alias{acti_read_cwa_header}
 \title{Read CWA File}
 \usage{
 acti_read_cwa(
@@ -13,6 +14,8 @@ acti_read_cwa(
   apply_tz = TRUE,
   verbose = TRUE
 )
+
+acti_read_cwa_header(path)
 }
 \arguments{
 \item{path}{Path to cwa file}

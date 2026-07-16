@@ -99,6 +99,28 @@ acti_read_cwa = function(
   data
 }
 
+#' @export
+#' @rdname acti_read_cwa
+acti_read_cwa_header = function(
+    path
+) {
+  args = list(
+    path,
+    start = 0L,
+    end = 0L
+  )
+  data = do.call(.read_cwa, args = args)
+  header = acti_process_header(data)
+  if (is.list(data) && !is.null(data$data)) {
+    data = data$data
+  }
+  if (is.null(header)) {
+    header = acti_process_header(data)
+  }
+  header
+}
+
+
 
 .acti_cwa_count_formatted_na = function(
     time,
@@ -141,14 +163,7 @@ acti_cwa_process_time = function(
   if (is.null(header)) {
     header = acti_process_header(data)
   }
-  attr(data, "header") = header
-  if (is.null(data)) {
-    data = list()
-    attr(data, "header") = header
-    warning("data is NULL, likely called for header extraction, ",
-            "returning list() with header attribute")
-    return(data)
-  }
+
   data = data %>%
     dplyr::as_tibble()
   attr(data, "header") = header
