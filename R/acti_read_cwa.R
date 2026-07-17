@@ -90,6 +90,9 @@ acti_read_cwa = function(
     args$progressBar = TRUE
   }
   data = do.call(.read_cwa, args = args)
+  data = actibase::set_transformations(data,
+                                       "acti_read_cwa:data_read_via_readAxivity",
+                                       add = TRUE)
   data = acti_cwa_process_time(
     data = data,
     tz = tz,
@@ -121,7 +124,6 @@ acti_read_cwa_header = function(
 }
 
 
-
 .acti_cwa_count_formatted_na = function(
     time,
     tz,
@@ -141,6 +143,32 @@ acti_read_cwa_header = function(
   na_count
 }
 
+acti_cwa_apply_tz = function(
+    data,
+    tz = "UTC",
+    apply_tz = TRUE,
+    verbose = TRUE) {
+  time_na_count = sum(is.na(data$time))
+  if (apply_tz) {
+    if (tz != "") {
+      data$time = as.POSIXct(data$time, origin = "1970-01-01",
+                             tz = tz)
+      data = actibase::set_transformations(data,
+                                           "acti_read_cwa:converted_timestamp_to_time",
+                                           add = TRUE)
+    }
+    if (verbose) {
+      cli::cli_alert_info("Timezone applied to data")
+    }
+    formatted_na_count = .acti_cwa_count_formatted_na(data$time, tz = tz)
+    if (formatted_na_count > time_na_count) {
+      stop("Applying timezone from offset created NA times - stopping.")
+    }
+  } else if (verbose) {
+    cli::cli_alert_info("Timezone not applied to data")
+  }
+  data
+}
 
 # Internal helper used by acti_read_cwa()
 acti_cwa_process_time = function(
@@ -149,6 +177,8 @@ acti_cwa_process_time = function(
     apply_tz = TRUE,
     verbose = TRUE
 ) {
+
+  transforms = actibase::get_transformations(data)
   if (is.null(tz)) {
     tz = ""
   }
@@ -168,29 +198,13 @@ acti_cwa_process_time = function(
     dplyr::as_tibble()
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
-  data = set_transformations(data,
-                             "acti_read_cwa:data_read_via_readAxivity",
-                             add = TRUE)
 
-  time_na_count = sum(is.na(data$time))
-  if (apply_tz) {
-    if (tz != "") {
-      data$time = as.POSIXct(data$time, origin = "1970-01-01",
-                             tz = tz)
-      data = set_transformations(data,
-                                 "acti_read_cwa:converted_timestamp_to_time",
-                                 add = TRUE)
-    }
-    if (verbose) {
-      cli::cli_alert_info("Timezone applied to data")
-    }
-    formatted_na_count = .acti_cwa_count_formatted_na(data$time, tz = tz)
-    if (formatted_na_count > time_na_count) {
-      stop("Applying timezone from offset created NA times - stopping.")
-    }
-  } else if (verbose) {
-    cli::cli_alert_info("Timezone not applied to data")
-  }
+  data = actibase::set_transformations(data, transforms, add = FALSE)
+
+  data = acti_cwa_apply_tz(data,
+                           tz = tz,
+                           apply_tz = apply_tz,
+                           verbose = verbose)
 
   time1 = data$time[1]
   header_start = header$start
