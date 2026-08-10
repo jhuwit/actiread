@@ -127,13 +127,14 @@ acti_read_geneactiv = function(
     tz = tz_read,
     ...
   )
-  if (verbose && !"progress_bar" %in% names(args)) {
+  if (verbose && !("progress_bar" %in% names(args))) {
     args$progress_bar = TRUE
   }
   data = do.call(.read_geneactiv_bin, args = args)
-  data = actibase::set_transformations(data,
-                                       "acti_read_geneactiv_bin:data_read_via_readGENEActiv",
-                                       add = TRUE)
+  data = actibase::set_transformations(
+    data,
+    "acti_read_geneactiv_bin:data_read_via_readGENEActiv",
+    add = TRUE)
   data = tibble::as_tibble(data)
   data = actibase::acti_standardise_data(data, subset_xyz = FALSE)
   data = data |>
