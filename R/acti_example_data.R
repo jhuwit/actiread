@@ -23,6 +23,15 @@ acti_example_cwa = function() {
               package = "actiread")
 }
 
+#' @rdname acti_example_data
+#' @export
+acti_example_geneactiv = function() {
+  system.file("extdata",
+              "GENEActiv_testfile.bin",
+              package = "actiread")
+}
+
+
 
 #' @rdname acti_example_data
 #' @export

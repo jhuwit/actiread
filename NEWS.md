@@ -1,3 +1,7 @@
+# actiread 0.4.0
+
+* Adding in 'GENEActiv' readers.
+
 # actiread 0.3.0
 
 * Fixing bug in setting header if no `accrange` in `acti_gt3x_process_time` and `acti_cwa_process_time`.
