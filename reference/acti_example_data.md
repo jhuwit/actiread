@@ -9,6 +9,8 @@ acti_example_gt3x()
 
 acti_example_cwa()
 
+acti_example_geneactiv()
+
 acti_example_sensorlog_file()
 
 acti_example_sensorlogger_file()

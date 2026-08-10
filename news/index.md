@@ -1,5 +1,9 @@
 # Changelog
 
+## actiread 0.4.0
+
+- Adding in ‘GENEActiv’ readers.
+
 ## actiread 0.3.0
 
 CRAN release: 2026-07-15
