@@ -5,4 +5,4 @@
 * This is a new release.
 
 ---
-Quick bug fix.
+New functions for release.
