@@ -70,6 +70,7 @@ A `tibble` with attributes of a header, sample rate, and transformations
 ## Examples
 
 ``` r
+# \donttest{
 if (requireNamespace("reticulate", quietly = TRUE) &&
     requireNamespace("arrow", quietly = TRUE)) {
     if (reticulate::py_module_available("actipy") &&
@@ -79,4 +80,5 @@ if (requireNamespace("reticulate", quietly = TRUE) &&
 }
 #> Downloading uv...
 #> Done!
+# }
 ```

@@ -10,6 +10,8 @@
   summary.
 - Reused centralized decompression across CWA, GENEActiv, and Python
   readers.
+- Marked the optional Python CWA example as `\\dontrun{}` to avoid
+  Python startup time during package checks.
 
 ## actiread 0.4.0
 
