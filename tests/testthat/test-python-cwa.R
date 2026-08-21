@@ -53,7 +53,9 @@ testthat::test_that("acti_py_read_cwa verifies Python dependencies before readin
   )
 
   header = attr(res, "header")
+  cwa_header = actiread::acti_read_cwa_header(actiread::acti_example_cwa())
   testthat::expect_type(header, "list")
-  testthat::expect_true(length(header) > 0L)
-  testthat::expect_true(any(c("SampleRate", "ResampleRate") %in% names(header)))
+  testthat::expect_true(all(names(cwa_header) %in% names(header)))
+  testthat::expect_true(all(c("Filename", "SampleRate", "ReadOK") %in%
+                            names(header)))
 })

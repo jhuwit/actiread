@@ -5,35 +5,12 @@
     tz = "UTC",
     ...
 ) {
-
-  for (ext in c("bz2", "gz", "xz")) {
-    if (
-      R.utils::isCompressedFile(
-        path,
-        method = "extension",
-        ext = ext,
-        fileClass = "")
-    ) {
-      FUN = switch(ext,
-                   gz = gzfile,
-                   xz = xzfile,
-                   bz2 = bzfile
-      )
-      path = R.utils::decompressFile(
-        path,
-        destname = tempfile(fileext = ".cwa"),
-        temporary = TRUE,
-        overwrite = TRUE,
-        ext = ext,
-        FUN = FUN,
-        remove = FALSE)
-      on.exit(unlink(path, recursive = TRUE),
-              add = TRUE)
-      break
-    }
+  file = acti_decompress_file(path, extension = ".cwa")
+  if (file$temporary) {
+    on.exit(unlink(file$path), add = TRUE)
   }
   data = GGIRread::readAxivity(
-    filename = path,
+    filename = file$path,
     start = start,
     end = end,
     desiredtz = tz,
@@ -121,6 +98,153 @@ acti_read_cwa_header = function(
     header = acti_process_header(data)
   }
   header
+}
+
+#' Read an Uncompressed CWA Header Quickly
+#'
+#' Internal counterpart to acti_read_cwa_header() for callers that already
+#' have an uncompressed CWA file. It reads the 1024-byte metadata block and
+#' only enough 512-byte data blocks to find the first valid timestamp. This
+#' avoids parsing acceleration samples.
+#'
+#' The CWA offsets, checksum validation, timestamp decoding, and returned
+#' fields are an intentionally small adaptation of GGIRread::readAxivity():
+#' [timestamp decoder](https://github.com/wadpac/GGIRread/blob/master/R/readAxivity.R#L18-L52),
+#' [data-block validation and fields](https://github.com/wadpac/GGIRread/blob/master/R/readAxivity.R#L75-L200),
+#' and [header construction](https://github.com/wadpac/GGIRread/blob/master/R/readAxivity.R#L265-L351).
+#'
+#' @param path Path to an uncompressed CWA file.
+#'
+#' @returns A CWA header list in the format produced by
+#'   GGIRread::readAxivity(), normalized with acti_process_header().
+#' @keywords internal
+#' @noRd
+.acti_read_cwa_header_fast = function(path) {
+  # R's readBin() cannot read an unsigned 32-bit integer directly. The CWA
+  # timestamp is one, so decode it from two little-endian unsigned words.
+  # See GGIRread::readAxivity() line 119 in the link above.
+  read_uint32 = function(x) {
+    words = readBin(x, integer(), n = 2L, size = 2L, signed = FALSE,
+                    endian = "little")
+    as.double(words[1]) + 65536 * as.double(words[2])
+  }
+
+  # CWA files have two 512-byte metadata blocks; the remainder are data
+  # blocks. This mirrors readAxivity() lines 363-364.
+  blocks = round(file.info(path)$size / 512) - 2
+  con = file(path, "rb")
+  on.exit(close(con), add = TRUE)
+
+  # The first 1024 bytes contain the MD header. The selected offsets below
+  # are the device ID, sample-rate/range byte, and firmware version.
+  # See readAxivity() lines 282-311.
+  header_block = readBin(con, raw(), n = 1024L)
+  if (length(header_block) != 1024L ||
+      readChar(header_block, 2L, useBytes = TRUE) != "MD") {
+    stop("Header block is incorrect. First two characters must be MD.")
+  }
+
+  hw_type = readBin(header_block[5], integer(), n = 1L, size = 1L,
+                    signed = FALSE)
+  lower_id = readBin(header_block[6:7], integer(), n = 1L, size = 2L,
+                     signed = FALSE, endian = "little")
+  upper_id = readBin(header_block[12:13], integer(), n = 1L, size = 2L,
+                     signed = FALSE, endian = "little")
+  if (upper_id == 65535L) {
+    upper_id = 0L
+  }
+  serial = bitwOr(bitwShiftL(upper_id, 16L), lower_id)
+  sample_info = readBin(header_block[37], integer(), n = 1L, size = 1L,
+                        signed = FALSE)
+  frequency = round(3200 / bitwShiftL(1L, 15L - bitwAnd(sample_info, 15L)))
+  accrange = bitwShiftR(16L, bitwShiftR(sample_info, 6L))
+  firmware = readBin(header_block[42], integer(), n = 1L, size = 1L,
+                     signed = FALSE)
+
+  # The native header includes the first valid block's sample count and
+  # timestamp. As in readAxivity(), skip at most 20 corrupt blocks, checking
+  # the 16-bit checksum only for modern (non-zero dynamic-range) blocks.
+  # See readAxivity() lines 80-100 and 313-335.
+  first_block = NULL
+  for (i in 0:20) {
+    block = readBin(con, raw(), n = 512L)
+    if (length(block) != 512L) {
+      break
+    }
+    if (readChar(block, 2L, useBytes = TRUE) != "AX") {
+      stop("Packet header is incorrect. First two characters must be AX.")
+    }
+    if (readBin(block[3:4], integer(), n = 1L, size = 2L, signed = FALSE,
+                endian = "little") != 508L) {
+      stop("Packet length is incorrect, should always be 508.")
+    }
+    dynamic_range = readBin(block[25], integer(), n = 1L, size = 1L,
+                             signed = FALSE)
+    checksum = if (dynamic_range == 0L) 0L else {
+      sum(readBin(block, integer(), n = 256L, size = 2L, signed = FALSE,
+                  endian = "little")) %% 65536L
+    }
+    if (checksum == 0L) {
+      first_block = block
+      break
+    }
+    warning("Skipping corrupt block #", i)
+  }
+  if (is.null(first_block)) {
+    stop("Error reading file. The first 21 blocks are corrupt.")
+  }
+
+  # Recover the block frequency, fractional timestamp, and relative sample
+  # shift using the same compatibility rules as readAxivity() lines 169-200.
+  dynamic_range = readBin(first_block[25], integer(), n = 1L, size = 1L,
+                           signed = FALSE)
+  data_frequency = if (dynamic_range == 0L) {
+    readBin(first_block[27:28], integer(), n = 1L, size = 2L,
+            signed = FALSE, endian = "little")
+  } else {
+    round(3200 / bitwShiftL(1L, 15L - bitwAnd(dynamic_range, 15L)))
+  }
+  timestamp_offset = readBin(first_block[5:6], integer(), n = 1L, size = 2L,
+                              signed = FALSE, endian = "little")
+  shift = readBin(first_block[27:28], integer(), n = 1L, size = 2L,
+                  signed = FALSE, endian = "little")
+  fraction = 0
+  if (dynamic_range != 0L && bitwAnd(timestamp_offset, 32768L) != 0L) {
+    fraction = bitwShiftL(bitwAnd(timestamp_offset, 32767L), 1L)
+    shift = shift + bitwShiftR(fraction * data_frequency, 16L)
+  }
+  # Decode the packed calendar timestamp and apply its fraction and shift.
+  # This is the first-call branch of readAxivity()'s timestamp decoder
+  # (lines 28-52), where there is no preceding timestamp to reconcile.
+  timestamp = read_uint32(first_block[15:18])
+  coded_minutes = bitwShiftR(timestamp, 6L)
+  start = as.POSIXct(
+    sprintf("%d-%d-%d %d:%d:%d",
+            bitwAnd(bitwShiftR(timestamp, 26L), 63L) + 2000L,
+            bitwAnd(bitwShiftR(timestamp, 22L), 15L),
+            bitwAnd(bitwShiftR(timestamp, 17L), 31L),
+            bitwAnd(bitwShiftR(timestamp, 12L), 31L),
+            bitwAnd(coded_minutes, 63L), bitwAnd(timestamp, 63L)),
+    tz = "UTC"
+  )
+  start = as.POSIXct(as.numeric(start) + fraction / 65536 - shift / data_frequency,
+                     origin = "1970-01-01", tz = "UTC")
+  block_length = readBin(first_block[29:30], integer(), n = 1L, size = 2L,
+                          signed = FALSE, endian = "little")
+
+  # Return GGIRread's native header fields, then add the package's normalized
+  # acceleration range and sample-rate aliases.
+  acti_process_header(list(header = list(
+    uniqueSerialCode = serial,
+    frequency = frequency,
+    start = start,
+    device = "Axivity",
+    firmwareVersion = firmware,
+    blocks = blocks,
+    accrange = accrange,
+    hardwareType = if (hw_type == 100L) "AX6" else "AX3",
+    blockLength = block_length
+  )))
 }
 
 

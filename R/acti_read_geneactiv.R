@@ -39,37 +39,13 @@ get_additional_geneactiv_header_info = function(path) {
     tz = "UTC",
     ...
 ) {
-
-  for (ext in c("bz2", "gz", "xz")) {
-    if (
-      R.utils::isCompressedFile(
-        path,
-        method = "extension",
-        ext = ext,
-        fileClass = "")
-    ) {
-      FUN = switch(ext,
-                   gz = gzfile,
-                   xz = xzfile,
-                   bz2 = bzfile
-      )
-      path = R.utils::decompressFile(
-        path,
-        destname = tempfile(fileext = ".bin"),
-        temporary = TRUE,
-        overwrite = TRUE,
-        ext = ext,
-        FUN = FUN,
-        remove = FALSE)
-      on.exit(unlink(path, recursive = TRUE),
-              add = TRUE)
-      break
-    }
+  file = acti_decompress_file(path, extension = ".bin")
+  if (file$temporary) {
+    on.exit(unlink(file$path), add = TRUE)
   }
-  path = path.expand(path)
-  add_hdr = get_additional_geneactiv_header_info(path)
+  add_hdr = get_additional_geneactiv_header_info(file$path)
   data = GGIRread::readGENEActiv(
-    filename = path,
+    filename = file$path,
     start = start,
     end = end,
     desiredtz = tz,
@@ -176,4 +152,3 @@ acti_read_geneactiv_header = function(
   }
   header
 }
-

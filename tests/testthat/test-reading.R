@@ -210,6 +210,28 @@ testthat::test_that("CWA reading works on the shipped example", {
   testthat::expect_true("transformations" %in% names(attributes(res)))
 })
 
+testthat::test_that("fast CWA header reads the shipped example", {
+  path = actiread::acti_example_cwa()
+  file = actiread::acti_decompress_file(path, extension = ".cwa")
+  on.exit(unlink(file$path), add = TRUE)
+  header = actiread:::.acti_read_cwa_header_fast(file$path)
+  testthat::expect_true(all(c("frequency", "start", "sample_rate") %in%
+                            names(header)))
+  testthat::expect_equal(header$sample_rate, 100)
+})
+
+testthat::test_that("acti_decompress_file infers or accepts an extension", {
+  path = actiread::acti_example_cwa()
+  inferred = actiread::acti_decompress_file(path)
+  on.exit(unlink(inferred$path), add = TRUE)
+  testthat::expect_true(inferred$temporary)
+  testthat::expect_match(inferred$path, "\\.cwa$")
+
+  explicit = actiread::acti_decompress_file(path, extension = ".bin")
+  on.exit(unlink(explicit$path), add = TRUE)
+  testthat::expect_match(explicit$path, "\\.bin$")
+})
+
 testthat::test_that("CWA reading handles tz=NULL and apply_tz = FALSE", {
   res = suppressMessages(
     actiread::acti_read_cwa(
@@ -443,4 +465,3 @@ testthat::test_that("CWA helper reports timezone application", {
 
   testthat::expect_true(all(c("time", "x", "y", "z") %in% names(res)))
 })
-

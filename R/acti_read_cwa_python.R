@@ -5,7 +5,7 @@
 #' @param lowpass_hz Frequency of low pass filter
 #' @param calibrate_gravity perform gravity calibration method of van
 #' Hees et al. 2014
-#' <https://pubmed.ncbi.nlm.nih.gov/25103964/>
+#' <doi:10.1152/japplphysiol.00421.2014>
 #' @param detect_nonwear Flag nonwear episodes in the data by setting them to
 #' `NA`. Non-wear episodes are inferred from long periods of no movement.
 #' 90 minute munte windows based on 10-second rolling windows with a
@@ -42,16 +42,20 @@ acti_py_read_cwa = function(path,
   stopifnot(requireNamespace("reticulate", quietly = TRUE))
   stopifnot(requireNamespace("arrow", quietly = TRUE))
 
+  file = acti_decompress_file(path, extension = ".cwa")
+  if (file$temporary) {
+    on.exit(unlink(file$path), add = TRUE)
+  }
+
   ap = reticulate::import("actipy", convert = FALSE)
   data = ap$read_device(
-    path,
+    file$path,
     lowpass_hz = lowpass_hz,
     calibrate_gravity = calibrate_gravity,
     detect_nonwear = detect_nonwear,
     resample_hz = resample_hz,
     ...)
-  summary = reticulate::py_get_item(data, 1L)
-  summary = reticulate::py_to_r(summary)
+  summary = reticulate::py_to_r(reticulate::py_get_item(data, 1L))
   data = reticulate::py_get_item(data, 0L)
 
   # make time a column
@@ -69,19 +73,12 @@ acti_py_read_cwa = function(path,
                                        "acti_py_read_cwa:data_read_via_actipy_read_device",
                                        add = TRUE)
 
-  suppressWarnings({
-    hdr = acti_read_cwa_header(path)
-  })
-  ns = c(names(summary), tolower(names(summary)))
-  ns = c(ns, "sample_rate")
-
-  summary = c(summary, hdr[setdiff(names(hdr), ns)])
-  # need to join with hdr from above
-  attr(data, "header") = summary
-  attr(data, "sample_rate") = summary$ResampleRate
-  if (is.null(attr(data, "sample_rate"))) {
-    attr(data, "sample_rate") = summary$SampleRate
-  }
+  # Keep the native CWA header, then append the actipy processing summary that
+  # was returned alongside the data without an additional read.
+  header = .acti_read_cwa_header_fast(file$path)
+  header = c(header, summary[setdiff(names(summary), names(header))])
+  attr(data, "header") = header
+  attr(data, "sample_rate") = header$sample_rate
 
   # time goes first
   data = data |>

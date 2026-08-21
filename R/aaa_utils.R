@@ -41,5 +41,3 @@ read_csv_safe = function(..., guess_max = Inf) {
   readr::stop_for_problems(x)
   x
 }
-
-

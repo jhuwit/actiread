@@ -23,7 +23,7 @@ acti_py_read_cwa(
 
 \item{calibrate_gravity}{perform gravity calibration method of van
 Hees et al. 2014
-\url{https://pubmed.ncbi.nlm.nih.gov/25103964/}}
+\url{doi:10.1152/japplphysiol.00421.2014}}
 
 \item{detect_nonwear}{Flag nonwear episodes in the data by setting them to
 \code{NA}. Non-wear episodes are inferred from long periods of no movement.
