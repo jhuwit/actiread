@@ -17,7 +17,7 @@ Description: Provides baseline functions for reading actigraphy and activity
     'SensorLogger' <https://www.tszheichoi.com/sensorlogger> zipped CSV files.
 License: GPL-3
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 Suggests:
     testthat (>= 3.0.0),
     utils,
