@@ -5,6 +5,9 @@
 - [`acti_convert_sensorlogger_time()`](https://jhuwit.github.io/actiread/reference/acti_convert_sensorlogger_time.md)
   : Convert vectors ensuring no new NA
 
+- [`acti_decompress_file()`](https://jhuwit.github.io/actiread/reference/acti_decompress_file.md)
+  : Decompress an Activity-data File
+
 - [`acti_example_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_example_data.md)
   [`acti_example_cwa()`](https://jhuwit.github.io/actiread/reference/acti_example_data.md)
   [`acti_example_geneactiv()`](https://jhuwit.github.io/actiread/reference/acti_example_data.md)

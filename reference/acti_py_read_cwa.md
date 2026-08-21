@@ -31,7 +31,7 @@ acti_py_read_cwa(
 - calibrate_gravity:
 
   perform gravity calibration method of van Hees et al. 2014
-  <https://pubmed.ncbi.nlm.nih.gov/25103964/>
+  <doi:10.1152/japplphysiol.00421.2014>
 
 - detect_nonwear:
 
