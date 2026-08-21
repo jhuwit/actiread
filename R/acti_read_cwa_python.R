@@ -19,12 +19,14 @@
 #' transformations
 #' @export
 #' @examples
+#' \donttest{
 #' if (requireNamespace("reticulate", quietly = TRUE) &&
 #'     requireNamespace("arrow", quietly = TRUE)) {
 #'     if (reticulate::py_module_available("actipy") &&
 #'       reticulate::py_module_available("pyarrow")) {
 #'         data = acti_py_read_cwa(acti_example_cwa())
 #'     }
+#' }
 #' }
 acti_py_read_cwa = function(path,
                             lowpass_hz = FALSE,
