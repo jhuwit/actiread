@@ -4,6 +4,8 @@
 [![R-CMD-check](https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jhuwit/actiread/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://app.codecov.io/gh/jhuwit/actiread/branch/main/graph/badge.svg)](https://app.codecov.io/gh/jhuwit/actiread?branch=main)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/actiread)](https://CRAN.R-project.org/package=actiread)
 <!-- badges: end -->
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
