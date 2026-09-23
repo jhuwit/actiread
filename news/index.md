@@ -2,6 +2,8 @@
 
 ## actiread 0.5.0
 
+CRAN release: 2026-08-21
+
 - Added
   [`acti_decompress_file()`](https://jhuwit.github.io/actiread/reference/acti_decompress_file.md)
   to decompress supported activity-data files.
