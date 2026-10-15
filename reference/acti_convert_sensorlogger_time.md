@@ -16,5 +16,5 @@ acti_convert_sensorlogger_time(x)
 
 ## Value
 
-A converted \`vector\` the same length as \`x\` or errors if there are
+A converted `vector` the same length as `x` or errors if there are
 introduced NAs.

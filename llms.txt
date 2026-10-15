@@ -118,6 +118,9 @@ result off to your own cleaning, summarization, or modeling code.
 
   Read CWA File with `actipy`
 
+- [`acti_read()`](https://jhuwit.github.io/actiread/reference/acti_read.md)
+  : Read an actigraphy or sensor file
+
 - [`acti_read_cwa()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md)
   [`acti_read_cwa_header()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md)
   : Read CWA File

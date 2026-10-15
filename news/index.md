@@ -1,5 +1,12 @@
 # Changelog
 
+## actiread 0.6.0
+
+- Added
+  [`acti_read()`](https://jhuwit.github.io/actiread/reference/acti_read.md)
+  to guess the reader from CWA, GT3X, and GENEActiv file extensions,
+  including `.gz` compressed files.
+
 ## actiread 0.5.0
 
 CRAN release: 2026-08-21
