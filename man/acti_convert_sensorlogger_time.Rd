@@ -10,7 +10,7 @@ acti_convert_sensorlogger_time(x)
 \item{x}{a vector}
 }
 \value{
-A converted `vector` the same length as `x` or errors if there
+A converted \code{vector} the same length as \code{x} or errors if there
 are introduced NAs.
 }
 \description{

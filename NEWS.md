@@ -1,3 +1,8 @@
+# actiread 0.6.0
+
+* Added `acti_read()` to guess the reader from CWA, GT3X, and GENEActiv file
+  extensions, including `.gz` compressed files.
+
 # actiread 0.5.0
 
 * Added `acti_decompress_file()` to decompress supported activity-data files.

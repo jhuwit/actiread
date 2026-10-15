@@ -1,5 +1,28 @@
 testthat::context("Reading baseline data")
 
+testthat::test_that("acti_read guesses supported formats and compressed extensions", {
+  testthat::expect_equal(actiread:::acti_guess_reader("activity.cwa"), "acti_read_cwa")
+  testthat::expect_equal(actiread:::acti_guess_reader("activity.CWA.GZ"), "acti_read_cwa")
+  testthat::expect_equal(actiread:::acti_guess_reader("activity.gt3x.gz"), "acti_read_gt3x")
+  testthat::expect_equal(actiread:::acti_guess_reader("activity.bin"), "acti_read_geneactiv")
+  testthat::expect_true(is.na(actiread:::acti_guess_reader("sensor.csv")))
+  testthat::expect_true(is.na(actiread:::acti_guess_reader("sensor.zip")))
+})
+
+testthat::test_that("acti_read reports its selected reader and forwards arguments", {
+  testthat::expect_message(
+    res <- actiread::acti_read(
+      actiread::acti_example_gt3x(),
+      verbose = TRUE,
+      fill_zeroes = FALSE,
+      digits = 3L
+    ),
+    "Using acti_read_gt3x"
+  )
+  testthat::expect_true(all(c("time", "X", "Y", "Z") %in% names(res)))
+  testthat::expect_error(actiread::acti_read("sensor.csv"), "Cannot guess a reader")
+})
+
 testthat::test_that("example data helpers return package files", {
   gt3x = actiread::acti_example_gt3x()
   cwa = actiread::acti_example_cwa()
