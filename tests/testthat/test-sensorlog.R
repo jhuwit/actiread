@@ -1,5 +1,3 @@
-testthat::context("SensorLog and SensorLogger readers")
-
 write_named_csv <- function(dir, filename, lines) {
   path = file.path(dir, filename)
   writeLines(lines, path)

@@ -1,5 +1,3 @@
-testthat::context("Reading baseline data")
-
 testthat::test_that("acti_read guesses supported formats and compressed extensions", {
   testthat::expect_equal(actiread:::acti_guess_reader("activity.cwa"), "acti_read_cwa")
   testthat::expect_equal(actiread:::acti_guess_reader("activity.CWA.GZ"), "acti_read_cwa")
@@ -10,13 +8,17 @@ testthat::test_that("acti_read guesses supported formats and compressed extensio
 })
 
 testthat::test_that("acti_read reports its selected reader and forwards arguments", {
+  args = list(
+    actiread::acti_example_gt3x(),
+    verbose = TRUE,
+    fill_zeroes = FALSE,
+    digits = 3L
+  )
+  if (!actiread:::gt3x_supports_digits()) {
+    args$digits = NULL
+  }
   testthat::expect_message(
-    res <- actiread::acti_read(
-      actiread::acti_example_gt3x(),
-      verbose = TRUE,
-      fill_zeroes = FALSE,
-      digits = 3L
-    ),
+    res <- do.call(actiread::acti_read, args),
     "Using acti_read_gt3x"
   )
   testthat::expect_true(all(c("time", "X", "Y", "Z") %in% names(res)))
@@ -58,7 +60,7 @@ testthat::test_that("GT3X reading works on the shipped example", {
     fill_zeroes = FALSE,
     digits = 3L
   )
-  if (utils::packageVersion("read.gt3x") < package_version("1.3.0")) {
+  if (!actiread:::gt3x_supports_digits()) {
     args$digits = NULL
   }
   res = do.call(actiread::acti_read_gt3x, args = args)
@@ -71,7 +73,8 @@ testthat::test_that("GT3X reading works on the shipped example", {
 
 
 testthat::test_that("GT3X reading works with digits=5L", {
-  testthat::skip_if_not_installed("read.gt3x", minimum_version = "1.3.0")
+  testthat::skip_if_not(actiread:::gt3x_supports_digits(),
+                        "read.gt3x does not support digits")
   res = actiread::acti_read_gt3x(
     actiread::acti_example_gt3x(),
     verbose = FALSE,
@@ -593,4 +596,18 @@ testthat::test_that("header start mismatch warns", {
   testthat::expect_false(actiread:::warn_header_start_mismatch(
     header, as.POSIXct("2020-01-01", tz = "UTC")))
   testthat::expect_false(actiread:::warn_header_start_mismatch(list(), 1))
+})
+
+testthat::test_that("GT3X ignores digits when read.gt3x does not support it", {
+  testthat::local_mocked_bindings(gt3x_supports_digits = function() FALSE)
+  testthat::expect_warning(
+    res <- actiread::acti_read_gt3x(
+      actiread::acti_example_gt3x(),
+      verbose = FALSE,
+      fill_zeroes = FALSE,
+      digits = 3L
+    ),
+    "requires read.gt3x"
+  )
+  testthat::expect_true(all(c("time", "X", "Y", "Z") %in% names(res)))
 })

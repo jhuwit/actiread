@@ -56,13 +56,15 @@ acti_read_gt3x = function(
               imputeZeroes = imputeZeroes,
               verbose = verbose > 1,
               ...)
-  if (is.null(args$digits) &&
-      (
-        utils::packageVersion("read.gt3x") >= package_version("1.3.0")  ||
-        "digits" %in% methods::formalArgs(read.gt3x::read.gt3x)
-      )
-  ) {
-    args$digits = 5L
+  if (gt3x_supports_digits()) {
+    if (is.null(args[["digits"]])) {
+      args$digits = 5L
+    }
+  } else if (!is.null(args[["digits"]])) {
+    cli::cli_warn(paste0(
+      "{.arg digits} requires read.gt3x >= 1.3.0, ",
+      "ignoring {.arg digits} = {args[['digits']]}"))
+    args$digits = NULL
   }
   data = do.call(read.gt3x::read.gt3x, args = args)
   data = set_transformations(data,
@@ -207,4 +209,12 @@ decompress_non_gz = function(path, extension) {
     return(acti_decompress_file(path, extension = extension))
   }
   list(path = path, temporary = FALSE)
+}
+
+# read.gt3x 1.3.0 added `digits`, which read.gt3x() passes through `...` to
+# parseGT3X(), so check parseGT3X() as well as the version
+gt3x_supports_digits = function() {
+  utils::packageVersion("read.gt3x") >= package_version("1.3.0") ||
+    "digits" %in% names(formals(utils::getFromNamespace("parseGT3X",
+                                                        "read.gt3x")))
 }
