@@ -164,9 +164,15 @@ testthat::test_that("SensorLog reader handles the shipped archive, missing colum
     )
   )
 
+  # readr also warns that the speed-accuracy parser has no matching column
   testthat::expect_warning(
-    missing_data <- actiread::acti_read_sensorlog(missing_file, robust = TRUE),
-    "Missing expected columns"
+    testthat::expect_warning(
+      missing_data <- suppressMessages(
+        actiread::acti_read_sensorlog(missing_file, robust = TRUE)
+      ),
+      "Missing expected columns"
+    ),
+    "named parsers don't match"
   )
   testthat::expect_equal(nrow(missing_data), 1L)
   testthat::expect_true(is.na(missing_data$speed_accuracy[1]))
@@ -287,4 +293,123 @@ testthat::test_that("SensorLogger location reader returns NULL for empty files",
   testthat::expect_null(
     actiread::acti_read_sensorlogger_location(empty_file, show_col_types = FALSE)
   )
+})
+
+testthat::test_that("SensorLogger reads a vector of CSV files and multiple zips", {
+  dir = tempfile("sensorlogger-vector-")
+  dir.create(dir)
+  acc = write_named_csv(dir, "Accelerometer.csv",
+                        c("time,x,y,z", "1000000000,1,2,3"))
+  gyro = write_named_csv(dir, "Gyroscope.csv",
+                         c("time,x,y,z", "2000000000,4,5,6"))
+  res = actiread::acti_read_sensorlogger(c(acc, gyro), show_col_types = FALSE)
+  testthat::expect_type(res, "list")
+  testthat::expect_named(res, c("accelerometer", "gyroscope"))
+  testthat::expect_equal(res$gyroscope$x, 4)
+
+  zip1 = tempfile(fileext = ".zip")
+  zip2 = tempfile(fileext = ".zip")
+  utils::zip(zip1, acc, flags = "-jq")
+  utils::zip(zip2, acc, flags = "-jq")
+  res = actiread::acti_read_sensorlogger(c(zip1, zip2), show_col_types = FALSE)
+  testthat::expect_type(res, "list")
+  testthat::expect_length(res, 2L)
+  # duplicate sensor names are made unique
+  testthat::expect_equal(anyDuplicated(names(res)), 0L)
+})
+
+testthat::test_that("SensorLogger zip with one file still returns a list", {
+  dir = tempfile("sensorlogger-onezip-")
+  dir.create(dir)
+  acc = write_named_csv(dir, "Accelerometer.csv",
+                        c("time,x,y,z", "1000000000,1,2,3"))
+  zip_file = tempfile(fileext = ".zip")
+  utils::zip(zip_file, acc, flags = "-jq")
+  res = actiread::acti_read_sensorlogger(zip_file, show_col_types = FALSE)
+  testthat::expect_type(res, "list")
+  testthat::expect_false(inherits(res, "data.frame"))
+  testthat::expect_named(res, "accelerometer")
+  testthat::expect_s3_class(res$accelerometer, "tbl_df")
+})
+
+testthat::test_that("SensorLogger metadata and empty annotation files", {
+  archive_data = actiread::acti_read_sensorlogger(
+    extdata_file("SensorLogger-2025-04-28_22-04-35.zip"),
+    show_col_types = FALSE
+  )
+  testthat::expect_true(all(c("metadata", "annotation") %in%
+                              names(archive_data)))
+  testthat::expect_s3_class(archive_data$metadata, "tbl_df")
+  testthat::expect_gt(nrow(archive_data$metadata), 0)
+  testthat::expect_equal(unique(archive_data$metadata$cat_type_sensor),
+                         "metadata")
+  # the annotation file in the archive is empty
+  testthat::expect_null(archive_data$annotation)
+})
+
+testthat::test_that("SensorLogger location fills missing columns with NA", {
+  dir = tempfile("sensorlogger-loc-")
+  dir.create(dir)
+  loc = write_named_csv(dir, "Location.csv",
+                        c("time,latitude,longitude,speed",
+                          "1000000000,39.3,-76.6,1.5"))
+  testthat::expect_warning(
+    res <- actiread::acti_read_sensorlogger_location(loc,
+                                                     show_col_types = FALSE),
+    "Missing expected columns"
+  )
+  testthat::expect_equal(res$lat, 39.3)
+  testthat::expect_equal(res$speed, 1.5)
+  testthat::expect_true(all(is.na(res$bearing)))
+  testthat::expect_true(all(is.na(res$altitude_above_mean_sea_level)))
+  testthat::expect_true(inherits(res$time, "POSIXct"))
+
+  # the column specification is applied
+  all_cols = names(actiread::acti_sensorlogger_location_spec()$cols)
+  full = write_named_csv(dir, "Location2.csv",
+                         c(paste(all_cols, collapse = ","),
+                           paste(c("1000000000", rep("1", length(all_cols) - 1)),
+                                 collapse = ",")))
+  res = actiread::acti_read_sensorlogger_location(full, show_col_types = FALSE)
+  testthat::expect_type(res$bearing, "double")
+})
+
+testthat::test_that("SensorLog rewrite works without pedometer or battery columns", {
+  dir = tempfile("sensorlog-plain-")
+  dir.create(dir)
+  plain = write_named_csv(dir, "plain.csv", c("a,b,c", "1,2,3", "4,5,6"))
+  out = actiread::acti_rewrite_sensorlog_csv(plain)
+  testthat::expect_equal(readLines(out), readLines(plain))
+})
+
+testthat::test_that("SensorLog rewrite keeps columns after the battery fields", {
+  dir = tempfile("sensorlog-battery2-")
+  dir.create(dir)
+  header = paste0("id,batteryTimeStamp_since1970(s),batteryState(R),",
+                  "batteryLevel(Z),extra")
+  file = write_named_csv(dir, "battery.csv",
+                         c(header, "1,,1,x", "2,100,1,0.5,y"))
+  out = actiread::acti_rewrite_sensorlog_csv(file)
+  testthat::expect_equal(readLines(out),
+                         c(header, "1,,1,,x", "2,100,1,0.5,y"))
+})
+
+testthat::test_that("SensorLog rewrite keeps quoted fields with commas", {
+  dir = tempfile("sensorlog-quoted-")
+  dir.create(dir)
+  file = write_named_csv(dir, "quoted.csv",
+                         c("id,label,value", '1,"a, b",2', "2,c,3"))
+  out = actiread::acti_rewrite_sensorlog_csv(file)
+  testthat::expect_equal(readLines(out), readLines(file))
+  res = readr::read_csv(out, show_col_types = FALSE)
+  testthat::expect_equal(res$label, c("a, b", "c"))
+})
+
+testthat::test_that("SensorLog robust reading of the shipped archive", {
+  zip_file = extdata_file("SensorLogFiles_my_iOS_device_250311_14-55-58.zip")
+  robust = actiread::acti_read_sensorlog(zip_file, robust = TRUE)
+  plain = actiread::acti_read_sensorlog(zip_file)
+  testthat::expect_equal(nrow(robust), nrow(plain))
+  testthat::expect_equal(robust$accel_X, plain$accel_X)
+  testthat::expect_type(robust$time, "character")
 })

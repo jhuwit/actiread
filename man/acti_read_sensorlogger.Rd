@@ -31,7 +31,9 @@ unless otherwise overridden}
 higher values are higher levels of verbosity.}
 }
 \value{
-A \code{data.frame} of data
+A \code{data.frame} of data if a single CSV file is given, otherwise a
+named list of \code{data.frame}s, one per sensor file (always a list for zip
+files)
 }
 \description{
 Read SensorLogger Data

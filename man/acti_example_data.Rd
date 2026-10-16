@@ -4,6 +4,8 @@
 \alias{acti_example_gt3x}
 \alias{acti_example_cwa}
 \alias{acti_example_geneactiv}
+\alias{acti_example_genea}
+\alias{acti_example_parmay_matrix}
 \alias{acti_example_sensorlog_file}
 \alias{acti_example_sensorlogger_file}
 \alias{acti_example_sensorlogger_location_file}
@@ -14,6 +16,10 @@ acti_example_gt3x()
 acti_example_cwa()
 
 acti_example_geneactiv()
+
+acti_example_genea()
+
+acti_example_parmay_matrix()
 
 acti_example_sensorlog_file()
 
@@ -32,4 +38,6 @@ library(actiread)
 acti_example_gt3x()
 acti_example_cwa()
 acti_example_sensorlogger_file()
+acti_example_genea()
+acti_example_parmay_matrix()
 }

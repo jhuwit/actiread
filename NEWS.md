@@ -1,3 +1,31 @@
+# actiread 0.7.0
+
+* Added `acti_read_genea()`/`acti_read_genea_header()` for original 'Genea'
+  `.bin` files and `acti_read_parmay_matrix()`/`acti_read_parmay_matrix_header()`
+  for 'Parmay Tech Matrix' `.bin` files, with example data
+  (`acti_example_genea()`, `acti_example_parmay_matrix()`) from 'GGIRread'.
+* `acti_read()` now inspects the first kilobyte of `.bin` files (and files with
+  unknown extensions) to choose between GENEActiv, Genea, Matrix, and CWA, and
+  dispatches `.bz2` and `.xz` compressed files.
+* `tzoffset_to_tz()` now returns the correctly-signed `Etc/GMT` zone
+  (`"-05:00"` is `"Etc/GMT+5"`) and gives informative errors.
+* `acti_read_gt3x(apply_tz = TRUE)` now handles non-whole-hour offsets, shows
+  the corrected times in `tz` (previously a non-UTC `tz` gave shifted times),
+  and `tz = NULL` keeps the header's fixed-offset zone instead of the system
+  time zone.
+* CWA and GT3X readers no longer error on zero-row data or a missing first
+  time; `acti_py_read_cwa()` accepts `tz = NULL`.
+* `acti_read_cwa_header()` uses the fast header parser, and
+  `acti_read_geneactiv_header()` no longer reads the whole file.
+* `acti_read_geneactiv()` gains `apply_tz`.
+* Header `acceleration_min`/`acceleration_max` are now numeric for all readers.
+* `acti_read_sensorlogger()` always returns a list for zip files, and
+  `acti_read_sensorlogger_location()` uses its column specification and fills
+  missing columns with `NA`.
+* `acti_rewrite_sensorlog_csv()` handles quoted fields containing commas and
+  columns after the battery fields.
+* Readers now give a clear error for files that do not exist.
+
 # actiread 0.6.0
 
 * Added `acti_read()` to guess the reader from CWA, GT3X, and GENEActiv file

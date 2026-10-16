@@ -7,7 +7,9 @@
 #' @param ... additional arguments to pass to [readr::read_csv()].
 #' If `verbose = FALSE`, then `progress = FALSE` and `show_col_types = FALSE`,
 #' unless otherwise overridden
-#' @return A `data.frame` of data
+#' @return A `data.frame` of data if a single CSV file is given, otherwise a
+#' named list of `data.frame`s, one per sensor file (always a list for zip
+#' files)
 #' @export
 acti_read_sensorlogger = function(
     file,
@@ -17,14 +19,15 @@ acti_read_sensorlogger = function(
   lon_zero = lat_zero = lat = lon = NULL
   rm(list = c("lat", "lon", "lat_zero", "lon_zero"))
 
+  input_is_zip = any(is_zip_file(file))
   file = unzip_files(file)
   stub = acti_sensorlogger_stub(file)
-  names(file) = stub
+  names(file) = make.unique(stub, sep = "_")
 
   data_list = purrr::map(file, function(r) {
     data = acti_sensorlogger_reader(r, verbose = verbose, ...,  type = NULL)
   })
-  if (length(file) == 1 && length(data_list) == 1) {
+  if (!input_is_zip && length(file) == 1 && length(data_list) == 1) {
     data_list = data_list[[1]]
   }
 
@@ -54,6 +57,7 @@ acti_sensorlogger_stub = function(x) {
 #' @export
 #' @rdname acti_read_sensorlogger
 acti_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
+  check_file_exists(file)
   df = read_csv_safe(file, ...)
   if (nrow(df) == 0) {
     return(NULL)

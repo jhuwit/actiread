@@ -11,6 +11,7 @@ acti_read_geneactiv(
   end = Inf,
   tz = "UTC",
   ...,
+  apply_tz = TRUE,
   verbose = TRUE
 )
 
@@ -28,6 +29,9 @@ acti_read_geneactiv_header(path)
 
 \item{...}{additional arguments to pass to \code{\link[GGIRread:readGENEActiv]{GGIRread::readGENEActiv()}}}
 
+\item{apply_tz}{turn the \code{time} column into a \code{POSIXct} in time zone \code{tz}.
+If \code{FALSE}, \code{time} is left as seconds since 1970-01-01.}
+
 \item{verbose}{print diagnostic messages, higher values = more verbosity.}
 }
 \value{
@@ -38,11 +42,12 @@ transformations
 Read GENEActiv Binary File
 }
 \examples{
-data = acti_read_cwa(acti_example_cwa())
-data = acti_read_cwa(
-  acti_example_cwa(),
+data = acti_read_geneactiv(acti_example_geneactiv())
+data = acti_read_geneactiv(
+  acti_example_geneactiv(),
   tz = NULL,
   apply_tz = FALSE,
   verbose = FALSE
 )
+header = acti_read_geneactiv_header(acti_example_geneactiv())
 }

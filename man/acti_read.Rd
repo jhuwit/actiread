@@ -18,11 +18,13 @@ The result from the selected reader.
 }
 \description{
 Guess the appropriate reader from the file extension and pass additional
-arguments through to that reader. Compressed \code{.gz} files are dispatched by
-their underlying extension.
+arguments through to that reader. Compressed \code{.gz}, \code{.bz2}, and \code{.xz} files
+are dispatched by their underlying extension.  Because 'GENEActiv',
+'Genea', and 'Parmay Matrix' devices all write \code{.bin} files, the first
+kilobyte of \code{.bin} files (and files with an unknown extension) is inspected
+to pick the reader.
 }
 \examples{
-\dontrun{
-data = acti_read("activity.gt3x")
-}
+data = acti_read(acti_example_cwa(), verbose = FALSE)
+data = acti_read(acti_example_genea(), verbose = FALSE)
 }

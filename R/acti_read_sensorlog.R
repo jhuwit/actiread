@@ -6,12 +6,12 @@ is_zip_file = function(file) {
 }
 
 unzip_files = function(file) {
+  check_file_exists(file)
   if (any(is_zip_file(file))) {
     if (!all(is_zip_file(file))) {
       stop(paste0("acti_read_sensorlog works with only zip file or a vector of ",
                   "csv files"))
     }
-    orig_file = file
     file = lapply(file, function(r) {
       tfile = tempfile()
       utils::unzip(r, exdir = tfile)

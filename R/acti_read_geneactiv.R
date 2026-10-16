@@ -12,22 +12,23 @@ get_additional_geneactiv_header_info = function(path) {
   acc_units = x[grep("Accelerometer Units", x, ignore.case = TRUE)]
   acc_units = trimws(acc_units)
   strip_colon = function(x) {
-    sub(".*:", "", x)
+    x = sub(".*:", "", x[1])
+    if (length(x) == 0 || is.na(x) || !nzchar(x)) {
+      x = NA_character_
+    }
+    x
   }
   acc_range = strip_colon(acc_range)
   acc_res = strip_colon(acc_res)
   acc_units = strip_colon(acc_units)
   x_acc_range = acc_range
-  if (nchar(acc_range) == 0) {
-    acc_range = NA_character_
-  }
   acc_range = trimws(strsplit(acc_range, "to", fixed = TRUE)[[1]])
-  acc_range = as.numeric(acc_range)
+  acc_range = suppressWarnings(as.numeric(acc_range))
   list(
     acceleration_range = x_acc_range,
     acceleration_min = acc_range[1],
     acceleration_max = acc_range[2],
-    acceleration_resolution = as.numeric(acc_res),
+    acceleration_resolution = suppressWarnings(as.numeric(acc_res)),
     acceleration_units = acc_units
   )
 
@@ -39,6 +40,7 @@ get_additional_geneactiv_header_info = function(path) {
     tz = "UTC",
     ...
 ) {
+  check_file_exists(path)
   file = acti_decompress_file(path, extension = ".bin")
   if (file$temporary) {
     on.exit(unlink(file$path), add = TRUE)
@@ -67,6 +69,8 @@ get_additional_geneactiv_header_info = function(path) {
 #' @param end where to end in the file, passed to [GGIRread::readGENEActiv]
 #' @param tz time zone for the data `time`, passed to `desiredtz` argument in
 #' [GGIRread::readGENEActiv].  If NULL or `""`, no time conversion is done.
+#' @param apply_tz turn the `time` column into a `POSIXct` in time zone `tz`.
+#' If `FALSE`, `time` is left as seconds since 1970-01-01.
 #' @param ... additional arguments to pass to [GGIRread::readGENEActiv()]
 #' @param verbose print diagnostic messages, higher values = more verbosity.
 #' @returns A `tibble` with attributes of a header, sample rate, and
@@ -74,19 +78,21 @@ get_additional_geneactiv_header_info = function(path) {
 #' @export
 #'
 #' @examples
-#' data = acti_read_cwa(acti_example_cwa())
-#' data = acti_read_cwa(
-#'   acti_example_cwa(),
+#' data = acti_read_geneactiv(acti_example_geneactiv())
+#' data = acti_read_geneactiv(
+#'   acti_example_geneactiv(),
 #'   tz = NULL,
 #'   apply_tz = FALSE,
 #'   verbose = FALSE
 #' )
+#' header = acti_read_geneactiv_header(acti_example_geneactiv())
 acti_read_geneactiv = function(
     path,
     start = 0,
     end = Inf,
     tz = "UTC",
     ...,
+    apply_tz = TRUE,
     verbose = TRUE
 ) {
   time = NULL
@@ -113,8 +119,11 @@ acti_read_geneactiv = function(
     add = TRUE)
   data = tibble::as_tibble(data)
   data = actibase::acti_standardise_data(data, subset_xyz = FALSE)
-  data = data |>
-    dplyr::mutate(time = as.POSIXct(time, origin = "1970-01-01", tz = tz))
+  if (apply_tz) {
+    data = data |>
+      dplyr::mutate(time = as.POSIXct(time, origin = "1970-01-01",
+                                      tz = tz_read))
+  }
 
   # May want to do something with hdr$tzone
   # Check against hdr$StarTime or hdr$StartTime:
@@ -137,10 +146,11 @@ acti_read_geneactiv = function(
 acti_read_geneactiv_header = function(
     path
 ) {
+  # end = 0 reads the whole file in readGENEActiv(), so read only one page
   args = list(
     path,
     start = 0L,
-    end = 0L
+    end = 1L
   )
   data = do.call(.read_geneactiv_bin, args = args)
   header = acti_process_header(data)

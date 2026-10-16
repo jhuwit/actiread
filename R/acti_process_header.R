@@ -14,8 +14,8 @@ acti_process_header = function(data) {
   }
 
   if (!is.null(header$accrange)) {
-    header$acceleration_min = paste0("-", header$accrange)
-    header$acceleration_max = as.character(header$accrange)
+    header$acceleration_min = -as.numeric(header$accrange)
+    header$acceleration_max = as.numeric(header$accrange)
   }
   header$sample_rate = header$frequency
   if (is.null(header$sample_rate)) {

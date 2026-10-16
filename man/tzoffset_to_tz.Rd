@@ -7,13 +7,16 @@
 tzoffset_to_tz(x)
 }
 \arguments{
-\item{x}{A character vector}
+\item{x}{A character vector of offsets in the form \code{"+HH:MM"} or
+\code{"+HH:MM:SS"}}
 }
 \value{
 A character vector
 }
 \description{
-Transform timezone offset to timezone
+Converts UTC offsets such as \code{"-05:00"} (5 hours behind UTC) into the
+matching fixed-offset Olson time zone.  Note that \code{Etc/GMT} zones use an
+inverted sign convention, so \code{"-05:00"} is \code{"Etc/GMT+5"}.
 }
 \examples{
 tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))

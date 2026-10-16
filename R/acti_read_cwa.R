@@ -5,6 +5,7 @@
     tz = "UTC",
     ...
 ) {
+  check_file_exists(path)
   file = acti_decompress_file(path, extension = ".cwa")
   if (file$temporary) {
     on.exit(unlink(file$path), add = TRUE)
@@ -84,20 +85,12 @@ acti_read_cwa = function(
 acti_read_cwa_header = function(
     path
 ) {
-  args = list(
-    path,
-    start = 0L,
-    end = 0L
-  )
-  data = do.call(.read_cwa, args = args)
-  header = acti_process_header(data)
-  if (is.list(data) && !is.null(data$data)) {
-    data = data$data
+  check_file_exists(path)
+  file = acti_decompress_file(path, extension = ".cwa")
+  if (file$temporary) {
+    on.exit(unlink(file$path), add = TRUE)
   }
-  if (is.null(header)) {
-    header = acti_process_header(data)
-  }
-  header
+  .acti_read_cwa_header_fast(file$path)
 }
 
 #' Read an Uncompressed CWA Header Quickly
@@ -216,15 +209,19 @@ acti_read_cwa_header = function(
   # Decode the packed calendar timestamp and apply its fraction and shift.
   # This is the first-call branch of readAxivity()'s timestamp decoder
   # (lines 28-52), where there is no preceding timestamp to reconcile.
+  # Arithmetic is used instead of bitw*() because the unsigned 32-bit
+  # timestamp exceeds R's integer range for years 2032 and later.
   timestamp = read_uint32(first_block[15:18])
-  coded_minutes = bitwShiftR(timestamp, 6L)
+  bits = function(shift, mask) {
+    as.integer((timestamp %/% 2^shift) %% (mask + 1))
+  }
   start = as.POSIXct(
     sprintf("%d-%d-%d %d:%d:%d",
-            bitwAnd(bitwShiftR(timestamp, 26L), 63L) + 2000L,
-            bitwAnd(bitwShiftR(timestamp, 22L), 15L),
-            bitwAnd(bitwShiftR(timestamp, 17L), 31L),
-            bitwAnd(bitwShiftR(timestamp, 12L), 31L),
-            bitwAnd(coded_minutes, 63L), bitwAnd(timestamp, 63L)),
+            bits(26, 63) + 2000L,
+            bits(22, 15),
+            bits(17, 31),
+            bits(12, 31),
+            bits(6, 63), bits(0, 63)),
     tz = "UTC"
   )
   start = as.POSIXct(as.numeric(start) + fraction / 65536 - shift / data_frequency,
@@ -272,6 +269,10 @@ acti_cwa_apply_tz = function(
     tz = "UTC",
     apply_tz = TRUE,
     verbose = TRUE) {
+  if (is.null(tz)) {
+    tz = ""
+  }
+  assertthat::assert_that(assertthat::is.string(tz))
   time_na_count = sum(is.na(data$time))
   if (apply_tz) {
     if (tz != "") {
@@ -280,9 +281,11 @@ acti_cwa_apply_tz = function(
       data = actibase::set_transformations(data,
                                            "acti_read_cwa:converted_timestamp_to_time",
                                            add = TRUE)
-    }
-    if (verbose) {
-      cli::cli_alert_info("Timezone applied to data")
+      if (verbose) {
+        cli::cli_alert_info("Timezone applied to data")
+      }
+    } else if (verbose) {
+      cli::cli_alert_info("No timezone given, timezone not applied to data")
     }
     formatted_na_count = .acti_cwa_count_formatted_na(data$time, tz = tz)
     if (formatted_na_count > time_na_count) {
@@ -330,16 +333,7 @@ acti_cwa_process_time = function(
                            apply_tz = apply_tz,
                            verbose = verbose)
 
-  time1 = data$time[1]
-  header_start = header$start
-  if (is.null(header_start)) {
-    header_start = header$start_time
-  }
-  if (!is.null(header_start) && length(header_start) > 0 && header_start != time1) {
-    msg = paste0("Header start date is not same time as data$time,",
-                 " may want to use apply_tz = FALSE.")
-    warning(msg)
-  }
+  warn_header_start_mismatch(header, data$time)
 
   any_na_time = anyNA(data$time)
   if (any_na_time) {
