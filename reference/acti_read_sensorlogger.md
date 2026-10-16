@@ -37,4 +37,5 @@ acti_read_sensorlogger_general(file, ..., verbose = FALSE)
 
 ## Value
 
-A `data.frame` of data
+A `data.frame` of data if a single CSV file is given, otherwise a named
+list of `data.frame`s, one per sensor file (always a list for zip files)

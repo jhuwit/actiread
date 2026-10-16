@@ -32,8 +32,8 @@ acti_info_gt3x(path, ...)
 
 - imputeZeroes:
 
-  Impute zeros in case there are missingness? Default is `FALSE`, in
-  which case the time series will be incomplete in case there is
+  Impute zeros in case there are missingness? Default is `TRUE`. If
+  `FALSE`, the time series will be incomplete in case there is
   missingness.
 
 - verbose:
@@ -61,12 +61,15 @@ acti_info_gt3x(path, ...)
 
 - tz:
 
-  timezone to project the data into. The data read in via
+  timezone to display the data in when `apply_tz = TRUE`. The data read
+  in via
   [`read.gt3x::read.gt3x()`](https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html)
-  says the timezone is GMT, but the time values is in the native
-  timezone. So this data is projected into the correct time zone and
-  then forced into the timezone given by `tz`. Set to `NULL` to not
-  apply this forcing.
+  says the timezone is GMT, but the time values are the device's local
+  clock time. When `apply_tz = TRUE`, the header `TimeZone` offset is
+  used to recover the true time, which is then shown in `tz` (the
+  default `"GMT"` gives UTC times). Set to `NULL` to keep the
+  fixed-offset zone from the header (e.g. `"Etc/GMT+4"` for `-04:00`),
+  or UTC if the offset is not a whole number of hours.
 
 ## Value
 

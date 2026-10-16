@@ -7,6 +7,7 @@ It currently focuses on:
 
 - reading `gt3x` files
 - reading `cwa` files
+- reading GENEActiv, Genea, and Parmay Tech Matrix `.bin` files
 - Reading [SensorLog](https://sensorlog.berndthomas.net/) files
 - Reading [SensorLogger](https://www.tszheichoi.com/sensorlogger) files
 - loading small example files bundled with the package
@@ -83,6 +84,14 @@ tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
   [`acti_read_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
 - read `.cwa`/`.cwa.gz` files with
   [`acti_read_cwa()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md)
+- read GENEActiv, Genea, and Matrix `.bin` files with
+  [`acti_read_geneactiv()`](https://jhuwit.github.io/actiread/reference/acti_read_geneactiv.md),
+  [`acti_read_genea()`](https://jhuwit.github.io/actiread/reference/acti_read_genea.md),
+  and
+  [`acti_read_parmay_matrix()`](https://jhuwit.github.io/actiread/reference/acti_read_parmay_matrix.md)
+- let
+  [`acti_read()`](https://jhuwit.github.io/actiread/reference/acti_read.md)
+  pick the reader, inspecting `.bin` files to identify the device
 - inspect GT3X metadata with
   [`acti_info_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)
 - use bundled sample files with

@@ -90,7 +90,7 @@ to reason about the conversion logic:
 
 ``` r
 tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
-[1] "Etc/GMT0"  "Etc/GMT-5" "Etc/GMT+1"
+[1] "Etc/GMT0"  "Etc/GMT+5" "Etc/GMT-1"
 ```
 
 ## Standardizing

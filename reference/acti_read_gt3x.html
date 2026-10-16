@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">actiread</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,8 +73,8 @@
 
 <dt id="arg-imputezeroes">imputeZeroes<a class="anchor" aria-label="anchor" href="#arg-imputezeroes"></a></dt>
 <dd><p>Impute zeros in case there are missingness?
-Default is <code>FALSE</code>, in which case
-the time series will be incomplete in case there is missingness.</p></dd>
+Default is <code>TRUE</code>.  If <code>FALSE</code>, the time series will be incomplete in case
+there is missingness.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -101,11 +101,13 @@ including checking that <code>sample_rate</code> is in the attributes.</p></dd>
 
 
 <dt id="arg-tz">tz<a class="anchor" aria-label="anchor" href="#arg-tz"></a></dt>
-<dd><p>timezone to project the data into.  The data read in via
-<code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code> says the timezone is GMT, but the time values is in the
-native timezone.  So this data is projected into the correct time zone and then
-forced into the timezone given by <code>tz</code>.  Set to <code>NULL</code> to not apply this
-forcing.</p></dd>
+<dd><p>timezone to display the data in when <code>apply_tz = TRUE</code>.  The
+data read in via <code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code> says the timezone is GMT, but the
+time values are the device's local clock time.  When <code>apply_tz = TRUE</code>, the
+header <code>TimeZone</code> offset is used to recover the true time, which is then
+shown in <code>tz</code> (the default <code>"GMT"</code> gives UTC times).  Set to <code>NULL</code> to keep
+the fixed-offset zone from the header (e.g. <code>"Etc/GMT+4"</code> for <code>-04:00</code>), or
+UTC if the offset is not a whole number of hours.</p></dd>
 
 </dl></div>
     <div class="section level2">

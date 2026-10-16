@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">actiread</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,27 @@
       <small>Source: <a href="https://github.com/jhuwit/actiread/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.7.0" id="actiread-070">actiread 0.7.0<a class="anchor" aria-label="anchor" href="#actiread-070"></a></h2>
+<ul><li>Added <code><a href="../reference/acti_read_genea.html">acti_read_genea()</a></code>/<code><a href="../reference/acti_read_genea.html">acti_read_genea_header()</a></code> for original ‘Genea’ <code>.bin</code> files and <code><a href="../reference/acti_read_parmay_matrix.html">acti_read_parmay_matrix()</a></code>/<code><a href="../reference/acti_read_parmay_matrix.html">acti_read_parmay_matrix_header()</a></code> for ‘Parmay Tech Matrix’ <code>.bin</code> files, with example data (<code><a href="../reference/acti_example_data.html">acti_example_genea()</a></code>, <code><a href="../reference/acti_example_data.html">acti_example_parmay_matrix()</a></code>) from ‘GGIRread’.</li>
+<li>
+<code><a href="../reference/acti_read.html">acti_read()</a></code> now inspects the first kilobyte of <code>.bin</code> files (and files with unknown extensions) to choose between GENEActiv, Genea, Matrix, and CWA, and dispatches <code>.bz2</code> and <code>.xz</code> compressed files.</li>
+<li>
+<code><a href="../reference/tzoffset_to_tz.html">tzoffset_to_tz()</a></code> now returns the correctly-signed <code>Etc/GMT</code> zone (<code>"-05:00"</code> is <code>"Etc/GMT+5"</code>) and gives informative errors.</li>
+<li>
+<code>acti_read_gt3x(apply_tz = TRUE)</code> now handles non-whole-hour offsets, shows the corrected times in <code>tz</code> (previously a non-UTC <code>tz</code> gave shifted times), and <code>tz = NULL</code> keeps the header’s fixed-offset zone instead of the system time zone.</li>
+<li>CWA and GT3X readers no longer error on zero-row data or a missing first time; <code><a href="../reference/acti_py_read_cwa.html">acti_py_read_cwa()</a></code> accepts <code>tz = NULL</code>.</li>
+<li>
+<code><a href="../reference/acti_read_cwa.html">acti_read_cwa_header()</a></code> uses the fast header parser, and <code><a href="../reference/acti_read_geneactiv.html">acti_read_geneactiv_header()</a></code> no longer reads the whole file.</li>
+<li>
+<code><a href="../reference/acti_read_geneactiv.html">acti_read_geneactiv()</a></code> gains <code>apply_tz</code>.</li>
+<li>Header <code>acceleration_min</code>/<code>acceleration_max</code> are now numeric for all readers.</li>
+<li>
+<code><a href="../reference/acti_read_sensorlogger.html">acti_read_sensorlogger()</a></code> always returns a list for zip files, and <code><a href="../reference/acti_read_sensorlogger.html">acti_read_sensorlogger_location()</a></code> uses its column specification and fills missing columns with <code>NA</code>.</li>
+<li>
+<code><a href="../reference/acti_rewrite_sensorlog_csv.html">acti_rewrite_sensorlog_csv()</a></code> handles quoted fields containing commas and columns after the battery fields.</li>
+<li>Readers now give a clear error for files that do not exist.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.0" id="actiread-060">actiread 0.6.0<a class="anchor" aria-label="anchor" href="#actiread-060"></a></h2>
 <ul><li>Added <code><a href="../reference/acti_read.html">acti_read()</a></code> to guess the reader from CWA, GT3X, and GENEActiv file extensions, including <code>.gz</code> compressed files.</li>

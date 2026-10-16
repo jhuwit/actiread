@@ -1,8 +1,11 @@
 # Read an actigraphy or sensor file
 
 Guess the appropriate reader from the file extension and pass additional
-arguments through to that reader. Compressed `.gz` files are dispatched
-by their underlying extension.
+arguments through to that reader. Compressed `.gz`, `.bz2`, and `.xz`
+files are dispatched by their underlying extension. Because 'GENEActiv',
+'Genea', and 'Parmay Matrix' devices all write `.bin` files, the first
+kilobyte of `.bin` files (and files with an unknown extension) is
+inspected to pick the reader.
 
 ## Usage
 
@@ -31,7 +34,6 @@ The result from the selected reader.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-data = acti_read("activity.gt3x")
-} # }
+data = acti_read(acti_example_cwa(), verbose = FALSE)
+data = acti_read(acti_example_genea(), verbose = FALSE)
 ```

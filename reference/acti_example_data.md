@@ -11,6 +11,10 @@ acti_example_cwa()
 
 acti_example_geneactiv()
 
+acti_example_genea()
+
+acti_example_parmay_matrix()
+
 acti_example_sensorlog_file()
 
 acti_example_sensorlogger_file()
@@ -32,4 +36,8 @@ acti_example_cwa()
 #> [1] "/home/runner/work/_temp/Library/actiread/extdata/ax3_testfile.cwa.gz"
 acti_example_sensorlogger_file()
 #> [1] "/home/runner/work/_temp/Library/actiread/extdata/SensorLogger-2025-04-28_22-04-35.zip"
+acti_example_genea()
+#> [1] "/home/runner/work/_temp/Library/actiread/extdata/genea_testfile.bin.gz"
+acti_example_parmay_matrix()
+#> [1] "/home/runner/work/_temp/Library/actiread/extdata/mtx_12.5Hz_acc.BIN.gz"
 ```
