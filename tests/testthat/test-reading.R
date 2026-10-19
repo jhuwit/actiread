@@ -605,9 +605,38 @@ testthat::test_that("GT3X ignores digits when read.gt3x does not support it", {
       actiread::acti_example_gt3x(),
       verbose = FALSE,
       fill_zeroes = FALSE,
-      digits = 3L
+      digits = 5L
     ),
     "requires read.gt3x"
   )
   testthat::expect_true(all(c("time", "X", "Y", "Z") %in% names(res)))
+  # the default of 3 matches old read.gt3x, so no warning
+  testthat::expect_no_warning(
+    actiread::acti_read_gt3x(
+      actiread::acti_example_gt3x(),
+      verbose = FALSE,
+      fill_zeroes = FALSE
+    )
+  )
+})
+
+testthat::test_that("GT3X defaults to 3 digits and digits = NULL uses read.gt3x", {
+  res = actiread::acti_read_gt3x(
+    actiread::acti_example_gt3x(),
+    verbose = FALSE,
+    fill_zeroes = FALSE
+  )
+  testthat::expect_equal(mean(res$X), -0.0742151351351352)
+  testthat::expect_equal(res$X, round(res$X, 3))
+  res_null = actiread::acti_read_gt3x(
+    actiread::acti_example_gt3x(),
+    verbose = FALSE,
+    fill_zeroes = FALSE,
+    digits = NULL
+  )
+  testthat::expect_equal(res_null$X, res$X)
+  testthat::expect_error(
+    actiread::acti_read_gt3x(actiread::acti_example_gt3x(), digits = -1),
+    "digits"
+  )
 })

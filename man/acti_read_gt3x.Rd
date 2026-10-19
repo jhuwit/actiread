@@ -11,6 +11,7 @@ acti_read_gt3x(
   imputeZeroes = TRUE,
   verbose = TRUE,
   ...,
+  digits = 3L,
   fill_zeroes = TRUE,
   apply_tz = FALSE,
   check_attributes = TRUE,
@@ -32,6 +33,16 @@ there is missingness.}
 \item{verbose}{print diagnostic messages, higher values = more verbosity.}
 
 \item{...}{additional arguments to pass to \code{\link[read.gt3x:read.gt3x]{read.gt3x::read.gt3x()}}}
+
+\item{digits}{number of digits to round the acceleration values to, passed
+to \code{\link[read.gt3x:read.gt3x]{read.gt3x::read.gt3x()}} (requires \verb{read.gt3x >= 1.3.0}).  The default
+\code{3L} matches both \code{\link[read.gt3x:read.gt3x]{read.gt3x::read.gt3x()}} and ActiLife, so the data
+agree with ActiLife exports.  Set to \code{NULL} to use the
+\code{\link[read.gt3x:read.gt3x]{read.gt3x::read.gt3x()}} default.  If you will resample the data (e.g. to
+30 Hz for activity counts), read with \code{digits} of at least \code{6L} (e.g.
+\code{8L}), resample, and then round to 3 digits: rounding to 3 before
+resampling loses precision, and rounding values already rounded to 5
+digits rounds twice (e.g. \code{0.1234996} to \code{0.12350} to \code{0.124}).}
 
 \item{fill_zeroes}{Rows with all zeros will be filled in with the last
 observation carried forward as is done with ActiLife.  Recommended}

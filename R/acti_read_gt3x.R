@@ -7,6 +7,15 @@
 #' Default is `TRUE`.  If `FALSE`, the time series will be incomplete in case
 #' there is missingness.
 #' @param ... additional arguments to pass to [read.gt3x::read.gt3x()]
+#' @param digits number of digits to round the acceleration values to, passed
+#' to [read.gt3x::read.gt3x()] (requires `read.gt3x >= 1.3.0`).  The default
+#' `3L` matches both [read.gt3x::read.gt3x()] and ActiLife, so the data
+#' agree with ActiLife exports.  Set to `NULL` to use the
+#' [read.gt3x::read.gt3x()] default.  If you will resample the data (e.g. to
+#' 30 Hz for activity counts), read with `digits` of at least `6L` (e.g.
+#' `8L`), resample, and then round to 3 digits: rounding to 3 before
+#' resampling loses precision, and rounding values already rounded to 5
+#' digits rounds twice (e.g. `0.1234996` to `0.12350` to `0.124`).
 #' @param verbose print diagnostic messages, higher values = more verbosity.
 #' @param apply_tz Apply the timezone from the header `TimeZone` attribute,
 #' if available
@@ -40,6 +49,7 @@ acti_read_gt3x = function(
     imputeZeroes = TRUE,
     verbose = TRUE,
     ...,
+    digits = 3L,
     fill_zeroes = TRUE,
     apply_tz = FALSE,
     check_attributes = TRUE,
@@ -51,21 +61,26 @@ acti_read_gt3x = function(
     on.exit(unlink(file$path), add = TRUE)
   }
   path = file$path
+  if (!is.null(digits)) {
+    assertthat::assert_that(assertthat::is.count(digits) || digits == 0)
+    digits = as.integer(digits)
+  }
+  # read.gt3x < 1.3.0 always rounds to 3 digits, so only warn if a
+  # different number of digits was asked for
+  if (!is.null(digits) && !gt3x_supports_digits()) {
+    if (digits != 3L) {
+      cli::cli_warn(paste0(
+        "{.arg digits} requires read.gt3x >= 1.3.0, ",
+        "ignoring {.arg digits} = {digits}"))
+    }
+    digits = NULL
+  }
   args = list(path = path,
               asDataFrame = asDataFrame,
               imputeZeroes = imputeZeroes,
               verbose = verbose > 1,
               ...)
-  if (gt3x_supports_digits()) {
-    if (is.null(args[["digits"]])) {
-      args$digits = 5L
-    }
-  } else if (!is.null(args[["digits"]])) {
-    cli::cli_warn(paste0(
-      "{.arg digits} requires read.gt3x >= 1.3.0, ",
-      "ignoring {.arg digits} = {args[['digits']]}"))
-    args$digits = NULL
-  }
+  args$digits = digits
   data = do.call(read.gt3x::read.gt3x, args = args)
   data = set_transformations(data,
                              "acti_read_gt3x:data_read",

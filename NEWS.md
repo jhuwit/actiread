@@ -1,3 +1,12 @@
+# actiread 0.8.0
+
+* `acti_read_gt3x()` gains a `digits` argument with default `3L`, matching
+  `read.gt3x::read.gt3x()` and ActiLife (previously it silently read at 5
+  digits).  `digits = NULL` uses the `read.gt3x` default.  If you resample
+  the data, read at 6 or more digits (e.g. `8L`) and round to 3 afterwards.
+* With `read.gt3x` < 1.3.0, which cannot take `digits` and always rounds to
+  3 digits, `acti_read_gt3x()` only warns when `digits` is not 3.
+
 # actiread 0.7.0
 
 * Added `acti_read_genea()`/`acti_read_genea_header()` for original 'Genea'
