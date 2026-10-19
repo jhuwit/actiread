@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">actiread</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,7 @@
 <span>  imputeZeroes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3L</span>,</span>
 <span>  fill_zeroes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  apply_tz <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  check_attributes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -83,6 +84,18 @@ there is missingness.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>additional arguments to pass to <code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code></p></dd>
+
+
+<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
+<dd><p>number of digits to round the acceleration values to, passed
+to <code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code> (requires <code>read.gt3x &gt;= 1.3.0</code>).  The default
+<code>3L</code> matches both <code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code> and ActiLife, so the data
+agree with ActiLife exports.  Set to <code>NULL</code> to use the
+<code><a href="https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html" class="external-link">read.gt3x::read.gt3x()</a></code> default.  If you will resample the data (e.g. to
+30 Hz for activity counts), read with <code>digits</code> of at least <code>6L</code> (e.g.
+<code>8L</code>), resample, and then round to 3 digits: rounding to 3 before
+resampling loses precision, and rounding values already rounded to 5
+digits rounds twice (e.g. <code>0.1234996</code> to <code>0.12350</code> to <code>0.124</code>).</p></dd>
 
 
 <dt id="arg-fill-zeroes">fill_zeroes<a class="anchor" aria-label="anchor" href="#arg-fill-zeroes"></a></dt>

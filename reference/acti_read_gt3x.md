@@ -11,6 +11,7 @@ acti_read_gt3x(
   imputeZeroes = TRUE,
   verbose = TRUE,
   ...,
+  digits = 3L,
   fill_zeroes = TRUE,
   apply_tz = FALSE,
   check_attributes = TRUE,
@@ -44,6 +45,21 @@ acti_info_gt3x(path, ...)
 
   additional arguments to pass to
   [`read.gt3x::read.gt3x()`](https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html)
+
+- digits:
+
+  number of digits to round the acceleration values to, passed to
+  [`read.gt3x::read.gt3x()`](https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html)
+  (requires `read.gt3x >= 1.3.0`). The default `3L` matches both
+  [`read.gt3x::read.gt3x()`](https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html)
+  and ActiLife, so the data agree with ActiLife exports. Set to `NULL`
+  to use the
+  [`read.gt3x::read.gt3x()`](https://rdrr.io/pkg/read.gt3x/man/read.gt3x.html)
+  default. If you will resample the data (e.g. to 30 Hz for activity
+  counts), read with `digits` of at least `6L` (e.g. `8L`), resample,
+  and then round to 3 digits: rounding to 3 before resampling loses
+  precision, and rounding values already rounded to 5 digits rounds
+  twice (e.g. `0.1234996` to `0.12350` to `0.124`).
 
 - fill_zeroes:
 
