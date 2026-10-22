@@ -23,8 +23,8 @@ unzip_files = function(file) {
 
 #' Read SensorLog Data
 #'
-#' @param file A character vector of SensorLog files, usually from unzipping
-#' the file
+#' @param path A character vector of SensorLog files, usually from unzipping
+#' the file, or a zip file of SensorLog files
 #' @param verbose print diagnostic messages.  Either logical or integer, where
 #' higher values are higher levels of verbosity.
 #' @param robust if `TRUE` then [acti_rewrite_sensorlog_csv] is run on the data
@@ -33,29 +33,29 @@ unzip_files = function(file) {
 #' @export
 #' @examples
 #' library(actiread)
-#' file = acti_example_sensorlog_file()
-#' df = acti_read_sensorlog(file)
+#' path = acti_example_sensorlog_file()
+#' df = acti_read_sensorlog(path)
 #' head(df)
 acti_read_sensorlog = function(
-    file,
-    verbose = FALSE,
+    path,
+    verbose = TRUE,
     robust = FALSE
 ) {
-  file = unzip_files(file)
+  path = unzip_files(path)
   lon_zero = lat_zero = lat = lon = NULL
   rm(list = c("lat", "lon", "lat_zero", "lon_zero"))
 
-  names(file) = file
+  names(path) = path
 
   cn = acti_sensorlog_csv_colnames_mapping()
   spec = acti_sensorlog_csv_spec()
 
   if (robust) {
-    file = sapply(file, acti_rewrite_sensorlog_csv, verbose = verbose > 1)
+    path = sapply(path, acti_rewrite_sensorlog_csv, verbose = verbose > 1)
   }
   data =
-    purrr::map_df(names(file), function(nx) {
-      x = file[[nx]]
+    purrr::map_df(names(path), function(nx) {
+      x = path[[nx]]
       r = read_csv_safe(x, progress = FALSE, col_types = spec)
       # r = readr::read_csv(x, col_types = spec)
       if (nrow(r) == 0) {

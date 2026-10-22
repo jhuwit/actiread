@@ -5,7 +5,8 @@
 * This is an update to the CRAN version (0.5.0).  It adds readers for
   'Genea' and 'Parmay Tech Matrix' binary files, fixes time zone handling,
   and adds a `digits` argument to `acti_read_gt3x()` so the default output
-  matches ActiLife.
+  matches ActiLife.  The readers now take `path` instead of `file`, matching
+  the other readers.  (0.8.0 was submitted but did not reach CRAN.)
 
 * checking CRAN incoming feasibility ... NOTE
   Size of tarball: 7339979 bytes

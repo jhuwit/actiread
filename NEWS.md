@@ -1,3 +1,12 @@
+# actiread 0.9.0
+
+* `acti_read()`, `acti_read_sensorlog()`, `acti_read_sensorlogger()`,
+  `acti_read_sensorlogger_location()`, `acti_read_sensorlogger_general()`, and
+  `acti_rewrite_sensorlog_csv()` take `path` instead of `file`, matching the
+  other readers.
+* The SensorLog/SensorLogger readers and `acti_rewrite_sensorlog_csv()` now
+  default to `verbose = TRUE`.
+
 # actiread 0.8.0
 
 * `acti_read_gt3x()` gains a `digits` argument with default `3L`, matching

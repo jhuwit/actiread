@@ -1,7 +1,7 @@
 Type: Package
 Package: actiread
 Title: Baseline Package for Reading Actigraphy and Activity Data
-Version: 0.8.0
+Version: 0.9.0
 Authors@R: c(
     person(given = "John",
            family = "Muschelli",
@@ -44,7 +44,7 @@ Imports:
     readr,
     tools,
     utils
-URL: https://jhuwit.github.io/actiread/
+URL: https://github.com/jhuwit/actiread, https://jhuwit.github.io/actiread/
 BugReports: https://github.com/jhuwit/actiread/issues
 Config/roxygen2/version: 8.0.0
 Roxygen: list(markdown = TRUE)

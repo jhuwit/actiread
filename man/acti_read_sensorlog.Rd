@@ -6,15 +6,15 @@
 \alias{acti_sensorlog_csv_colnames_mapping}
 \title{Read SensorLog Data}
 \usage{
-acti_read_sensorlog(file, verbose = FALSE, robust = FALSE)
+acti_read_sensorlog(path, verbose = TRUE, robust = FALSE)
 
 acti_sensorlog_csv_spec()
 
 acti_sensorlog_csv_colnames_mapping()
 }
 \arguments{
-\item{file}{A character vector of SensorLog files, usually from unzipping
-the file}
+\item{path}{A character vector of SensorLog files, usually from unzipping
+the file, or a zip file of SensorLog files}
 
 \item{verbose}{print diagnostic messages.  Either logical or integer, where
 higher values are higher levels of verbosity.}
@@ -30,7 +30,7 @@ Read SensorLog Data
 }
 \examples{
 library(actiread)
-file = acti_example_sensorlog_file()
-df = acti_read_sensorlog(file)
+path = acti_example_sensorlog_file()
+df = acti_read_sensorlog(path)
 head(df)
 }

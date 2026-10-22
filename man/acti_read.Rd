@@ -4,10 +4,10 @@
 \alias{acti_read}
 \title{Read an actigraphy or sensor file}
 \usage{
-acti_read(file, ..., verbose = TRUE)
+acti_read(path, ..., verbose = TRUE)
 }
 \arguments{
-\item{file}{Path to a file to read.}
+\item{path}{Path to a file to read.}
 
 \item{...}{Arguments passed to the selected reader.}
 
