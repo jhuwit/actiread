@@ -1,4 +1,4 @@
-# actiread (development version)
+# actiread 0.9.0
 
 * `acti_read()`, `acti_read_sensorlog()`, `acti_read_sensorlogger()`,
   `acti_read_sensorlogger_location()`, `acti_read_sensorlogger_general()`, and
