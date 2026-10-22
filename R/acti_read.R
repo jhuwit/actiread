@@ -7,7 +7,7 @@
 #' kilobyte of `.bin` files (and files with an unknown extension) is inspected
 #' to pick the reader.
 #'
-#' @param file Path to a file to read.
+#' @param path Path to a file to read.
 #' @param ... Arguments passed to the selected reader.
 #' @param verbose Print the selected reader before reading. Defaults to `TRUE`.
 #' @returns The result from the selected reader.
@@ -15,28 +15,28 @@
 #' @examples
 #' data = acti_read(acti_example_cwa(), verbose = FALSE)
 #' data = acti_read(acti_example_genea(), verbose = FALSE)
-acti_read = function(file, ..., verbose = TRUE) {
-  if (length(file) != 1L || !is.character(file) || is.na(file)) {
-    stop("`file` must be a single, non-missing file path.", call. = FALSE)
+acti_read = function(path, ..., verbose = TRUE) {
+  if (length(path) != 1L || !is.character(path) || is.na(path)) {
+    stop("`path` must be a single, non-missing file path.", call. = FALSE)
   }
 
-  reader_name = acti_guess_reader(file)
+  reader_name = acti_guess_reader(path)
   if (is.na(reader_name)) {
-    extension = acti_file_extension(file)
-    if (file.exists(file) && identical(extension, "bin")) {
-      stop("Cannot recognise the device that wrote '", file,
+    extension = acti_file_extension(path)
+    if (file.exists(path) && identical(extension, "bin")) {
+      stop("Cannot recognise the device that wrote '", path,
            "' (not GENEActiv, Genea, or Matrix).", call. = FALSE)
     }
     stop("Cannot guess a reader for file extension '.", extension, "'.",
          call. = FALSE)
   }
-  check_file_exists(file)
+  check_file_exists(path)
 
   if (isTRUE(verbose)) {
-    message("Using ", reader_name, " to read ", file)
+    message("Using ", reader_name, " to read ", path)
   }
   reader = get(reader_name, mode = "function", inherits = TRUE)
-  reader(file, ..., verbose = verbose)
+  reader(path, ..., verbose = verbose)
 }
 
 # Lower-case extension after removing any compression extension

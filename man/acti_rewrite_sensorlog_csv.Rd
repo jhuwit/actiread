@@ -5,13 +5,13 @@
 \title{Rewrite a CSV that may have issues with export from SensorLog}
 \usage{
 acti_rewrite_sensorlog_csv(
-  file,
+  path,
   outfile = tempfile(fileext = ".csv"),
-  verbose = FALSE
+  verbose = TRUE
 )
 }
 \arguments{
-\item{file}{Input CSV file}
+\item{path}{Input CSV file}
 
 \item{outfile}{Output CSV file}
 

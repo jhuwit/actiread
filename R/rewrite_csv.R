@@ -1,6 +1,6 @@
 #' Rewrite a CSV that may have issues with export from SensorLog
 #'
-#' @param file Input CSV file
+#' @param path Input CSV file
 #' @param outfile Output CSV file
 #' @param verbose Print Diagnostic messages
 #'
@@ -12,19 +12,19 @@
 #' files = utils::unzip(sl_file, exdir = tfile)
 #' result = actiread::acti_rewrite_sensorlog_csv(files)
 acti_rewrite_sensorlog_csv = function(
-    file,
+    path,
     outfile = tempfile(fileext = ".csv"),
-    verbose = FALSE
+    verbose = TRUE
 ) {
   if (verbose) {
     message(
       paste0("File being processed:\n",
-             file)
+             path)
     )
   }
-  check_file_exists(file)
+  check_file_exists(path)
   # read the files in
-  txt = readLines(file)
+  txt = readLines(path)
   cn = strsplit(txt[1], ",")[[1]]
   ind = which(cn ==  "pedometerFloorDescended(N)")
   ind2 = which(cn ==  "pedometerEndDate(txt)")

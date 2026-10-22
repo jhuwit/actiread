@@ -74,14 +74,14 @@ create_lat_lon_zero = function(df) {
 
 #' @export
 #' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_location = function(file, ...) {
-  check_file_exists(file)
+acti_read_sensorlogger_location = function(path, ...) {
+  check_file_exists(path)
   cn = acti_sensorlogger_location_colnames_mapping()
-  args = list(file, ...)
+  args = list(path, ...)
   if (is.null(args[["col_types"]])) {
     # only use the parsers for the columns in the file to avoid warnings
     file_cn = colnames(readr::read_csv(
-      file, n_max = 0, col_types = readr::cols(.default = "c"),
+      path, n_max = 0, col_types = readr::cols(.default = "c"),
       progress = FALSE, show_col_types = FALSE))
     spec = acti_sensorlogger_location_spec()
     spec$cols = spec$cols[intersect(names(spec$cols), file_cn)]
@@ -93,7 +93,7 @@ acti_read_sensorlogger_location = function(file, ...) {
   }
   missing_cols = setdiff(cn, colnames(df))
   if (length(missing_cols) > 0) {
-    warning("Missing expected columns from ", file, ": ",
+    warning("Missing expected columns from ", path, ": ",
             paste(missing_cols, collapse = ", "), ", filling with NA")
     for (icol in missing_cols) {
       df[[icol]] = NA_real_
@@ -103,8 +103,8 @@ acti_read_sensorlogger_location = function(file, ...) {
   colnames(df) = names(cn)
   df$time = acti_convert_sensorlogger_time(df$time)
   df = create_lat_lon_zero(df)
-  df$file = file
-  stub = acti_sensorlogger_stub(file)
+  df$file = path
+  stub = acti_sensorlogger_stub(path)
   df$cat_type_sensor = stub
   df
 }

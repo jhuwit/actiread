@@ -1,6 +1,6 @@
 #' Read SensorLogger Data
 #'
-#' @param file A character vector of SensorLogger files, usually from unzipping
+#' @param path A character vector of SensorLogger files, usually from unzipping
 #' the file, or a zip file of SensorLogger files
 #' @param verbose print diagnostic messages.  Either logical or integer, where
 #' higher values are higher levels of verbosity.
@@ -12,22 +12,22 @@
 #' files)
 #' @export
 acti_read_sensorlogger = function(
-    file,
-    verbose = FALSE,
+    path,
+    verbose = TRUE,
     ...
 ) {
   lon_zero = lat_zero = lat = lon = NULL
   rm(list = c("lat", "lon", "lat_zero", "lon_zero"))
 
-  input_is_zip = any(is_zip_file(file))
-  file = unzip_files(file)
-  stub = acti_sensorlogger_stub(file)
-  names(file) = make.unique(stub, sep = "_")
+  input_is_zip = any(is_zip_file(path))
+  path = unzip_files(path)
+  stub = acti_sensorlogger_stub(path)
+  names(path) = make.unique(stub, sep = "_")
 
-  data_list = purrr::map(file, function(r) {
+  data_list = purrr::map(path, function(r) {
     data = acti_sensorlogger_reader(r, verbose = verbose, ...,  type = NULL)
   })
-  if (!input_is_zip && length(file) == 1 && length(data_list) == 1) {
+  if (!input_is_zip && length(path) == 1 && length(data_list) == 1) {
     data_list = data_list[[1]]
   }
 
@@ -56,9 +56,9 @@ acti_sensorlogger_stub = function(x) {
 
 #' @export
 #' @rdname acti_read_sensorlogger
-acti_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
-  check_file_exists(file)
-  df = read_csv_safe(file, ...)
+acti_read_sensorlogger_general = function(path, ..., verbose = TRUE) {
+  check_file_exists(path)
+  df = read_csv_safe(path, ...)
   if (nrow(df) == 0) {
     return(NULL)
   }
@@ -68,8 +68,8 @@ acti_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
     df$time = acti_convert_sensorlogger_time(df$time)
   }
 
-  df$file = file
-  stub = acti_sensorlogger_stub(file)
+  df$file = path
+  stub = acti_sensorlogger_stub(path)
   df$cat_type_sensor = stub
 
   if (nrow(df) > 0) {
@@ -79,9 +79,9 @@ acti_read_sensorlogger_general = function(file, ..., verbose = FALSE) {
   df
 }
 
-acti_sensorlogger_reader = function(file, ..., type = NULL, verbose = FALSE) {
+acti_sensorlogger_reader = function(path, ..., type = NULL, verbose = TRUE) {
   if (is.null(type)) {
-    type = acti_sensorlogger_stub(file)
+    type = acti_sensorlogger_stub(path)
   }
   func = switch(
     type,
@@ -105,7 +105,7 @@ acti_sensorlogger_reader = function(file, ..., type = NULL, verbose = FALSE) {
   if (!verbose & !"show_col_types" %in% names(args)) {
     args$show_col_types = FALSE
   }
-  args$file = file
+  args$path = path
   do.call(func, args = args)
 }
 
