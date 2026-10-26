@@ -6,15 +6,15 @@ Rewrite a CSV that may have issues with export from SensorLog
 
 ``` r
 acti_rewrite_sensorlog_csv(
-  file,
+  path,
   outfile = tempfile(fileext = ".csv"),
-  verbose = FALSE
+  verbose = TRUE
 )
 ```
 
 ## Arguments
 
-- file:
+- path:
 
   Input CSV file
 
@@ -37,4 +37,6 @@ sl_file = actiread::acti_example_sensorlog_file()
 tfile = tempfile()
 files = utils::unzip(sl_file, exdir = tfile)
 result = actiread::acti_rewrite_sensorlog_csv(files)
+#> File being processed:
+#> /tmp/Rtmp3t1htk/file1ae461afdc72/SensorLogFiles_my_iOS_device_250311_14-55-58_2/2025-03-11_14_44_11_my_iOS_device.csv
 ```

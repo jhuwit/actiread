@@ -10,12 +10,12 @@ inspected to pick the reader.
 ## Usage
 
 ``` r
-acti_read(file, ..., verbose = TRUE)
+acti_read(path, ..., verbose = TRUE)
 ```
 
 ## Arguments
 
-- file:
+- path:
 
   Path to a file to read.
 

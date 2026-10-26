@@ -1,5 +1,19 @@
 # Changelog
 
+## actiread 0.9.0
+
+- [`acti_read()`](https://jhuwit.github.io/actiread/reference/acti_read.md),
+  [`acti_read_sensorlog()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlog.md),
+  [`acti_read_sensorlogger()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlogger.md),
+  [`acti_read_sensorlogger_location()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlogger.md),
+  [`acti_read_sensorlogger_general()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlogger.md),
+  and
+  [`acti_rewrite_sensorlog_csv()`](https://jhuwit.github.io/actiread/reference/acti_rewrite_sensorlog_csv.md)
+  take `path` instead of `file`, matching the other readers.
+- The SensorLog/SensorLogger readers and
+  [`acti_rewrite_sensorlog_csv()`](https://jhuwit.github.io/actiread/reference/acti_rewrite_sensorlog_csv.md)
+  now default to `verbose = TRUE`.
+
 ## actiread 0.8.0
 
 - [`acti_read_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md)

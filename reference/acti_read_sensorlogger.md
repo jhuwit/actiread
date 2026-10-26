@@ -9,16 +9,16 @@ acti_sensorlogger_location_colnames_mapping()
 
 acti_sensorlogger_location_spec()
 
-acti_read_sensorlogger_location(file, ...)
+acti_read_sensorlogger_location(path, ...)
 
-acti_read_sensorlogger(file, verbose = FALSE, ...)
+acti_read_sensorlogger(path, verbose = TRUE, ...)
 
-acti_read_sensorlogger_general(file, ..., verbose = FALSE)
+acti_read_sensorlogger_general(path, ..., verbose = TRUE)
 ```
 
 ## Arguments
 
-- file:
+- path:
 
   A character vector of SensorLogger files, usually from unzipping the
   file, or a zip file of SensorLogger files

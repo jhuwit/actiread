@@ -5,7 +5,7 @@ Read SensorLog Data
 ## Usage
 
 ``` r
-acti_read_sensorlog(file, verbose = FALSE, robust = FALSE)
+acti_read_sensorlog(path, verbose = TRUE, robust = FALSE)
 
 acti_sensorlog_csv_spec()
 
@@ -14,9 +14,10 @@ acti_sensorlog_csv_colnames_mapping()
 
 ## Arguments
 
-- file:
+- path:
 
-  A character vector of SensorLog files, usually from unzipping the file
+  A character vector of SensorLog files, usually from unzipping the
+  file, or a zip file of SensorLog files
 
 - verbose:
 
@@ -37,8 +38,8 @@ A `data.frame` of data
 
 ``` r
 library(actiread)
-file = acti_example_sensorlog_file()
-df = acti_read_sensorlog(file)
+path = acti_example_sensorlog_file()
+df = acti_read_sensorlog(path)
 head(df)
 #> # A tibble: 6 × 14
 #>   file   time  index timestamp   lat   lon altitude speed speed_accuracy accel_X
