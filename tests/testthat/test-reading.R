@@ -616,7 +616,8 @@ testthat::test_that("GT3X ignores digits when read.gt3x does not support it", {
       actiread::acti_example_gt3x(),
       verbose = FALSE,
       fill_zeroes = FALSE
-    )
+    ),
+    message = "requires read.gt3x"
   )
 })
 
