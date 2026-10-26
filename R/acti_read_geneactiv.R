@@ -64,7 +64,7 @@ get_additional_geneactiv_header_info = function(path) {
 
 #' Read GENEActiv Binary File
 #'
-#' @param path Path to geneactiv binary file
+#' @param path Path to GENEActiv binary file
 #' @param start where to start in the file, passed to [GGIRread::readGENEActiv]
 #' @param end where to end in the file, passed to [GGIRread::readGENEActiv]
 #' @param tz time zone for the data `time`, passed to `desiredtz` argument in

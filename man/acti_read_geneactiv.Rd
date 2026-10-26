@@ -18,7 +18,7 @@ acti_read_geneactiv(
 acti_read_geneactiv_header(path)
 }
 \arguments{
-\item{path}{Path to geneactiv binary file}
+\item{path}{Path to GENEActiv binary file}
 
 \item{start}{where to start in the file, passed to \link[GGIRread:readGENEActiv]{GGIRread::readGENEActiv}}
 

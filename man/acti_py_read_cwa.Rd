@@ -27,7 +27,7 @@ Hees et al. 2014
 
 \item{detect_nonwear}{Flag nonwear episodes in the data by setting them to
 \code{NA}. Non-wear episodes are inferred from long periods of no movement.
-90 minute munte windows based on 10-second rolling windows with a
+90 minute windows based on 10-second rolling windows with a
 threshold of 0.015g standard deviation tolerance}
 
 \item{resample_hz}{Target frequency (Hz) to resample the signal. If
