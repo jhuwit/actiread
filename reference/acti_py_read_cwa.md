@@ -37,8 +37,8 @@ acti_py_read_cwa(
 
   Flag nonwear episodes in the data by setting them to `NA`. Non-wear
   episodes are inferred from long periods of no movement. 90 minute
-  munte windows based on 10-second rolling windows with a threshold of
-  0.015g standard deviation tolerance
+  windows based on 10-second rolling windows with a threshold of 0.015g
+  standard deviation tolerance
 
 - resample_hz:
 

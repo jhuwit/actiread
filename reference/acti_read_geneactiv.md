@@ -22,7 +22,7 @@ acti_read_geneactiv_header(path)
 
 - path:
 
-  Path to geneactiv binary file
+  Path to GENEActiv binary file
 
 - start:
 
