@@ -2,6 +2,8 @@
 
 ## actiread 0.9.0
 
+CRAN release: 2026-10-26
+
 - [`acti_read()`](https://jhuwit.github.io/actiread/reference/acti_read.md),
   [`acti_read_sensorlog()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlog.md),
   [`acti_read_sensorlogger()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlogger.md),
