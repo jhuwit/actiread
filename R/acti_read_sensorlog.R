@@ -77,24 +77,24 @@ acti_read_sensorlog = function(
       r = r[, cn]
       colnames(r) = names(cn)
 
-      # r = r %>%
+      # r = r |>
       #   dplyr::mutate(
       #     lat = ifelse(abs(lat) < 0.00001, NA_real_, lat),
       #     lon = ifelse(abs(lon) < 0.00001, NA_real_, lon)
       #   )
 
       # should add lat_zero in there
-      r = r %>%
+      r = r |>
         dplyr::mutate(
           lat_zero = abs(lat) < 0.00001,
           lon_zero = abs(lon) < 0.00001
         )
-      r = r %>%
+      r = r |>
         dplyr::mutate(
           lat = ifelse(lat_zero, NA_real_, lat),
           lon = ifelse(lon_zero, NA_real_, lon)
         )
-      r = r %>%
+      r = r |>
         dplyr::mutate(
           file = nx
         )
@@ -102,7 +102,7 @@ acti_read_sensorlog = function(
       r
     }, .progress = verbose > 0)
   if (nrow(data) > 0) {
-    data = data %>%
+    data = data |>
       dplyr::select(file, dplyr::everything())
   }
   data

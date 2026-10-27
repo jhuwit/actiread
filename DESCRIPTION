@@ -33,7 +33,6 @@ Imports:
     GGIRread,
     read.gt3x (>= 0.2.0),
     R.utils,
-    magrittr,
     dplyr,
     lubridate,
     assertthat,

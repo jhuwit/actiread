@@ -62,7 +62,7 @@ acti_read_sensorlogger_general = function(path, ..., verbose = TRUE) {
   if (nrow(df) == 0) {
     return(NULL)
   }
-  df = df %>%
+  df = df |>
     janitor::clean_names()
   if (assertthat::has_name(df, "time")) {
     df$time = acti_convert_sensorlogger_time(df$time)
@@ -73,7 +73,7 @@ acti_read_sensorlogger_general = function(path, ..., verbose = TRUE) {
   df$cat_type_sensor = stub
 
   if (nrow(df) > 0) {
-    df = df %>%
+    df = df |>
       dplyr::select(file, dplyr::everything())
   }
   df

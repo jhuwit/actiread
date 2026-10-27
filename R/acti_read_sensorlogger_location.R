@@ -59,12 +59,12 @@ create_lat_lon_zero = function(df) {
   rm(list = c("lat", "lon", "lat_zero", "lon_zero"))
 
   # should add lat_zero in there
-  df = df %>%
+  df = df |>
     dplyr::mutate(
       lat_zero = abs(lat) < 0.00001,
       lon_zero = abs(lon) < 0.00001
     )
-  df = df %>%
+  df = df |>
     dplyr::mutate(
       lat = ifelse(lat_zero, NA_real_, lat),
       lon = ifelse(lon_zero, NA_real_, lon)

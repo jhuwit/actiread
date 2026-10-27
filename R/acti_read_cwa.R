@@ -321,7 +321,7 @@ acti_cwa_process_time = function(
     header = acti_process_header(data)
   }
 
-  data = data %>%
+  data = data |>
     dplyr::as_tibble()
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
