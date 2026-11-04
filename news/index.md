@@ -1,5 +1,9 @@
 # Changelog
 
+## actiread 0.9.1
+
+- Warning for unsorted time in `acti_read_gt3x` and `acti_read_cwa`.
+
 ## actiread 0.9.0
 
 CRAN release: 2026-10-26
