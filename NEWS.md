@@ -1,3 +1,7 @@
+# actiread 0.9.1
+
+* Warning for unsorted time in `acti_read_gt3x` and `acti_read_cwa`.
+  
 # actiread 0.9.0
 
 * `acti_read()`, `acti_read_sensorlog()`, `acti_read_sensorlogger()`,

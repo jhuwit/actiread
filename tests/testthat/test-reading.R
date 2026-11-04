@@ -641,3 +641,92 @@ testthat::test_that("GT3X defaults to 3 digits and digits = NULL uses read.gt3x"
     "digits"
   )
 })
+
+testthat::test_that("GT3X helper warns on unsorted times", {
+  header = list(frequency = 100L)
+  unsorted = data.frame(
+    time = as.POSIXct(c("2020-01-01 00:00:01", "2020-01-01 00:00:00",
+                        "2020-01-01 00:00:02"), tz = "GMT"),
+    X = 1:3, Y = 1:3, Z = 1:3)
+  testthat::expect_warning(
+    res <- actiread:::acti_gt3x_process_time(
+      list(header = header, data = unsorted), apply_tz = FALSE,
+      verbose = FALSE),
+    "not sorted"
+  )
+  # data are returned as-is, not reordered
+  testthat::expect_equal(res$time, unsorted$time)
+
+  sorted = unsorted[order(unsorted$time), ]
+  testthat::expect_no_warning(
+    actiread:::acti_gt3x_process_time(
+      list(header = header, data = sorted), apply_tz = FALSE,
+      verbose = FALSE)
+  )
+
+  # NAs alone do not trigger the unsorted warning, but unsorted values do
+  sorted_na = sorted
+  sorted_na$time[2] = NA
+  warns = testthat::capture_warnings(
+    actiread:::acti_gt3x_process_time(
+      list(header = header, data = sorted_na), apply_tz = FALSE,
+      verbose = FALSE))
+  testthat::expect_false(any(grepl("not sorted", warns)))
+
+  unsorted_na = unsorted
+  unsorted_na$time[3] = NA
+  warns = testthat::capture_warnings(
+    actiread:::acti_gt3x_process_time(
+      list(header = header, data = unsorted_na), apply_tz = FALSE,
+      verbose = FALSE))
+  testthat::expect_true(any(grepl("not sorted", warns)))
+})
+
+testthat::test_that("CWA helper warns on unsorted times", {
+  header = list(frequency = 100L,
+                start = as.POSIXct("2020-01-01", tz = "UTC"))
+  start = as.numeric(header$start)
+  unsorted = data.frame(time = start + c(0, 2, 1), x = 1:3, y = 1:3, z = 1:3)
+  testthat::expect_warning(
+    res <- actiread:::acti_cwa_process_time(
+      list(header = header, data = unsorted), apply_tz = TRUE,
+      verbose = FALSE),
+    "not sorted"
+  )
+  # data are returned as-is, not reordered
+  testthat::expect_equal(as.numeric(res$time), unsorted$time)
+
+  sorted = data.frame(time = start + 0:2, x = 1:3, y = 1:3, z = 1:3)
+  testthat::expect_no_warning(
+    actiread:::acti_cwa_process_time(
+      list(header = header, data = sorted), apply_tz = TRUE,
+      verbose = FALSE)
+  )
+
+  # NAs alone do not trigger the unsorted warning, but unsorted values do
+  sorted_na = sorted
+  sorted_na$time[2] = NA
+  warns = testthat::capture_warnings(
+    actiread:::acti_cwa_process_time(
+      list(header = header, data = sorted_na), apply_tz = FALSE,
+      verbose = FALSE))
+  testthat::expect_false(any(grepl("not sorted", warns)))
+
+  unsorted_na = data.frame(time = start + c(0, 2, NA, 1), x = 1:4, y = 1:4,
+                           z = 1:4)
+  warns = testthat::capture_warnings(
+    actiread:::acti_cwa_process_time(
+      list(header = header, data = unsorted_na), apply_tz = FALSE,
+      verbose = FALSE))
+  testthat::expect_true(any(grepl("not sorted", warns)))
+})
+
+testthat::test_that("shipped examples have sorted times", {
+  testthat::expect_no_warning(
+    gt3x <- actiread::acti_read_gt3x(actiread::acti_example_gt3x(),
+                                     verbose = FALSE, fill_zeroes = FALSE)
+  )
+  testthat::expect_false(is.unsorted(gt3x$time, na.rm = TRUE))
+  cwa = actiread::acti_read_cwa(actiread::acti_example_cwa(), verbose = FALSE)
+  testthat::expect_false(is.unsorted(cwa$time, na.rm = TRUE))
+})

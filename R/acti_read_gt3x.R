@@ -138,6 +138,10 @@ acti_gt3x_process_time = function(
   if (any_na_time) {
     warning("Some missing times in gt3x data - please check.")
   }
+  is_unsorted = is.unsorted(data$time, na.rm = TRUE)
+  if (is_unsorted) {
+    warning("Times in gt3x data are not sorted - please check.")
+  }
   if (apply_tz) {
     if (NROW(header$TimeZone) == 0 || is.null(header$TimeZone)) {
       cli::cli_warn("No TimeZone found in header data in gt3x.")

@@ -328,6 +328,10 @@ acti_cwa_process_time = function(
 
   data = actibase::set_transformations(data, transforms, add = FALSE)
 
+  is_unsorted = is.unsorted(data$time, na.rm = TRUE)
+  if (is_unsorted) {
+    warning("Times in cwa data are not sorted - please check.")
+  }
   data = acti_cwa_apply_tz(data,
                            tz = tz,
                            apply_tz = apply_tz,
