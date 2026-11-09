@@ -63,3 +63,40 @@ testthat::test_that("readers expose time attributes on shipped examples", {
   testthat::expect_identical(attr(gt3x, "missing_time"), FALSE)
   testthat::expect_identical(attr(gt3x, "unsorted_time"), FALSE)
 })
+
+testthat::test_that("time_qc_flags flags and warns on missing/unsorted times", {
+  flags = actiread:::time_qc_flags(1:3, "dev")
+  testthat::expect_identical(flags,
+                             list(missing_time = FALSE, unsorted_time = FALSE))
+
+  testthat::expect_warning(
+    flags <- actiread:::time_qc_flags(c(3, 1, 2), "dev"),
+    "Times in dev data are not sorted")
+  testthat::expect_true(flags$unsorted_time)
+
+  testthat::expect_warning(
+    flags <- actiread:::time_qc_flags(c(1, NA, 2), "dev"),
+    "Some missing times in dev data")
+  testthat::expect_true(flags$missing_time)
+  testthat::expect_false(flags$unsorted_time)
+
+  flags = actiread:::time_qc_flags(NULL, "dev")
+  testthat::expect_identical(flags,
+                             list(missing_time = NA, unsorted_time = NA))
+})
+
+testthat::test_that("other device readers expose time attributes", {
+  readers = list(
+    genea = function() actiread::acti_read_genea(
+      actiread::acti_example_genea(), verbose = FALSE),
+    geneactiv = function() actiread::acti_read_geneactiv(
+      actiread::acti_example_geneactiv(), verbose = FALSE),
+    matrix = function() actiread::acti_read_parmay_matrix(
+      actiread::acti_example_parmay_matrix(), verbose = FALSE)
+  )
+  for (nm in names(readers)) {
+    res = readers[[nm]]()
+    testthat::expect_identical(attr(res, "missing_time"), FALSE, info = nm)
+    testthat::expect_identical(attr(res, "unsorted_time"), FALSE, info = nm)
+  }
+})

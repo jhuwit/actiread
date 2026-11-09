@@ -134,3 +134,28 @@ clean_names = function(x) {
   }
   x
 }
+
+# Time QC flags for a reader's raw (pre-timezone-conversion) times.
+# Warns, as acti_read_gt3x()/acti_read_cwa() do, and returns the flags so
+# they can be attached at the end via set_time_qc_attributes(). Flags are
+# NA when there is no time column.
+time_qc_flags = function(time, device) {
+  if (is.null(time)) {
+    return(list(missing_time = NA, unsorted_time = NA))
+  }
+  missing_time = anyNA(time)
+  unsorted_time = is.unsorted(time, na.rm = TRUE)
+  if (unsorted_time) {
+    warning("Times in ", device, " data are not sorted - please check.")
+  }
+  if (missing_time) {
+    warning("Some missing times in ", device, " data - please check.")
+  }
+  list(missing_time = missing_time, unsorted_time = unsorted_time)
+}
+
+set_time_qc_attributes = function(data, flags) {
+  attr(data, "missing_time") = flags$missing_time
+  attr(data, "unsorted_time") = flags$unsorted_time
+  data
+}
