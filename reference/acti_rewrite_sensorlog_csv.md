@@ -38,5 +38,5 @@ tfile = tempfile()
 files = utils::unzip(sl_file, exdir = tfile)
 result = actiread::acti_rewrite_sensorlog_csv(files)
 #> File being processed:
-#> /tmp/RtmpVgW0ym/file18c571c0642a/SensorLogFiles_my_iOS_device_250311_14-55-58_2/2025-03-11_14_44_11_my_iOS_device.csv
+#> /tmp/Rtmp3eSpJo/file196e507dd8a8/SensorLogFiles_my_iOS_device_250311_14-55-58_2/2025-03-11_14_44_11_my_iOS_device.csv
 ```
