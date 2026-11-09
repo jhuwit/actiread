@@ -122,14 +122,21 @@ clean_names = function(x) {
   x = gsub("^_+|_+$", "", x)
   x[x == ""] = "x"
   x = sub("^([0-9])", "x\\1", x)
-  dup = duplicated(x)
-  if (any(dup)) {
-    seen = list()
-    for (i in seq_along(x)) {
-      nm = x[i]
-      n = seen[[nm]]
-      seen[[nm]] = if (is.null(n)) 1L else n + 1L
-      if (!is.null(n)) x[i] = paste0(nm, "_", seen[[nm]])
+  # First occurrence keeps its name; later duplicates get the smallest
+  # `_k` (k >= 2) suffix not already in use, so a generated name can never
+  # collide with an existing one (e.g. a, A, a_2 -> a, a_3, a_2).
+  dup = which(duplicated(x))
+  if (length(dup) > 0) {
+    used = unique(x)
+    for (i in dup) {
+      k = 2L
+      repeat {
+        cand = paste0(x[i], "_", k)
+        if (!cand %in% used) break
+        k = k + 1L
+      }
+      x[i] = cand
+      used = c(used, cand)
     }
   }
   x
