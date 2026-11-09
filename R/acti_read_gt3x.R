@@ -194,7 +194,9 @@ acti_gt3x_process_time = function(
   data = as.data.frame(data)
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
-  attr(data, "missing_time") = any_na_time || anyNA(data$time)
+  # missing_time reflects missingness in the raw data only; NAs induced by
+  # timezone conversion are not "really" missing, so they are not counted
+  attr(data, "missing_time") = any_na_time
   attr(data, "unsorted_time") = is_unsorted || is_unsorted_header
   if (check_attributes) {
     stopifnot(!is.null(attr(data, "sample_rate")))
