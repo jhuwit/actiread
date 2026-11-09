@@ -98,3 +98,39 @@ read_csv_safe = function(..., guess_max = Inf) {
   readr::stop_for_problems(x)
   x
 }
+
+# Lightweight replacement for janitor::clean_names() (snake case).
+# Handles camelCase, spaces/punctuation, "%" and "#", leading digits,
+# empty names, and duplicates (suffixed `_2`, `_3`, ...).
+clean_names = function(x) {
+  if (is.data.frame(x)) {
+    names(x) = clean_names(names(x))
+    return(x)
+  }
+  x = as.character(x)
+  x[is.na(x)] = ""
+  x = iconv(x, to = "ASCII//TRANSLIT", sub = "")
+  x[is.na(x)] = ""
+  x = gsub("'", "", x, fixed = TRUE)
+  x = gsub("%", "_percent_", x, fixed = TRUE)
+  x = gsub("#", "_number_", x, fixed = TRUE)
+  # camelCase / PascalCase boundaries: aB -> a_B, ABc -> A_Bc
+  x = gsub("([a-z0-9])([A-Z])", "\\1_\\2", x)
+  x = gsub("([A-Z])([A-Z][a-z])", "\\1_\\2", x)
+  x = tolower(x)
+  x = gsub("[^a-z0-9]+", "_", x)
+  x = gsub("^_+|_+$", "", x)
+  x[x == ""] = "x"
+  x = sub("^([0-9])", "x\\1", x)
+  dup = duplicated(x)
+  if (any(dup)) {
+    seen = list()
+    for (i in seq_along(x)) {
+      nm = x[i]
+      n = seen[[nm]]
+      seen[[nm]] = if (is.null(n)) 1L else n + 1L
+      if (!is.null(n)) x[i] = paste0(nm, "_", seen[[nm]])
+    }
+  }
+  x
+}
