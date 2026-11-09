@@ -3,6 +3,10 @@
 ## actiread 0.9.1
 
 - Warning for unsorted time in `acti_read_gt3x` and `acti_read_cwa`.
+- ‘janitor’ and ‘purrr’ are no longer imported.
+  [`acti_read_sensorlogger_general()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlogger.md)
+  uses an internal `clean_names()` that gives the same column names as
+  [`janitor::clean_names()`](https://sfirke.github.io/janitor/reference/clean_names.html).
 
 ## actiread 0.9.0
 
