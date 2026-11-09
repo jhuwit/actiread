@@ -87,12 +87,14 @@ acti_py_read_cwa = function(path,
   # time goes first
   data = data |>
     dplyr::select(time, dplyr::everything())
+  time_qc = time_qc_flags(data$time, "cwa")
 
   data = acti_cwa_apply_tz(data,
                            tz = tz,
                            apply_tz = apply_tz,
                            verbose = verbose)
 
+  data = set_time_qc_attributes(data, time_qc)
   data
 }
 

@@ -69,6 +69,7 @@ acti_read_genea = function(
   header = res$header
   xyz = res$data$rawxyz
   time = as.numeric(res$data$timestamps1)
+  time_qc = time_qc_flags(time, "Genea")
   if (apply_tz) {
     # device clock time is stored as if it were UTC
     time = as.POSIXct(time, origin = "1970-01-01", tz = "UTC")
@@ -87,6 +88,7 @@ acti_read_genea = function(
     data,
     "acti_read_genea:data_read_via_readGenea",
     add = TRUE)
+  data = set_time_qc_attributes(data, time_qc)
   if (verbose) {
     cli::cli_alert_success("Read {nrow(data)} rows from Genea file")
   }

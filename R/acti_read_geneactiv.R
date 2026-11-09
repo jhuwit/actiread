@@ -119,6 +119,7 @@ acti_read_geneactiv = function(
     add = TRUE)
   data = tibble::as_tibble(data)
   data = actibase::acti_standardise_data(data, subset_xyz = FALSE)
+  time_qc = time_qc_flags(data$time, "GENEActiv")
   if (apply_tz) {
     data = data |>
       dplyr::mutate(time = as.POSIXct(time, origin = "1970-01-01",
@@ -137,6 +138,7 @@ acti_read_geneactiv = function(
   #   apply_tz = apply_tz,
   #   verbose = verbose
   # )
+  data = set_time_qc_attributes(data, time_qc)
   data
 }
 
