@@ -118,6 +118,8 @@ acti_gt3x_process_time = function(
   assertthat::assert_that(
     is.null(tz) || assertthat::is.string(tz)
   )
+  # carry forward an unsorted flag from a previous processing pass
+  is_unsorted_header = isTRUE(attr(data, "unsorted_time"))
 
   header = acti_process_header(data)
   if (is.list(data) && !is.null(data$data)) {
@@ -192,6 +194,8 @@ acti_gt3x_process_time = function(
   data = as.data.frame(data)
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
+  attr(data, "missing_time") = any_na_time || anyNA(data$time)
+  attr(data, "unsorted_time") = is_unsorted || is_unsorted_header
   if (check_attributes) {
     stopifnot(!is.null(attr(data, "sample_rate")))
   }

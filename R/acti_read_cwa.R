@@ -347,5 +347,7 @@ acti_cwa_process_time = function(
   data = tibble::as_tibble(data)
   attr(data, "header") = header
   attr(data, "sample_rate") = header$sample_rate
+  attr(data, "missing_time") = any_na_time
+  attr(data, "unsorted_time") = is_unsorted
   data
 }
