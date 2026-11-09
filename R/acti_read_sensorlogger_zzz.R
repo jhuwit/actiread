@@ -24,8 +24,8 @@ acti_read_sensorlogger = function(
   stub = acti_sensorlogger_stub(path)
   names(path) = make.unique(stub, sep = "_")
 
-  data_list = purrr::map(path, function(r) {
-    data = acti_sensorlogger_reader(r, verbose = verbose, ...,  type = NULL)
+  data_list = lapply(path, function(r) {
+    acti_sensorlogger_reader(r, verbose = verbose, ...,  type = NULL)
   })
   if (!input_is_zip && length(path) == 1 && length(data_list) == 1) {
     data_list = data_list[[1]]
@@ -62,8 +62,7 @@ acti_read_sensorlogger_general = function(path, ..., verbose = TRUE) {
   if (nrow(df) == 0) {
     return(NULL)
   }
-  df = df |>
-    janitor::clean_names()
+  df = clean_names(df)
   if (assertthat::has_name(df, "time")) {
     df$time = acti_convert_sensorlogger_time(df$time)
   }

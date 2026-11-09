@@ -38,8 +38,6 @@ Imports:
     assertthat,
     cli,
     tibble,
-    janitor,
-    purrr,
     readr,
     tools,
     utils
