@@ -36,18 +36,18 @@ testthat::test_that("example data helpers return package files", {
 })
 
 testthat::test_that("tzoffset_to_tz handles supported offsets", {
-  testthat::expect_equal(actiread:::tzoffset_to_tz("+00:00"), "Etc/GMT0")
+  testthat::expect_equal(actiread::tzoffset_to_tz("+00:00"), "Etc/GMT0")
   # Etc/GMT zones use the inverted sign convention
-  testthat::expect_equal(actiread:::tzoffset_to_tz("-05:00"), "Etc/GMT+5")
-  testthat::expect_equal(actiread:::tzoffset_to_tz("+01:00"), "Etc/GMT-1")
-  testthat::expect_equal(actiread:::tzoffset_to_tz("-04:00:00"), "Etc/GMT+4")
-  testthat::expect_equal(actiread:::tzoffset_to_tz("+13:00"), "Etc/GMT-13")
-  testthat::expect_error(actiread:::tzoffset_to_tz("+05:30"), "whole hours")
-  testthat::expect_error(actiread:::tzoffset_to_tz("EST"), "must look like")
+  testthat::expect_equal(actiread::tzoffset_to_tz("-05:00"), "Etc/GMT+5")
+  testthat::expect_equal(actiread::tzoffset_to_tz("+01:00"), "Etc/GMT-1")
+  testthat::expect_equal(actiread::tzoffset_to_tz("-04:00:00"), "Etc/GMT+4")
+  testthat::expect_equal(actiread::tzoffset_to_tz("+13:00"), "Etc/GMT-13")
+  testthat::expect_error(actiread::tzoffset_to_tz("+05:30"), "whole hours")
+  testthat::expect_error(actiread::tzoffset_to_tz("EST"), "must look like")
   # the zone is the correct number of hours from UTC
   x = as.POSIXct("2020-01-01 12:00:00", tz = "UTC")
   testthat::expect_equal(
-    format(x, tz = actiread:::tzoffset_to_tz("-05:00")), "2020-01-01 07:00:00")
+    format(x, tz = actiread::tzoffset_to_tz("-05:00")), "2020-01-01 07:00:00")
   testthat::expect_equal(
     actiread:::tzoffset_to_seconds(c("+05:30", "-04:00:00", "+00:00")),
     c(19800, -14400, 0))

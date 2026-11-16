@@ -1,34 +1,6 @@
-#' Transform timezone offset to timezone
-#'
-#' Converts UTC offsets such as `"-05:00"` (5 hours behind UTC) into the
-#' matching fixed-offset Olson time zone.  Note that `Etc/GMT` zones use an
-#' inverted sign convention, so `"-05:00"` is `"Etc/GMT+5"`.
-#'
-#' @param x A character vector of offsets in the form `"+HH:MM"` or
-#' `"+HH:MM:SS"`
-#'
-#' @returns A character vector
+#' @importFrom actibase tzoffset_to_tz
 #' @export
-#'
-#' @examples
-#' tzoffset_to_tz(c("+00:00", "-05:00", "+01:00"))
-tzoffset_to_tz = function(x) {
-  seconds = tzoffset_to_seconds(x)
-  if (any(seconds %% 3600 != 0)) {
-    stop("Offsets that are not whole hours have no Etc/GMT time zone: ",
-         paste(unique(x[seconds %% 3600 != 0]), collapse = ", "),
-         call. = FALSE)
-  }
-  hours = -seconds / 3600
-  x = ifelse(hours > 0, paste0("+", hours), as.character(hours))
-  x = paste0("Etc/GMT", x)
-  if (!all(x %in% OlsonNames())) {
-    stop("No Olson time zone for offset: ",
-         paste(unique(x[!x %in% OlsonNames()]), collapse = ", "),
-         call. = FALSE)
-  }
-  x
-}
+actibase::tzoffset_to_tz
 
 # Convert "+HH:MM" or "+HH:MM:SS" offsets to signed seconds from UTC
 tzoffset_to_seconds = function(x) {
@@ -140,4 +112,29 @@ clean_names = function(x) {
     }
   }
   x
+}
+
+# Time QC flags for a reader's raw (pre-timezone-conversion) times.
+# Warns, as acti_read_gt3x()/acti_read_cwa() do, and returns the flags so
+# they can be attached at the end via set_time_qc_attributes(). Flags are
+# NA when there is no time column.
+time_qc_flags = function(time, device) {
+  if (is.null(time)) {
+    return(list(missing_time = NA, unsorted_time = NA))
+  }
+  missing_time = anyNA(time)
+  unsorted_time = is.unsorted(time, na.rm = TRUE)
+  if (unsorted_time) {
+    warning("Times in ", device, " data are not sorted - please check.")
+  }
+  if (missing_time) {
+    warning("Some missing times in ", device, " data - please check.")
+  }
+  list(missing_time = missing_time, unsorted_time = unsorted_time)
+}
+
+set_time_qc_attributes = function(data, flags) {
+  attr(data, "missing_time") = flags$missing_time
+  attr(data, "unsorted_time") = flags$unsorted_time
+  data
 }
