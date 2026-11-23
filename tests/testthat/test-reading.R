@@ -721,12 +721,29 @@ testthat::test_that("CWA helper warns on unsorted times", {
   testthat::expect_true(any(grepl("not sorted", warns)))
 })
 
-testthat::test_that("shipped examples have sorted times", {
-  testthat::expect_no_warning(
-    gt3x <- actiread::acti_read_gt3x(actiread::acti_example_gt3x(),
-                                     verbose = FALSE, fill_zeroes = FALSE)
-  )
+testthat::test_that("shipped gt3x example has sorted times", {
+  read_example = function() {
+    actiread::acti_read_gt3x(actiread::acti_example_gt3x(),
+                             verbose = FALSE, fill_zeroes = FALSE)
+  }
+  if (utils::packageVersion("read.gt3x") > package_version("1.3.0")) {
+    testthat::expect_no_warning(gt3x <- read_example())
+  } else {
+    # read.gt3x <= 1.3.0 emits an unrelated "object length is not a multiple
+    # of subscript length" warning in get_features() on R >= 4.6 (fixed
+    # upstream in THLfi/read.gt3x#56), so only check for our own warning
+    warns = testthat::capture_warnings(gt3x <- read_example())
+    testthat::expect_false(any(grepl("not sorted", warns)))
+  }
   testthat::expect_false(is.unsorted(gt3x$time, na.rm = TRUE))
-  cwa = actiread::acti_read_cwa(actiread::acti_example_cwa(), verbose = FALSE)
+  testthat::expect_false(attr(gt3x, "unsorted_time"))
+})
+
+testthat::test_that("shipped cwa example has sorted times", {
+  testthat::expect_no_warning(
+    cwa <- actiread::acti_read_cwa(actiread::acti_example_cwa(),
+                                   verbose = FALSE)
+  )
   testthat::expect_false(is.unsorted(cwa$time, na.rm = TRUE))
+  testthat::expect_false(attr(cwa, "unsorted_time"))
 })
