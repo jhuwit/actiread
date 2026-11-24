@@ -1,12 +1,27 @@
 # Changelog
 
-## actiread 0.9.1
+## actiread 0.10.0
 
+- [`tzoffset_to_tz()`](https://jhuwit.github.io/actibase/reference/tzoffset_to_tz.html)
+  is now re-exported from ‘actibase’ (\>= 0.9.0) instead of being
+  defined in ‘actiread’; behavior is unchanged. ‘actibase’ (\>= 0.9.0)
+  is now required.
 - Warning for unsorted time in `acti_read_gt3x` and `acti_read_cwa`.
+- [`acti_read_gt3x()`](https://jhuwit.github.io/actiread/reference/acti_read_gt3x.md),
+  [`acti_read_cwa()`](https://jhuwit.github.io/actiread/reference/acti_read_cwa.md),
+  [`acti_py_read_cwa()`](https://jhuwit.github.io/actiread/reference/acti_py_read_cwa.md),
+  [`acti_read_genea()`](https://jhuwit.github.io/actiread/reference/acti_read_genea.md),
+  [`acti_read_geneactiv()`](https://jhuwit.github.io/actiread/reference/acti_read_geneactiv.md),
+  and
+  [`acti_read_parmay_matrix()`](https://jhuwit.github.io/actiread/reference/acti_read_parmay_matrix.md)
+  output now carries logical `missing_time` and `unsorted_time`
+  attributes, computed on the raw times (before any timezone
+  conversion). The non-gt3x/cwa readers now also warn on missing or
+  unsorted times.
 - ‘janitor’ and ‘purrr’ are no longer imported.
   [`acti_read_sensorlogger_general()`](https://jhuwit.github.io/actiread/reference/acti_read_sensorlogger.md)
   uses an internal `clean_names()` that gives the same column names as
-  [`janitor::clean_names()`](https://sfirke.github.io/janitor/reference/clean_names.html).
+  `janitor::clean_names()`.
 
 ## actiread 0.9.0
 
@@ -51,7 +66,7 @@ CRAN release: 2026-10-26
   now inspects the first kilobyte of `.bin` files (and files with
   unknown extensions) to choose between GENEActiv, Genea, Matrix, and
   CWA, and dispatches `.bz2` and `.xz` compressed files.
-- [`tzoffset_to_tz()`](https://jhuwit.github.io/actiread/reference/tzoffset_to_tz.md)
+- [`tzoffset_to_tz()`](https://jhuwit.github.io/actibase/reference/tzoffset_to_tz.html)
   now returns the correctly-signed `Etc/GMT` zone (`"-05:00"` is
   `"Etc/GMT+5"`) and gives informative errors.
 - `acti_read_gt3x(apply_tz = TRUE)` now handles non-whole-hour offsets,

@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/jhuwit/actiread/blob/main/DESCRIPTION)
 
 Muschelli J (2026). *actiread: Baseline Package for Reading Actigraphy
-and Activity Data*. R package version 0.9.1,
+and Activity Data*. R package version 0.10.0,
 <https://github.com/jhuwit/actiread>.
 
     @Manual{,
       title = {actiread: Baseline Package for Reading Actigraphy and Activity Data},
       author = {John Muschelli},
       year = {2026},
-      note = {R package version 0.9.1},
+      note = {R package version 0.10.0},
       url = {https://github.com/jhuwit/actiread},
     }

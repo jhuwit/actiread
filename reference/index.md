@@ -65,6 +65,3 @@
 
 - [`acti_rewrite_sensorlog_csv()`](https://jhuwit.github.io/actiread/reference/acti_rewrite_sensorlog_csv.md)
   : Rewrite a CSV that may have issues with export from SensorLog
-
-- [`tzoffset_to_tz()`](https://jhuwit.github.io/actiread/reference/tzoffset_to_tz.md)
-  : Transform timezone offset to timezone
