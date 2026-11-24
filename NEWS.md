@@ -1,6 +1,14 @@
-# actiread 0.9.1
+# actiread 0.10.0
 
+* `tzoffset_to_tz()` is now re-exported from 'actibase' (>= 0.9.0) instead of
+  being defined in 'actiread'; behavior is unchanged.  'actibase' (>= 0.9.0)
+  is now required.
 * Warning for unsorted time in `acti_read_gt3x` and `acti_read_cwa`.
+* `acti_read_gt3x()`, `acti_read_cwa()`, `acti_py_read_cwa()`,
+  `acti_read_genea()`, `acti_read_geneactiv()`, and `acti_read_parmay_matrix()`
+  output now carries logical `missing_time` and `unsorted_time` attributes,
+  computed on the raw times (before any timezone conversion). The non-gt3x/cwa
+  readers now also warn on missing or unsorted times.
 * 'janitor' and 'purrr' are no longer imported. `acti_read_sensorlogger_general()`
   uses an internal `clean_names()` that gives the same column names as
   `janitor::clean_names()`.

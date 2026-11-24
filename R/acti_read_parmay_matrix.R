@@ -109,6 +109,7 @@ acti_read_parmay_matrix = function(
   cn[cn == "acc_y"] = "Y"
   cn[cn == "acc_z"] = "Z"
   colnames(data) = cn
+  time_qc = time_qc_flags(data$time, "Matrix")
   if (apply_tz && nrow(data) > 0) {
     data$time = as.POSIXct(data$time, origin = "1970-01-01", tz = tz)
   }
@@ -119,6 +120,7 @@ acti_read_parmay_matrix = function(
     data,
     "acti_read_parmay_matrix:data_read_via_readParmayMatrix",
     add = TRUE)
+  data = set_time_qc_attributes(data, time_qc)
   if (verbose) {
     cli::cli_alert_success("Read {nrow(data)} rows from Matrix file")
   }

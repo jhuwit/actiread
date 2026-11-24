@@ -2,11 +2,12 @@
 
 0 errors | 0 warnings | 2 notes
 
-* This is an update to the CRAN version (0.5.0).  It adds readers for
-  'Genea' and 'Parmay Tech Matrix' binary files, fixes time zone handling,
-  and adds a `digits` argument to `acti_read_gt3x()` so the default output
-  matches ActiLife.  The readers now take `path` instead of `file`, matching
-  the other readers.  (0.8.0 was submitted but did not reach CRAN.)
+* This is an update to the CRAN version (0.9.0).  The readers now return
+  logical `missing_time` and `unsorted_time` attributes and warn on missing or
+  unsorted times, 'janitor' and 'purrr' are no longer imported, and
+  `tzoffset_to_tz()` is re-exported from 'actibase' (>= 0.9.0) instead of
+  being defined here (behavior unchanged).  This release requires 'actibase'
+  0.9.0, which is submitted/published before this package.
 
 * checking CRAN incoming feasibility ... NOTE
   Size of tarball: 7339979 bytes
